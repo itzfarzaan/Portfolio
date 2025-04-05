@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
+
+#root {
+  margin: 0;
+  background: radial-gradient(circle at top left, #104042 0%, #0e0e11 40%, black 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Sen", sans-serif;
+}
+
+body{
+  margin: 0;
+  background: linear-gradient(135deg, #104042 0%, #0e0e11 50%, black 100%);
+  background-attachment: fixed;
+  color: white;
+  min-height: 100vh;
+}
+
+.app-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Gradient overlay for depth */
+.app-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at bottom right, rgba(16, 64, 66, 0.2) 0%, rgba(14, 14, 17, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Responsive grid layout */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1200px) {
+  .content-wrapper {
+    padding: 0 1.5rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .content-wrapper {
+    padding: 0 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    gap: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .content-wrapper {
+    padding: 0 0.8rem;
+  }
+  
+  .grid-container {
+    gap: 1rem;
+  }
+}
