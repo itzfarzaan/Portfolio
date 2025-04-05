@@ -14,8 +14,12 @@ function Navbar(){
             <div className="navbar-logo">
                 <Link to="/">Farzaan Ali</Link>
             </div>
-            <button className="mobile-menu-button" onClick={toggleMenu}>
-                ☰
+            <button className="mobile-menu-button" onClick={toggleMenu} aria-label="Toggle menu">
+                <span className="hamburger-icon">
+                    <span className={`hamburger-line ${menuActive ? 'active' : ''}`}></span>
+                    <span className={`hamburger-line ${menuActive ? 'active' : ''}`}></span>
+                    <span className={`hamburger-line ${menuActive ? 'active' : ''}`}></span>
+                </span>
             </button>
             <div className={`navbar-links ${menuActive ? 'active' : ''}`}>
                 <Link to="/" className="nav-link" onClick={() => setMenuActive(false)}>Home</Link>

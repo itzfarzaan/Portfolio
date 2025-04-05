@@ -1,12 +1,16 @@
 import './landingpage.css';
 import { ReactTyped } from "react-typed";
 import { Tooltip, Resume } from "./Contactme.jsx";
+import { Link } from "react-router-dom";
+import {HomeProject} from "./homeproject.jsx";
 
 function LandingPage(){
     return <>
         <AboutMe />
         <Description />
         <Skills />
+        <MobileBlog />
+        <HomeProject />
     </>
 }
 
@@ -14,6 +18,7 @@ function AboutMe(){
     const titles = [
         'Mohammed Farzaan Ali',
         'Fullstack Developer',
+        'AI/ML Engineer',
     ];
 
     return(
@@ -51,7 +56,7 @@ function Description(){
                 </div>
                 <div className="description-paragraphs">
                     <p className="description-text">
-                    I am a 20-year-old developer from Hyderabad, India, pursuing my Bachelor's in Artificial Intelligence and Machine Learning. I'm passionate about creating technology that solves real-world problems while being accessible to everyone. 
+                    I am a 20-year-old developer from Hyderabad, India, pursuing my Bachelor's in <span className="highlight-text">Artificial Intelligence</span> and <span className="highlight-text">Machine Learning</span>. I'm passionate about creating technology that solves real-world problems while being accessible to everyone. 
                     </p>
                     <p className="description-text">
                     I believe in technology that makes life better and easier for people Still figuring out exactly where I'm headed in this vast tech landscape, but I'm enjoying the journey—complete with its late-night debugging sessions and those rare perfect moments when everything just works. Always up for interesting conversations or collaborating on something new!
@@ -96,6 +101,33 @@ function Skills() {
                         </div>
                     ))}
                 </div>
+            </div>
+        </section>
+    );
+}
+
+function MobileBlog(){
+    return(
+        <section className="mobile-blog-section">
+            <div className="mobile-blog-card">
+                <div className="card-content">
+                    <div className="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+                            <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+                            <path d="M14 17H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <div className="card-text">
+                        <h3>Check out my Blog</h3>
+                        <p>Thoughts, tutorials, and tech insights</p>
+                    </div>
+                </div>
+                <Link to="/blog" className="card-button">
+                    <span>Read Now</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+                    </svg>
+                </Link>
             </div>
         </section>
     );
