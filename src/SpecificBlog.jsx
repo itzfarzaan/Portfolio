@@ -133,7 +133,7 @@ const BlogMeta = styled.div`
 const FeaturedImage = styled.img`
   width: 100%;
   max-height: 400px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   margin-bottom: 2rem;
 `;
@@ -167,6 +167,7 @@ const BlogContent = styled.div`
     height: auto;
     border-radius: 4px;
     margin: 1.5rem 0;
+    object-fit: contain;
   }
   
   ul, ol {

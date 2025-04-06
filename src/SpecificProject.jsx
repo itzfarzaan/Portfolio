@@ -171,6 +171,14 @@ const ProjectDescription = styled.div`
     color: #5eeae3;
     text-decoration: underline;
   }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+    object-fit: contain;
+  }
 `;
 
 const VideoContainer = styled.div`
