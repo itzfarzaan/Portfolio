@@ -80,6 +80,15 @@ body{
   .grid-container {
     gap: 1.5rem;
   }
+  
+  #root {
+    background: #131B1D;
+  }
+  
+  body {
+    background: #06191D;
+    background-attachment: fixed;
+  }
 }
 
 @media screen and (max-width: 576px) {

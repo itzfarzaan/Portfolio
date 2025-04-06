@@ -22,7 +22,9 @@ function Projects() {
                 }
                 
                 const data = await response.json();
-                setProjects(data.projects || []);
+                // Reverse the order of projects to show oldest first
+                const reversedProjects = [...(data.projects || [])].reverse();
+                setProjects(reversedProjects);
                 setError(null);
             } catch (err) {
                 console.error('Error fetching projects:', err);

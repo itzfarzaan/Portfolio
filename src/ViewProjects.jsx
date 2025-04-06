@@ -156,6 +156,103 @@ function ViewProjects() {
         }
     };
 
+    const moveProjectUp = async (index) => {
+        if (index === 0) return; // Already at the top
+        
+        try {
+            const newProjects = [...projects];
+            const temp = newProjects[index];
+            newProjects[index] = newProjects[index - 1];
+            newProjects[index - 1] = temp;
+            
+            setProjects(newProjects);
+            
+            // Save the new order to the backend
+            await updateProjectOrder(newProjects);
+            
+            // Show success message
+            setMessage({
+                text: 'Project order updated successfully',
+                type: 'success'
+            });
+            
+            // Clear message after 3 seconds
+            setTimeout(() => {
+                setMessage({ text: '', type: '' });
+            }, 3000);
+            
+        } catch (err) {
+            console.error('Error updating project order:', err);
+            setMessage({
+                text: 'Failed to update project order. Please try again.',
+                type: 'error'
+            });
+            // Revert to original order by re-fetching
+            fetchProjects();
+        }
+    };
+    
+    const moveProjectDown = async (index) => {
+        if (index === projects.length - 1) return; // Already at the bottom
+        
+        try {
+            const newProjects = [...projects];
+            const temp = newProjects[index];
+            newProjects[index] = newProjects[index + 1];
+            newProjects[index + 1] = temp;
+            
+            setProjects(newProjects);
+            
+            // Save the new order to the backend
+            await updateProjectOrder(newProjects);
+            
+            // Show success message
+            setMessage({
+                text: 'Project order updated successfully',
+                type: 'success'
+            });
+            
+            // Clear message after 3 seconds
+            setTimeout(() => {
+                setMessage({ text: '', type: '' });
+            }, 3000);
+            
+        } catch (err) {
+            console.error('Error updating project order:', err);
+            setMessage({
+                text: 'Failed to update project order. Please try again.',
+                type: 'error'
+            });
+            // Revert to original order by re-fetching
+            fetchProjects();
+        }
+    };
+    
+    const updateProjectOrder = async (orderedProjects) => {
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            setError('Authentication required');
+            return;
+        }
+        
+        // Create an array of project IDs in the new order
+        const projectOrder = orderedProjects.map(project => project._id);
+        
+        const response = await fetch(`${API_URL}/admin/projects/reorder`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ projectOrder })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to update project order');
+        }
+    };
+
     return (
         <ViewProjectsContainer>
             <Header>
@@ -180,7 +277,7 @@ function ViewProjects() {
                 </NoProjectsMessage>
             ) : (
                 <ProjectsList>
-                    {projects.map(project => (
+                    {projects.map((project, index) => (
                         <ProjectCard key={project._id}>
                             <ProjectImageContainer>
                                 {project.imageUrl ? (
@@ -214,6 +311,20 @@ function ViewProjects() {
                                 >
                                     {project.featured ? 'Unfeature' : 'Feature'}
                                 </FeaturedButton>
+                                <OrderButtonsContainer>
+                                    <OrderButton 
+                                        onClick={() => moveProjectUp(index)}
+                                        disabled={index === 0}
+                                    >
+                                        ↑
+                                    </OrderButton>
+                                    <OrderButton 
+                                        onClick={() => moveProjectDown(index)}
+                                        disabled={index === projects.length - 1}
+                                    >
+                                        ↓
+                                    </OrderButton>
+                                </OrderButtonsContainer>
                             </ProjectActions>
                         </ProjectCard>
                     ))}
@@ -483,6 +594,35 @@ const FeaturedButton = styled(ActionButton)`
     
     &:hover {
         background-color: ${props => props.featured === 'true' ? '#ffc10722' : '#5eeae322'};
+    }
+`;
+
+const OrderButtonsContainer = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    width: 100px;
+    
+    @media (max-width: 900px) {
+        flex: 1;
+        min-width: 100px;
+    }
+`;
+
+const OrderButton = styled.button`
+    background-color: transparent;
+    color: #5eeae3;
+    border: 1px solid #5eeae3;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    text-align: center;
+    flex: 1;
+    opacity: ${props => props.disabled ? 0.5 : 1};
+    
+    &:hover {
+        background-color: ${props => props.disabled ? 'transparent' : '#5eeae322'};
     }
 `;
 

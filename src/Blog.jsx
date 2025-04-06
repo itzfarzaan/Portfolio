@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_URL } from './config/api';
 import { setDocumentTitle } from './utils/titleUtils';
+import { calculateReadingTime } from './utils/readingTimeUtils';
 
 function Blog() {
     const [blogs, setBlogs] = useState([]);
@@ -64,7 +65,10 @@ function Blog() {
                     {blogs.map(blog => (
                         <BlogRow key={blog._id}>
                             <DateColumn>{formatDate(blog.date)}</DateColumn>
-                            <TitleColumn>{blog.title}</TitleColumn>
+                            <TitleColumn>
+                                {blog.title}
+                                <ReadingTime>{calculateReadingTime(blog.content)}</ReadingTime>
+                            </TitleColumn>
                             <ActionColumn>
                                 <ReadMoreLink to={`/blog/${blog._id}`}>
                                     Read More →
@@ -153,11 +157,20 @@ const TitleColumn = styled.div`
     font-weight: 600;
     color: #fff;
     word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     
     @media (max-width: 768px) {
         font-size: 1.1rem;
         margin-bottom: 0.75rem;
     }
+`;
+
+const ReadingTime = styled.span`
+    font-size: 0.85rem;
+    color: #5EEAE3;
+    font-weight: normal;
 `;
 
 const ActionColumn = styled.div`

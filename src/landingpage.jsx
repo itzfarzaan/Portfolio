@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {HomeProject} from "./homeproject.jsx";
 import { useState, useEffect } from 'react';
 import { setDocumentTitle } from './utils/titleUtils';
+import { useScrollAnimation } from './utils/animationUtils';
 
 function LandingPage(){
     useEffect(() => {
@@ -57,16 +58,28 @@ function AboutMe(){
                     <Resume />
                 </div>
             </div>
+            
+            {/* Scroll Down Indicator */}
+            <div className="scroll-indicator">
+                <div className="scroll-text">Scroll Down</div>
+                <div className="scroll-arrows">
+                    <div className="scroll-arrow"></div>
+                    <div className="scroll-arrow"></div>
+                    <div className="scroll-arrow"></div>
+                </div>
+            </div>
         </section>
     );
 }
 
 function Description(){
+    const [ref, isVisible] = useScrollAnimation();
+    
     return(
         <section className="description-section">
-            <div className="description-content">
+            <div ref={ref} className={`description-content fade-in-section ${isVisible ? 'is-visible' : ''}`}>
                 <div className="description-header">
-                    <h2 className="section-title">About Me</h2>
+                    <h2 className="section-title">// About</h2>
                 </div>
                 <div className="description-paragraphs">
                     <p className="description-text">
@@ -82,6 +95,8 @@ function Description(){
 }
 
 function Skills() {
+    const [ref, isVisible] = useScrollAnimation();
+    
     const skillsData = [
         { name: 'Python', logo: '/media/python-logo.png' },
         { name: 'JavaScript', logo: '/media/javascript-logo.png' },
@@ -96,16 +111,16 @@ function Skills() {
 
     return (
         <section className="skills-section">
-            <div className="skills-content">
+            <div ref={ref} className={`skills-content fade-in-section ${isVisible ? 'is-visible' : ''}`}>
                 <div className="skills-header">
-                    <h2 className="section-title">Skills</h2>
+                    <h2 className="section-title">// Skills</h2>
                 </div>
                 {/* <div className="skills-paragraphs">
                     <p className="skills-text">
                         I have expertise in a variety of programming languages and technologies, including:
                     </p>
                 </div> */}
-                <div className="skills-grid">
+                <div className={`skills-grid stagger-children ${isVisible ? 'is-visible' : ''}`}>
                     {skillsData.map((skill, index) => (
                         <div className="skill-card" key={index}>
                             <div className="skill-logo-container">

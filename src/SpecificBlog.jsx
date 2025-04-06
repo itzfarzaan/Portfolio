@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_URL } from './config/api';
 import { setDocumentTitle } from './utils/titleUtils';
+import { calculateReadingTime } from './utils/readingTimeUtils';
 
 function SpecificBlog() {
   const { id } = useParams();
@@ -78,7 +79,8 @@ function SpecificBlog() {
           <BackLink to="/blog">← Back to Blogs</BackLink>
           <BlogTitle>{blog.title}</BlogTitle>
           <BlogMeta>
-            <span>Published on {formattedDate}</span>
+            <MetaItem>Published on {formattedDate}</MetaItem>
+            <MetaItem>{calculateReadingTime(blog.content)}</MetaItem>
           </BlogMeta>
           {blog.imageUrl && (
             <FeaturedImage src={blog.imageUrl} alt={blog.title} />
@@ -128,6 +130,13 @@ const BlogMeta = styled.div`
   font-size: 0.9rem;
   color: #aaa;
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const MetaItem = styled.span`
+  color: #aaa;
 `;
 
 const FeaturedImage = styled.img`
@@ -252,6 +261,11 @@ const ErrorContainer = styled.div`
   p {
     margin-bottom: 1.5rem;
   }
+`;
+
+const ReadingTime = styled.span`
+  color: #5eeae3;
+  font-weight: 500;
 `;
 
 export default SpecificBlog;
