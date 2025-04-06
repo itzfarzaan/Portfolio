@@ -1,7 +1,43 @@
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './footer.css';
 
 function Footer(){
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const navigate = useNavigate();
+
+    // Check authentication on mount and when localStorage changes
+    const checkAuth = () => {
+        const token = localStorage.getItem('token');
+        setIsAuthenticated(!!token);
+    };
+
+    useEffect(() => {
+        // Initial check
+        checkAuth();
+        
+        // Listen for storage events (when token is added/removed)
+        window.addEventListener('storage', checkAuth);
+        
+        // Custom event for auth changes within the same window
+        window.addEventListener('authChange', checkAuth);
+        
+        return () => {
+            window.removeEventListener('storage', checkAuth);
+            window.removeEventListener('authChange', checkAuth);
+        };
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new Event('authChange'));
+        
+        navigate('/');
+    };
+
     return (
         <footer className="footer">
             <div className="footer-main">
@@ -31,7 +67,18 @@ function Footer(){
                     </div>
                 </div>
                 <div className="login-section">
-                    <button className="login-button">Login</button>
+                    {isAuthenticated ? (
+                        <>
+                            <Link to="/admin">
+                                <button className="admin-button">Admin Page</button>
+                            </Link>
+                            <button className="logout-button" onClick={handleLogout}>Logout</button>
+                        </>
+                    ) : (
+                        <Link to="/login">
+                            <button className="login-button">Login</button>
+                        </Link>
+                    )}
                 </div>
             </div>
             <div className="footer-bottom">

@@ -12,7 +12,9 @@ function Navbar(){
     return (
         <nav className="navbar">
             <div className="navbar-logo">
-                <Link to="/">Farzaan Ali</Link>
+                <Link to="/">
+                    <img src="/media/logo2.png" alt="Farzaan Ali Logo" className="logo-image" />
+                </Link>
             </div>
             <button className="mobile-menu-button" onClick={toggleMenu} aria-label="Toggle menu">
                 <span className="hamburger-icon">

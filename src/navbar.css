@@ -7,12 +7,29 @@
   border-bottom: 2px solid #042b2f;
 }
 
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
 .navbar-logo a {
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
   text-decoration: none;
   transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo a:hover .logo-image {
+  transform: scale(1.05);
 }
 
 .navbar-logo a:hover {

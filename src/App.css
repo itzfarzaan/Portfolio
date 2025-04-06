@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap');
 
+/* Force scrollbar to always be visible to prevent layout shifts */
+html {
+  overflow-y: scroll;
+}
+
 #root {
   margin: 0;
   background: radial-gradient(circle at top left, #104042 0%, #0e0e11 40%, black 100%);
