@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_URL } from './config/api';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function SpecificBlog() {
   const { id } = useParams();
@@ -20,6 +21,13 @@ function SpecificBlog() {
         
         const data = await response.json();
         setBlog(data.blog);
+        
+        // Set the page title with the blog title
+        if (data.blog && data.blog.title) {
+          setDocumentTitle(`Blog - ${data.blog.title}`);
+        } else {
+          setDocumentTitle('Blog Post');
+        }
       } catch (err) {
         console.error('Error fetching blog:', err);
         setError('Failed to load blog post. It may have been removed or is unavailable.');

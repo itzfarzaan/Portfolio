@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_URL } from './config/api';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function SpecificProject() {
   const { id } = useParams();
@@ -20,6 +21,13 @@ function SpecificProject() {
         
         const data = await response.json();
         setProject(data.project);
+        
+        // Set the page title with the project title
+        if (data.project && data.project.title) {
+          setDocumentTitle(`Project - ${data.project.title}`);
+        } else {
+          setDocumentTitle('Project Details');
+        }
       } catch (err) {
         console.error('Error fetching project:', err);
         setError('Failed to load project. It may have been removed or is unavailable.');

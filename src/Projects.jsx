@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_URL } from './config/api';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function Projects() {
     const [projects, setProjects] = useState([]);
@@ -9,6 +10,8 @@ function Projects() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        setDocumentTitle('Projects');
+        
         const fetchProjects = async () => {
             try {
                 setLoading(true);

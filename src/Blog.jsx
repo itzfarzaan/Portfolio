@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API_URL } from './config/api';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function Blog() {
     const [blogs, setBlogs] = useState([]);
@@ -9,6 +10,8 @@ function Blog() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        setDocumentTitle('Blog');
+        
         const fetchBlogs = async () => {
             try {
                 const response = await fetch(`${API_URL}/api/blogs`);

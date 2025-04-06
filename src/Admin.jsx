@@ -6,6 +6,7 @@ import ViewBlog from './ViewBlog';
 import CreateProject from './CreateProject';
 import ViewProjects from './ViewProjects';
 import { API_URL } from './config/api';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function Admin() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,6 +15,8 @@ function Admin() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setDocumentTitle('Admin Dashboard');
+        
         const verifyAuth = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -143,6 +146,10 @@ const AdminContainer = styled.div`
     padding: 2rem;
     min-height: 80vh;
     color: #fff;
+    
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
 `;
 
 const AdminHeader = styled.div`
@@ -154,6 +161,17 @@ const AdminHeader = styled.div`
     h1 {
         color: #5eeae3;
         margin: 0;
+        font-size: 2rem;
+        
+        @media (max-width: 576px) {
+            font-size: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
     }
 `;
 
@@ -217,10 +235,15 @@ const TabContent = styled.div`
     background-color: transparent;
     border-radius: 8px;
     min-height: 500px;
+    overflow-x: auto;
 `;
 
 const TabPanel = styled.div`
     padding: 1rem;
+    
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+    }
 `;
 
 const LoadingContainer = styled.div`

@@ -3,8 +3,14 @@ import { ReactTyped } from "react-typed";
 import { Tooltip, Resume } from "./Contactme.jsx";
 import { Link } from "react-router-dom";
 import {HomeProject} from "./homeproject.jsx";
+import { useState, useEffect } from 'react';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function LandingPage(){
+    useEffect(() => {
+        setDocumentTitle('Home');
+    }, []);
+    
     return <>
         <AboutMe />
         <Description />
@@ -20,11 +26,19 @@ function AboutMe(){
         'Fullstack Developer',
         'AI/ML Engineer',
     ];
+    
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     return(
         <section className="about-me-section">
             <div className="profile-image-container">
-                <img src="/media/Picture2.png" alt="Mohammed Farzaan Ali" className="profile-image" />
+                {!imageLoaded && <div className="image-loader"></div>}
+                <img 
+                    src="/media/Picture2.png" 
+                    alt="Mohammed Farzaan Ali" 
+                    className={`profile-image ${imageLoaded ? 'loaded' : ''}`}
+                    onLoad={() => setImageLoaded(true)}
+                />
             </div>
             <div className="about-me-content">
                 <p className="greeting">Hey there! I'm-</p>

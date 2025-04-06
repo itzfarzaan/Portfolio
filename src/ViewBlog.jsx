@@ -162,6 +162,7 @@ function ViewBlog() {
 const ViewBlogContainer = styled.div`
     width: 100%;
     color: #fff;
+    overflow-x: hidden;
 `;
 
 const Header = styled.div`
@@ -173,6 +174,16 @@ const Header = styled.div`
     h2 {
         color: #5eeae3;
         margin: 0;
+        
+        @media (max-width: 576px) {
+            font-size: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
     }
 `;
 
@@ -231,6 +242,7 @@ const BlogList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow-x: auto;
 `;
 
 const BlogItem = styled.div`
@@ -267,6 +279,7 @@ const BlogDate = styled.div`
 const BlogTitle = styled.div`
     font-size: 1.2rem;
     font-weight: 600;
+    word-break: break-word;
 `;
 
 const BlogActions = styled.div`

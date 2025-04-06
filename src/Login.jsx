@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from './config/api';
+import { setDocumentTitle } from './utils/titleUtils';
 
 function Login(){
+    useEffect(() => {
+        setDocumentTitle('Login');
+    }, []);
+    
     return<>
         <Form />
     </>

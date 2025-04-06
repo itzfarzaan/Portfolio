@@ -305,6 +305,7 @@ const ProjectsList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    overflow-x: auto;
 `;
 
 const ProjectCard = styled.div`
@@ -372,6 +373,7 @@ const ProjectTitle = styled.h3`
     font-size: 1.3rem;
     margin: 0;
     color: #5eeae3;
+    word-break: break-word;
 `;
 
 const TechStack = styled.div`

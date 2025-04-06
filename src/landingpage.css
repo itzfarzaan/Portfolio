@@ -13,11 +13,36 @@
   grid-column: 1 / 6;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .profile-image {
   width: 90%;
   border-radius: 50px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.profile-image.loaded {
+  opacity: 1;
+}
+
+.image-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(94, 234, 228, 0.2);
+  border-top: 5px solid #5eeae4;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .about-me-content {
