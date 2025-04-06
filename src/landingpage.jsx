@@ -35,7 +35,7 @@ function AboutMe(){
             <div className="profile-image-container">
                 {!imageLoaded && <div className="image-loader"></div>}
                 <img 
-                    src="/media/Picture2.png" 
+                    src="/media/Picture3.png" 
                     alt="Mohammed Farzaan Ali" 
                     className={`profile-image ${imageLoaded ? 'loaded' : ''}`}
                     onLoad={() => setImageLoaded(true)}
