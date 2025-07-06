@@ -1,3 +1,173 @@
+/* Construction Banner styling */
+.construction-banner {
+  background: rgba(10, 25, 25, 0.7);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+  padding: 0;
+}
+
+.construction-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(220, 53, 69, 0), 
+    rgba(220, 53, 69, 0.4), 
+    rgba(220, 53, 69, 0)
+  );
+  z-index: 1;
+  animation: streakAnimation 6s infinite;
+}
+
+.construction-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(94, 234, 228, 0), 
+    rgba(94, 234, 228, 0.2), 
+    rgba(94, 234, 228, 0)
+  );
+  z-index: 1;
+  animation: streakAnimation 6s infinite 3s;
+}
+
+@keyframes streakAnimation {
+  0% {
+    left: -50%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+
+.construction-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.construction-text {
+  flex: 1;
+}
+
+.construction-title {
+  color: #dc3545;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.construction-title svg {
+  color: #dc3545;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+.construction-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.construction-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.construction-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.construction-cta:hover {
+  background-color: rgba(220, 53, 69, 0.3);
+  border-color: rgba(220, 53, 69, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.construction-cta:hover::before {
+  left: 100%;
+}
+
+.construction-cta svg {
+  fill: currentColor;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.construction-cta:hover svg {
+  transform: translateX(3px);
+}
+
 /* About Me section styling */
 .about-me-section {
   display: grid;
@@ -588,6 +758,22 @@
 
 /* Media Queries for Responsiveness */
 @media screen and (max-width: 992px) {
+  .construction-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .construction-title {
+    font-size: 1.3rem;
+    justify-content: center;
+  }
+  
+  .construction-description {
+    font-size: 0.95rem;
+  }
+
   .about-me-section {
     gap: 3rem;
   }
@@ -614,6 +800,25 @@
 }
 
 @media screen and (max-width: 768px) {
+  .construction-content {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .construction-title {
+    font-size: 1.2rem;
+  }
+  
+  .construction-description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .construction-cta {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
   .about-me-section {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -710,6 +915,24 @@
 }
 
 @media screen and (max-width: 576px) {
+  .construction-content {
+    padding: 0.8rem;
+    gap: 0.8rem;
+  }
+  
+  .construction-title {
+    font-size: 1.1rem;
+  }
+  
+  .construction-description {
+    font-size: 0.85rem;
+  }
+  
+  .construction-cta {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
   .about-me-section {
     padding: 2rem 0;
   }

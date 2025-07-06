@@ -7,12 +7,46 @@ import { useState, useEffect } from 'react';
 import { setDocumentTitle } from './utils/titleUtils';
 import { useScrollAnimation } from './utils/animationUtils';
 
+function ConstructionBanner() {
+    return (
+        <section className="construction-banner">
+            <div className="construction-content">
+                <div className="construction-text">
+                    <h3 className="construction-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        Temporarily under Construction
+                    </h3>
+                    <p className="construction-description">
+                        Hey there! I'm in the middle of a site revamp — more content coming soon. Let's connect in the meantime!
+                    </p>
+                </div>
+                <a 
+                    href="https://linktr.ee/farzaanali" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="construction-cta"
+                >
+                    Connect Across Platforms
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+    );
+}
+
 function LandingPage(){
     useEffect(() => {
         setDocumentTitle('Home');
     }, []);
     
     return <>
+        <ConstructionBanner />
         <AboutMe />
         <Description />
         <Skills />
