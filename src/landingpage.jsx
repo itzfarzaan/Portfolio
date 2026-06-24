@@ -2,7 +2,6 @@ import './landingpage.css';
 import { ReactTyped } from "react-typed";
 import { Tooltip, Resume } from "./Contactme.jsx";
 import { Link } from "react-router-dom";
-import {HomeProject} from "./homeproject.jsx";
 import { Experiences } from "./Experiences.jsx";
 import { useState, useEffect } from 'react';
 import { setDocumentTitle } from './utils/titleUtils';
@@ -52,7 +51,6 @@ function LandingPage(){
         <Description />
         <Skills />
         <MobileBlog />
-        <HomeProject />
         <Experiences />
     </>
 }
