@@ -52,8 +52,8 @@ function LandingPage(){
         <Description />
         <Skills />
         <MobileBlog />
-        <Experiences />
         <HomeProject />
+        <Experiences />
     </>
 }
 
