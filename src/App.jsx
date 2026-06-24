@@ -4,13 +4,20 @@ import Navbar from './navbar.jsx';
 import LandingPage from './landingpage.jsx';
 import Footer from './Footer.jsx';
 import Projects from './Projects.jsx';
-import Blog from './Blog.jsx';
 import Login from './Login.jsx';
 import Admin from './Admin.jsx';
-import SpecificBlog from './SpecificBlog.jsx';
 import EditBlog from './EditBlog.jsx';
 import SpecificProject from './SpecificProject.jsx';
 import EditProject from './EditProject.jsx';
+import { useEffect } from 'react';
+
+function ExternalBlogRedirect() {
+  useEffect(() => {
+    window.location.replace('https://blog.farzaanali.com');
+  }, []);
+
+  return null;
+}
 
 function App() {
 
@@ -22,8 +29,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage/>}></Route>
             <Route path="/projects" element={<Projects/>}></Route>
-            <Route path="/blog" element={<Blog/>}></Route>
-            <Route path="/blog/:id" element={<SpecificBlog />}></Route>
+            <Route path="/blog/*" element={<ExternalBlogRedirect />}></Route>
             <Route path="/projects/:id" element={<SpecificProject />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/admin" element={<Admin />}></Route>

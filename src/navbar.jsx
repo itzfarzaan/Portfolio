@@ -54,7 +54,7 @@ function Navbar(){
             >
                 <Link to="/" className="nav-link" onClick={() => setMenuActive(false)}>Home</Link>
                 <Link to="/projects" className="nav-link" onClick={() => setMenuActive(false)}>Projects</Link>
-                <Link to="/blog" className="nav-link" onClick={() => setMenuActive(false)}>Blog</Link>
+                <a href="https://blog.farzaanali.com" className="nav-link" onClick={() => setMenuActive(false)}>Blog</a>
             </div>
         </nav>
     );

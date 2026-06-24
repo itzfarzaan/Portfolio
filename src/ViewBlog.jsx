@@ -146,7 +146,7 @@ function ViewBlog() {
                                 <DeleteButton onClick={() => handleDeleteBlog(blog)}>
                                     Delete
                                 </DeleteButton>
-                                <ViewButton to={`/blog/${blog._id}`} target="_blank">
+                                <ViewButton href="https://blog.farzaanali.com" target="_blank" rel="noopener noreferrer">
                                     View
                                 </ViewButton>
                             </BlogActions>
@@ -332,7 +332,7 @@ const DeleteButton = styled.button`
     }
 `;
 
-const ViewButton = styled(Link)`
+const ViewButton = styled.a`
     background-color: transparent;
     color: #fff;
     border: 1px solid #fff;

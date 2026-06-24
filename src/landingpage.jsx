@@ -19,10 +19,10 @@ function ConstructionBanner() {
                             <line x1="12" y1="9" x2="12" y2="13"></line>
                             <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        Temporarily under Construction
+                        Portfolio refresh in progress
                     </h3>
                     <p className="construction-description">
-                        Hey there! I'm in the middle of a site revamp — more content coming soon. Let's connect in the meantime!
+                        I am refining case studies and writing new notes. The core work is still here, and I am always open to interesting conversations.
                     </p>
                 </div>
                 <a 
@@ -89,9 +89,23 @@ function AboutMe(){
                         smartBackspace
                     />
                 </h1>
+                <p className="hero-summary">
+                    I build thoughtful web products and AI-backed tools, with a focus on useful interfaces, clean systems, and ideas that make everyday work easier.
+                </p>
+                <div className="hero-highlights" aria-label="Profile highlights">
+                    <span>React</span>
+                    <span>Node.js</span>
+                    <span>AI/ML</span>
+                </div>
                 <div className="social-buttons">
                     <Tooltip />
                     <Resume />
+                    <Link to="/projects" className="hero-project-link">
+                        View Projects
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+                        </svg>
+                    </Link>
                 </div>
             </div>
             
@@ -122,7 +136,7 @@ function Description(){
                     I am a 20-year-old developer from Hyderabad, India, pursuing my Bachelor's in <span className="highlight-text">Artificial Intelligence</span> and <span className="highlight-text">Machine Learning</span>. I'm passionate about creating technology that solves real-world problems while being accessible to everyone. 
                     </p>
                     <p className="description-text">
-                    I believe in technology that makes life better and easier for people Still figuring out exactly where I'm headed in this vast tech landscape, but I'm enjoying the journey—complete with its late-night debugging sessions and those rare perfect moments when everything just works. Always up for interesting conversations or collaborating on something new!
+                    I believe in technology that makes life better and easier for people. I am still figuring out exactly where I am headed in this vast tech landscape, but I am enjoying the journey, complete with late-night debugging sessions and those rare perfect moments when everything just works. Always up for interesting conversations or collaborating on something new!
                     </p>
                 </div>
             </div>
@@ -187,12 +201,12 @@ function MobileBlog(){
                         <p>Thoughts, tutorials, and tech insights</p>
                     </div>
                 </div>
-                <Link to="/blog" className="card-button">
+                <a href="https://blog.farzaanali.com" className="card-button">
                     <span>Read Now</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                         <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
                     </svg>
-                </Link>
+                </a>
             </div>
         </section>
     );
