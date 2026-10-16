@@ -1,0 +1,56 @@
+@import './portfolio/theme.css' ;
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 17px/1.65 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+img, svg {
+  max-width: 100%;
+}
+img {
+  display: block;
+}
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 5px;
+}
+h1,h2,h3,p {
+  margin-top: 0;
+}
+h1,h2,h3 {
+  line-height: 1.12;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

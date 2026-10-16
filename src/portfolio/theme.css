@@ -1,0 +1,46 @@
+/* Edit this file to change the complete public-site palette and type system. */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/space-grotesk-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/instrument-serif-italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+:root {
+  --paper: #f9f3e7;
+  --surface: #f0e5d0;
+  --ink: #30263b;
+  --muted: #655a68;
+  --accent: #b63826;
+  --accent-soft: #f4bcb0;
+  --butter: #f2df9b;
+  --coral: #ed795e;
+  --plum: #402c50;
+  --lilac: #c5b5e5;
+  --mint: #bcd6b5;
+  --blue: #b8d2df;
+  --inverse: #fff5df;
+  --experience-surface: #402c50;
+  --writing-surface: #c5b5e5;
+  --line: #d5c8b7;
+  --font-body: 'DM Sans', Arial, sans-serif;
+  --font-display: 'Space Grotesk', Arial, sans-serif;
+  --font-editorial: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'SFMono-Regular', Consolas, monospace;
+  --page-width: 1200px;
+  --ease: cubic-bezier(.2,.75,.25,1);
+}
