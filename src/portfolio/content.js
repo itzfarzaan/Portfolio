@@ -8,6 +8,40 @@ export const profile = {
   resume: '/documents/Mohammed-Farzaan-Ali-Resume.pdf'
 };
 export const projects = [{
+  slug: 'yorahealth',
+  name: 'YoraHealth',
+  shortDescription: 'An AI receptionist for dental practices, connecting patient calls with appointment scheduling and a clinic dashboard.',
+  category: 'Voice AI & full-stack engineering',
+  label: 'Dental AI receptionist',
+  summary: 'From a patient call to a confirmed appointment, with the clinic team kept in the loop.',
+  stack: ['React', 'Node.js', 'Express', 'PostgreSQL', 'REST APIs', 'Webhooks', 'Background workers'],
+  role: 'End-to-end technical implementation',
+  type: 'Live project',
+  problem: 'Dental front desks need to handle patient calls while supporting people in the practice. Missed calls, scheduling changes, and follow-up work can leave both patients and staff without a clear next step.',
+  overview: 'I implemented the technical platform behind YoraHealth: the public website, clinic and administrator dashboards, backend APIs, data model, and integrations with third-party voice AI, practice-management, and messaging services. The receptionist uses each practice’s information to answer questions and help callers book, reschedule, or cancel appointments.',
+  contributions: [
+    'Built the React website and operational dashboards for clinic teams and administrators, including call history, transcripts, recordings, appointment actions, and outcome analytics.',
+    'Developed the Node.js and Express backend, PostgreSQL data model, authenticated sessions, clinic-scoped access, and integration endpoints.',
+    'Implemented voice-agent tools for patient lookup, availability checks, appointment booking, rescheduling, cancellation, and practice information.',
+    'Connected third-party scheduling systems through backend APIs and webhooks, using returned availability references and explicit confirmation before appointment changes.',
+    'Added durable event and tool-call deduplication, appointment audit records, and background reconciliation for delayed call analysis and configuration updates.',
+    'Implemented appointment messaging workflows that wait for evidence that a booking has reached the practice-management system before sending a confirmation.'
+  ],
+  architecture: ['Patient call → voice AI integration', 'Express tools → scheduling integration', 'PostgreSQL records → clinic dashboard'],
+  engineering: [
+    { title: 'Connecting conversation to real actions', text: 'The voice layer calls backend tools rather than directly changing practice records. The backend resolves the clinic, validates inputs and confirmations, checks scheduling availability, and records appointment actions. Third-party integrations sit behind application-owned interfaces.' },
+    { title: 'Handling retries and delayed events', text: 'Voice and scheduling events can arrive more than once or out of order. Persistent event keys and cached tool results protect against repeating appointment mutations. Call-state handling preserves terminal outcomes, while background workers reconcile missing analysis and retry configuration updates.' },
+    { title: 'Confirming the appointment before the message', text: 'An accepted API request does not necessarily mean an appointment is visible in the practice’s system. The notification pipeline tracks that distinction, waits for synchronization evidence, and processes messages independently so a messaging failure does not fail the appointment action.' },
+    { title: 'Giving the clinic a clear operational view', text: 'The dashboard connects call summaries and available recordings with appointment outcomes and follow-up needs. Clinic-specific settings hold practice hours, services, providers, and knowledge, while administrator tools support setup and integration management.' }
+  ],
+  result: 'A live dental AI receptionist platform with an operational dashboard and connected scheduling workflows. My contribution covers the complete technical implementation. Integration availability and operational configuration are confirmed per practice; the website’s public dashboard preview uses fictional patient data.',
+  live: 'https://www.yorahealth.com/',
+  image: '/media/projects/yorahealth.webp',
+  imageWidth: 1440,
+  imageHeight: 1000,
+  imageAlt: 'YoraHealth public website showing its dental AI receptionist and a clearly labelled fictional dashboard preview',
+  imageCaption: 'YoraHealth public website. The dashboard preview contains fictional patient and appointment data.'
+}, {
   slug: 'aqaarpro',
   shortDescription: 'Property management software with dedicated portals for managers, owners, tenants, and vendors.',
   name: 'AqaarPro',

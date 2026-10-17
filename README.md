@@ -14,7 +14,7 @@ npm run preview
 ## Where to edit
 
 - `src/portfolio/theme.css`: public site colors, typefaces, page width, and shared design tokens.
-- `src/portfolio/content.js`: profile links, all six technical projects, and experience, ordered newest first.
+- `src/portfolio/content.js`: profile links, all seven technical projects, and experience, ordered newest first.
 - `src/App.jsx`: public layouts and routes.
 - `src/App.css`: responsive styling and animation. Reduced-motion preferences disable animations.
 - `public/documents/Mohammed-Farzaan-Ali-Resume.pdf`: downloadable resume.
@@ -34,3 +34,9 @@ The resume and supplied LinkedIn screenshots are the sources for the first versi
 The personal story can be expanded when the SOP is provided. Project order is editorial, since project dates were not provided. Project showcases use existing InterviewAIde and academic portal screenshots, alongside conceptual system maps for projects without screenshots. The hero portrait and fonts are bundled locally. The writing feature links to the verified linear-regression article on the existing blog. See `docs/design-direction.md` for reference research and design decisions. Comic content and new website screenshots are deferred as requested. No comic URL or unprovided project live URL has been guessed.
 
 This work updates the local checkout. Deployment and DNS are unchanged.
+
+## Approved refinements
+
+YoraHealth leads the homepage and project index, with a dedicated `/projects/yorahealth` case study. Its description is based on the live public website, the local AI receptionist implementation, and the owner’s stated technical contribution. All voice, practice-management, and messaging providers are described generically as third-party integrations. The public-site screenshot explicitly contains fictional dashboard-preview data.
+
+The existing visual direction is retained with a near-white page background, straightened hero portrait, lighter frame and shadows, clearer engineering role, and removal of decorative showcase and career numbering. About and My Journey content and structure are unchanged.

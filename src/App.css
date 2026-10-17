@@ -1954,3 +1954,66 @@ main:focus {
 .portrait-caption { bottom: -5px; }
 @media(max-width:650px) { .portrait-caption { bottom: -23px; } }
 @media(max-width:360px) { .portrait-caption { bottom: -18px; } }
+
+/* Approved polish: preserve the visual system and section compositions. */
+.hero-type .hero-introduction {
+  font: 400 25px/1.35 var(--font-body);
+  letter-spacing: -.6px;
+  margin-top: 25px;
+  max-width: none;
+}
+.creative-hero .portrait-mat {
+  transform: none;
+  border-width: 4px;
+  border-radius: 4px;
+  box-shadow: var(--portrait-shadow);
+}
+.creative-hero .portrait-caption {
+  font: 400 14px/1.5 var(--font-body);
+  transform: none;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.article-feature { box-shadow: var(--article-shadow); }
+.stage-yorahealth { background: var(--plum); }
+.stage-yorahealth .screen-composition {
+  width: 105%;
+  min-width: 105%;
+  transform: rotate(-3deg) translateX(10px);
+}
+.stage-yorahealth .screen-composition:hover { transform: rotate(0) translateX(5px); }
+.project-screenshot figcaption {
+  color: var(--inverse);
+  font-size: 13px;
+  line-height: 1.6;
+  padding-top: 18px;
+}
+.engineering-details h3 {
+  font-size: 23px;
+  line-height: 1.35;
+  letter-spacing: -.6px;
+  margin-block: 28px 12px;
+}
+@media(max-width:900px) {
+  .hero-type .hero-introduction { font-size: 22px; max-width: 280px; }
+  .creative-hero .portrait-caption { bottom: 15px; }
+}
+@media(max-width:650px) {
+  .hero-type .hero-introduction { font-size: 17px; max-width: 145px; letter-spacing: -.3px; margin-top: 20px; }
+  .creative-hero .portrait-caption { bottom: -10px; font-size: 12px; }
+  .stage-yorahealth .screen-composition { width: 100%; min-width: 100%; transform: rotate(-3deg); }
+  .stage-yorahealth .screen-composition:hover { transform: rotate(0); }
+  .engineering-details h3 { font-size: 21px; }
+}
+@media(max-width:360px) {
+  .hero-type .hero-introduction { font-size: 16px; max-width: 125px; }
+  .creative-hero .portrait-caption { bottom: -9px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .stage-yorahealth .screen-composition:hover { transform: none; }
+}
+@media(max-width:650px) {
+  .creative-hero .hero-topline>span { max-width: none; text-align: left; }
+}

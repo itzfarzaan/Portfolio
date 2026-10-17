@@ -21,7 +21,9 @@
   font-display: swap;
 }
 :root {
-  --paper: #f9f3e7;
+  --paper: #fafaf8;
+  --portrait-shadow: 0 18px 40px #30263b26;
+  --article-shadow: 5px 9px 22px #30263b24;
   --surface: #f0e5d0;
   --ink: #30263b;
   --muted: #655a68;

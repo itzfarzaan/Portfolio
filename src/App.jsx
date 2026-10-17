@@ -89,7 +89,6 @@ function ExperienceRow({
   return <article className={`career-stop career-stop-${index} reveal`}>
     <div className="career-role"><span className="career-date">{item.date}</span><h3>{item.company}</h3><p>{item.role}</p><span className="career-location">{item.location}</span><span className="career-status">{item.current ? 'Current role' : 'First professional role'}</span></div>
     <ul>{item.details.map(detail => <li key={detail}>{detail}</li>)}</ul>
-    <span className="career-number" aria-hidden="true">0{index + 1}</span>
   </article>;
 }
 function Home() {
@@ -102,8 +101,8 @@ function Home() {
     </section>
 
     <section className="projects-section" id="work" aria-labelledby="work-title">
-      <div className="section-heading"><h2 id="work-title">Selected <em>projects.</em></h2><Link className="plain-link" to="/projects">All six projects <span aria-hidden="true">↗</span></Link></div>
-      <div className="selected-projects"><div className="reveal"><ProjectStage project={projects[2]} /></div><div className="reveal"><ProjectStage project={projects[0]} index={1} /></div></div>
+      <div className="section-heading"><h2 id="work-title">Selected <em>projects.</em></h2><Link className="plain-link" to="/projects">All {projects.length} projects <span aria-hidden="true">↗</span></Link></div>
+      <div className="selected-projects"><div className="reveal"><ProjectStage project={projects.find(project => project.slug === 'yorahealth')} /></div><div className="reveal"><ProjectStage project={projects.find(project => project.slug === 'aqaarpro')} /></div></div>
       <Link className="project-note reveal" to="/projects/knowmydocs"><span className="note-symbol" aria-hidden="true">✳</span><div><span>Also in the collection</span><h3>KnowMyDocs</h3><p>Document chat, context-preserving retrieval, and summaries.</p></div><span className="note-arrow" aria-hidden="true">↗</span></Link>
     </section>
 
@@ -128,7 +127,7 @@ function Contact() {
 function Work() {
   return <div className="shell projects-page">
     <div className="page-heading"><h1>Projects</h1><span>{projects.length} selected projects</span></div>
-    <div className="work-list">{projects.map((project, index) => <ProjectStage key={project.slug} project={project} index={index} heading="h2" />)}</div>
+    <div className="work-list">{projects.map(project => <ProjectStage key={project.slug} project={project} heading="h2" />)}</div>
     <Contact />
   </div>;
 }
@@ -146,10 +145,11 @@ function ProjectDetail() {
       <dl className="case-facts"><div><dt>Role</dt><dd>{project.role}</dd></div><div><dt>Stack</dt><dd>{project.stack.join(' / ')}</dd></div></dl>
       {(project.live || project.github) && <div className="project-links">{project.live && <a href={project.live}>Visit website <Arrow /></a>}{project.github && <a href={project.github}>Source on GitHub <Arrow /></a>}</div>}
     </header>
-    <div className={`detail-art detail-${project.slug}`}>{project.image ? <figure className="project-screenshot"><img src={project.image} alt={`${project.name} application interface`} loading="lazy" /></figure> : <SystemArtwork project={project} />}</div>
+    <div className={`detail-art detail-${project.slug}`}>{project.image ? <figure className="project-screenshot"><img src={project.image} alt={project.imageAlt || `${project.name} application interface`} loading="lazy" />{project.imageCaption && <figcaption>{project.imageCaption}</figcaption>}</figure> : <SystemArtwork project={project} />}</div>
     <section><h2>Overview</h2><p>{project.problem}</p><p>{project.overview}</p></section>
     <section><h2>My contribution</h2><ul>{project.contributions.map(contribution => <li key={contribution}>{contribution}</li>)}</ul></section>
     <section><h2>System structure</h2><ol className="system-flow">{project.architecture.map(part => <li key={part}>{part}</li>)}</ol></section>
+    {project.engineering && <section className="engineering-details"><h2>Engineering decisions</h2>{project.engineering.map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.text}</p></div>)}</section>}
     <section><h2>Outcome</h2><p>{project.result}</p></section>
     <div className="next-project"><span>Next project</span><Link to={`/projects/${next.slug}`}>{next.name} <span aria-hidden="true">→</span></Link></div>
   </article>;
