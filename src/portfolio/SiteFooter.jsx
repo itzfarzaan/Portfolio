@@ -107,7 +107,7 @@ function AsciiWordmark({ text }) {
       host.removeEventListener('pointerleave', onLeave);
     };
   }, []);
-  return <div className="footer-wordmark" ref={hostRef} aria-hidden="true" style={{ '--fit': Math.min(1, 11 / text.length) }}>
+  return <div className="footer-wordmark" ref={hostRef} aria-hidden="true">
     <p ref={textRef}><span>{text}</span></p>
     <canvas ref={canvasRef} />
   </div>;
@@ -142,7 +142,7 @@ export default function SiteFooter() {
         </div>
         <a className="footer-up" href="#main">Back to top <span aria-hidden="true">↑</span></a>
       </div>
-      <AsciiWordmark text="Farzaan Ali" />
+      <AsciiWordmark text="farzaan.ali" />
       <div className="footer-hud">
         <span><i className="footer-dot" aria-hidden="true" />Hyderabad, IN · <LocalTime /></span>
         <span>© {new Date().getFullYear()} Mohammed Farzaan Ali</span>

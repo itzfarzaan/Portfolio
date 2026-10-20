@@ -28,7 +28,6 @@
   --color-signal: #2f54eb;
   --color-paper: #fafaf8;
   --color-line: #16171d1a;
-  --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   /* Earlier palette, still used by sections that have not been redesigned yet. */
   --paper: #fafaf8;
   --portrait-shadow: 0 18px 40px #30263b26;
