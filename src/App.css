@@ -1650,7 +1650,7 @@ main:focus {
 .embed-hero-grid {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 330px;
+  grid-template-columns: minmax(0, 1fr) 370px;
   align-items: center;
   gap: 40px;
   padding-block: 40px 20px;
@@ -1735,11 +1735,11 @@ main:focus {
 }
 .rank-stack {
   position: relative;
-  align-self: end;
+  align-self: center;
   aspect-ratio: 1321 / 1500;
   perspective: 1100px;
   pointer-events: auto;
-  margin-bottom: 10px;
+  margin-block: 40px 30px;
 }
 .rank-card {
   position: absolute;
