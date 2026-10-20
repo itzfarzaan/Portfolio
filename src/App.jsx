@@ -2,7 +2,9 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { profile, projects } from './portfolio/content';
 import './App.css';
-import { Hero, Spark, SystemArtwork } from './portfolio/Showcase';
+import { Hero, Spark } from './portfolio/Showcase';
+import CaseStudy from './portfolio/CaseStudy';
+import './portfolio/case-study.css';
 import { About, Experience, ProjectTile, Projects } from './portfolio/Sections';
 import SiteFooter from './portfolio/SiteFooter';
 import './portfolio/sections.css';
@@ -113,25 +115,9 @@ function ProjectDetail() {
   const {
     id
   } = useParams();
-  const index = projects.findIndex(project => project.slug === id);
-  const project = projects[index];
+  const project = projects.find(item => item.slug === id);
   if (!project) return /^[a-f\d]{24}$/i.test(id) ? <LegacyProject /> : <NotFound />;
-  const next = projects[(index + 1) % projects.length];
-  return <article className="shell case-study">
-    <Link className="back-link" to="/projects">← Projects</Link>
-    <header className="case-header"><h1>{project.name}</h1><p>{project.shortDescription}</p>
-      <dl className="case-facts"><div><dt>Role</dt><dd>{project.role}</dd></div><div><dt>Stack</dt><dd>{project.stack.join(' / ')}</dd></div></dl>
-      {(project.live || project.github) && <div className="project-links">{project.live && <a href={project.live}>Visit website <Arrow /></a>}{project.github && <a href={project.github}>Source on GitHub <Arrow /></a>}</div>}
-    </header>
-    <div className={`detail-art detail-${project.slug}`}>{project.image ? <figure className="project-screenshot"><img src={project.image} alt={project.imageAlt || `${project.name} application interface`} loading="lazy" />{project.imageCaption && <figcaption>{project.imageCaption}</figcaption>}</figure> : project.gallery ? null : <SystemArtwork project={project} />}
-      {project.gallery && <div className="project-gallery">{project.gallery.map(photo => <img key={photo.src} src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" />)}</div>}</div>
-    <section><h2>Overview</h2><p>{project.problem}</p><p>{project.overview}</p></section>
-    <section><h2>My contribution</h2><ul>{project.contributions.map(contribution => <li key={contribution}>{contribution}</li>)}</ul></section>
-    <section><h2>System structure</h2><ol className="system-flow">{project.architecture.map(part => <li key={part}>{part}</li>)}</ol></section>
-    {project.engineering && <section className="engineering-details"><h2>Engineering decisions</h2>{project.engineering.map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.text}</p></div>)}</section>}
-    <section><h2>Outcome</h2><p>{project.result}</p></section>
-    <div className="next-project"><span>Next project</span><Link to={`/projects/${next.slug}`}>{next.name} <span aria-hidden="true">→</span></Link></div>
-  </article>;
+  return <CaseStudy project={project} />;
 }
 function BlogRedirect() {
   useEffect(() => {

@@ -4,6 +4,8 @@
 export function rasterizeText(host, element, cell) {
   const box = host.getBoundingClientRect(), style = getComputedStyle(element), area = element.getBoundingClientRect();
   const width = box.width, height = box.height;
+  // A host that has not been laid out yet has nothing to trace.
+  if (width < 1 || height < 1) return { cells: [], firstCol: 0, span: 1 };
   const off = document.createElement('canvas');
   off.width = Math.ceil(width);
   off.height = Math.ceil(height);
