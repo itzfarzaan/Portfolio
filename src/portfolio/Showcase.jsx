@@ -10,8 +10,9 @@ export function Spark({
 export function Hero() {
   const hud = useRef(null);
   const card = useRef(null);
+  const name = useRef(null);
   return <section className="embed-hero" aria-labelledby="intro-title">
-    <EmbeddingField hudRef={hud} cardRef={card} />
+    <EmbeddingField hudRef={hud} cardRef={card} nameRef={name} />
     <div className="embed-hero-inner">
       <div className="embed-hud" ref={hud} aria-hidden="true">
         <span><i className="hud-dot" />Retrieval · live<b className="hud-sep">/</b>2,048 vectors · cosine</span>
@@ -20,7 +21,7 @@ export function Hero() {
       <div className="embed-hero-grid">
         <div className="embed-hero-copy">
           <p className="embed-eyebrow">AI & Software Engineer</p>
-          <h1 id="intro-title"><span>Farzaan</span> <span>Ali</span></h1>
+          <h1 id="intro-title" ref={name}><span>Farzaan</span> <span>Ali</span></h1>
           <p className="embed-tagline">I build software that <em>understands.</em></p>
           <p className="embed-bio">AI Engineer at <strong>Linkiat</strong> and Software Engineer at <strong>Creative Analytica</strong>, where I lead AqaarPro. I also built the voice AI receptionist behind <strong>YoraHealth</strong>.</p>
           <div className="embed-actions">
@@ -40,7 +41,7 @@ export function Hero() {
           </figcaption>
         </figure>
       </div>
-      <p className="embed-hint" aria-hidden="true"><span>⌖</span> Move your cursor to query the space</p>
+      <p className="embed-hint" aria-hidden="true"><span>⌖</span> Move your cursor across the space, or through the name</p>
     </div>
   </section>;
 }

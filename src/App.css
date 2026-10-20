@@ -1596,9 +1596,12 @@ main:focus {
   background: radial-gradient(ellipse 46% 62% at 22% 58%, var(--paper) 30%, #fafaf8cc 55%, transparent 80%);
   z-index: 1;
 }
+.embedding-overlay {
+  z-index: 2;
+}
 .embed-hero-inner {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: min(var(--page-width), calc(100% - 80px));
   margin-inline: auto;
   display: flex;
@@ -1669,6 +1672,11 @@ main:focus {
 }
 .embed-hero h1 span {
   display: block;
+  width: max-content;
+}
+/* Once the canvas has the font, it draws the name in ASCII; the real text stays for screen readers and selection. */
+.embed-hero[data-ascii] h1 {
+  color: transparent;
 }
 .embed-tagline {
   font: 700 clamp(26px, 2.7vw, 38px)/1.15 var(--font-display);
