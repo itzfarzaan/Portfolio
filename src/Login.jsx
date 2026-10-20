@@ -93,6 +93,9 @@ const Form = () => {
   }
   
   const StyledWrapper = styled.div`
+    position: relative;
+    min-height: 640px;
+
     .login-box {
       position: absolute;
       top: 50%;

@@ -1,6 +1,6 @@
 # Farzaan Ali — portfolio
 
-React + Vite portfolio with a creative editorial landing page, visual project showcases, a professional career journey, education milestones, a real blog article feature, and detailed project pages.
+React + Vite portfolio. The hero is an interactive ASCII embedding space; the sections below it (About, Experience, Projects, Journey, Writing) use the same palette, and the footer echoes the hero with an ASCII wordmark.
 
 ## Development
 
@@ -13,30 +13,20 @@ npm run preview
 
 ## Where to edit
 
-- `src/portfolio/theme.css`: public site colors, typefaces, page width, and shared design tokens.
-- `src/portfolio/content.js`: profile links, all seven technical projects, and experience, ordered newest first.
-- `src/App.jsx`: public layouts and routes.
-- `src/App.css`: responsive styling and animation. Reduced-motion preferences disable animations.
-- `public/documents/Mohammed-Farzaan-Ali-Resume.pdf`: downloadable resume.
+- `src/portfolio/theme.css`: the standard palette (`--color-*` tokens), typefaces, and page width. Use these tokens for new work.
+- `src/portfolio/content.js`: profile links, projects (in display order; `featured: true` marks the three large homepage blocks), and professional experience.
+- `src/portfolio/Showcase.jsx` and `EmbeddingField.jsx`: the hero and its canvas.
+- `src/portfolio/Sections.jsx` and `sections.css`: About, Experience, and Projects; `accents.css` holds the blue title and subheading accents.
+- `src/portfolio/SiteFooter.jsx`: the footer and its ASCII wordmark. `asciiText.js` traces DOM text into grid cells for both the hero name and the footer.
+- `src/App.jsx` and `App.css`: routes, the Journey and Writing sections, and the project case-study pages.
+- `public/media/projects/`: project screenshots. `public/documents/`: the downloadable resume.
 
 ## Pages
 
-`/`, `/projects`, `/projects/:slug`. The older `/experience` and `/about` URLs redirect to their sections on the landing page. The landing page has anchored About, Projects, Professional Experience, My Journey, Writing, and Contact sections, with a sticky navigation bar that marks the current section. Professional contributions and IEEE roles are visible without expanding controls.
+`/`, `/projects`, `/projects/:slug`. The older `/experience` and `/about` URLs redirect to their sections on the landing page, and `/blog` redirects to blog.farzaanali.com. Login and admin routes remain available through lazy imports; admin edits affect the legacy backend, not `content.js`. Original MongoDB project IDs continue through the legacy API-backed detail component.
 
-The blog route redirects to blog.farzaanali.com. Original login and admin routes remain available via lazy imports. Original MongoDB project IDs continue through the legacy API-backed detail component. Admin edits affect the legacy backend, not the new local public collection; update `content.js` for the redesigned project pages.
+Configure the production host to serve `index.html` for client-side routes. `public/_redirects` provides this fallback for hosts that support it.
 
-Configure the production host to serve `index.html` for client-side routes. The existing `public/_redirects` provides this fallback for hosts that support it.
+## Content notes
 
-## Content decisions and follow-up
-
-The resume and supplied LinkedIn screenshots are the sources for the first version. Artmac dates provisionally follow the resume (October 2024–February 2025); LinkedIn shows July 2024–January 2025. The LinkedIn role title is used for Linkiat. The CIS role uses the resume's Engineering Lead title and LinkedIn dates.
-
-The personal story can be expanded when the SOP is provided. Project order is editorial, since project dates were not provided. Project showcases use existing InterviewAIde and academic portal screenshots, alongside conceptual system maps for projects without screenshots. The hero portrait and fonts are bundled locally. The writing feature links to the verified linear-regression article on the existing blog. See `docs/design-direction.md` for reference research and design decisions. Comic content and new website screenshots are deferred as requested. No comic URL or unprovided project live URL has been guessed.
-
-This work updates the local checkout. Deployment and DNS are unchanged.
-
-## Approved refinements
-
-YoraHealth leads the homepage and project index, with a dedicated `/projects/yorahealth` case study. Its description is based on the live public website, the local AI receptionist implementation, and the owner’s stated technical contribution. All voice, practice-management, and messaging providers are described generically as third-party integrations. The public-site screenshot explicitly contains fictional dashboard-preview data.
-
-The existing visual direction is retained with a near-white page background, straightened hero portrait, lighter frame and shadows, clearer engineering role, and removal of decorative showcase and career numbering. About and My Journey content and structure are unchanged.
+Screenshots of YoraHealth, ComicThread, and AqaarPro are captures of their public websites. The YoraHealth dashboard preview uses fictional data, and ComicThread's cover art belongs to its publishers. KnowMyDocs and BuddyWay have no working live deployment, so they link to their case studies and source instead. The Journey section is waiting on updated content.
