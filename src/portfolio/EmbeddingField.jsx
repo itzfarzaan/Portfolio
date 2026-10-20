@@ -13,12 +13,17 @@ const CLUSTERS = [
 const PER_CLUSTER = 230;
 const AMBIENT = 2048 - CLUSTERS.length * PER_CLUSTER;
 const RAMP = ".:-=+*tsSX%#8@";
-const SIGNAL = [47, 84, 235];
+let SIGNAL = [47, 84, 235];
 const TOP_K = 7;
 const CAMERA = 3.6;
 const NAME_LABEL = 'farzaan.ali';
 const SCRAMBLE = '!<>-_/[]{}=+*^?#%&$01';
-const INK = [22, 23, 29];
+let INK = [22, 23, 29];
+// Reads a hex colour token from theme.css so the canvas follows the standard palette.
+const token = (element, name, fallback) => {
+  const hex = getComputedStyle(element).getPropertyValue(name).trim().replace('#', '');
+  return /^[0-9a-f]{6}$/i.test(hex) ? [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16)) : fallback;
+};
 
 function seeded(seed) {
   return () => {
@@ -68,6 +73,8 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
     const canvas = canvasRef.current, host = canvas.parentElement, ctx = canvas.getContext('2d');
     // The overlay sits above the text wash: it carries the ASCII name and the query graphics.
     const overlay = overlayRef.current, fx = overlay.getContext('2d');
+    SIGNAL = token(host, '--color-signal', SIGNAL);
+    INK = token(host, '--color-ink', INK);
     const space = buildSpace();
     const screenX = new Float32Array(space.count), screenY = new Float32Array(space.count), depth = new Float32Array(space.count);
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

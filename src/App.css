@@ -1569,9 +1569,9 @@ main:focus {
 
 /* Hero: ASCII embedding space with the portrait framed as the top retrieval result. */
 .embed-hero {
-  --signal: #2f54eb;
-  --hero-ink: #16171d;
-  --hero-muted: #5c5f6b;
+  --signal: var(--color-signal);
+  --hero-ink: var(--color-ink);
+  --hero-muted: var(--color-muted);
   --hero-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   position: relative;
   width: 100vw;
@@ -1681,7 +1681,7 @@ main:focus {
 .embed-tagline {
   font: 700 clamp(26px, 2.7vw, 38px)/1.15 var(--font-display);
   letter-spacing: -.03em;
-  color: #3a3c46;
+  color: var(--color-ink-soft);
   margin: 34px 0 20px;
 }
 .embed-tagline em {
@@ -1835,17 +1835,6 @@ main:focus {
   border-radius: 4px;
   font-size: 10.5px;
 }
-.embed-hint {
-  margin: 0;
-  font: 11px var(--hero-mono);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--hero-muted);
-}
-.embed-hint span {
-  color: var(--signal);
-  margin-right: 6px;
-}
 @media(max-width:900px) {
   .embed-hero-grid {
     grid-template-columns: minmax(0, 1fr) 260px;
@@ -1883,9 +1872,6 @@ main:focus {
   .result-card {
     width: min(100%, 320px);
     justify-self: start;
-  }
-  .embed-hint {
-    display: none;
   }
 }
 @media(prefers-reduced-motion:reduce) {

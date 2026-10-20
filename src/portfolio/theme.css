@@ -21,6 +21,14 @@
   font-display: swap;
 }
 :root {
+  /* Standard palette, taken from the hero. Use these tokens for all new and redesigned sections. */
+  --color-ink: #16171d;
+  --color-ink-soft: #3a3c46;
+  --color-muted: #5c5f6b;
+  --color-signal: #2f54eb;
+  --color-paper: #fafaf8;
+  --color-line: #16171d1a;
+  /* Earlier palette, still used by sections that have not been redesigned yet. */
   --paper: #fafaf8;
   --portrait-shadow: 0 18px 40px #30263b26;
   --article-shadow: 5px 9px 22px #30263b24;

@@ -41,7 +41,6 @@ export function Hero() {
           </figcaption>
         </figure>
       </div>
-      <p className="embed-hint" aria-hidden="true"><span>⌖</span> Move your cursor across the space, or through the name</p>
     </div>
   </section>;
 }
