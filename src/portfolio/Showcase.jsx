@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import EmbeddingField from './EmbeddingField';
 import { profile } from './content';
 export function Spark({
   className = ''
@@ -6,15 +8,40 @@ export function Spark({
   return <svg className={className} viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 0 58 31 85 15 69 42 100 50 69 58 85 85 58 69 50 100 42 69 15 85 31 58 0 50 31 42 15 15 42 31Z" fill="currentColor" /></svg>;
 }
 export function Hero() {
-  return <section className="creative-hero" aria-labelledby="intro-title">
-    <div className="hero-topline"><span>Mohammed Farzaan Ali</span></div>
-    <div className="hero-composition">
-      <div className="hero-type"><p className="hello-note">Hello, I’m</p><h1 id="intro-title">Farzaan<span>Ali<span className="name-dot">.</span></span></h1>
-        <p className="hero-introduction">AI & software engineer</p>
+  const hud = useRef(null);
+  const card = useRef(null);
+  return <section className="embed-hero" aria-labelledby="intro-title">
+    <EmbeddingField hudRef={hud} cardRef={card} />
+    <div className="embed-hero-inner">
+      <div className="embed-hud" ref={hud} aria-hidden="true">
+        <span><i className="hud-dot" />Retrieval · live<b className="hud-sep">/</b>2,048 vectors · cosine</span>
+        <span>Top-k <b data-stat="k">07</b> Nearest <b data-stat="cluster">retrieval.rag</b> Yaw <b data-stat="yaw">000°</b> Query <b data-stat="latency">0.0 ms</b></span>
       </div>
-      <div className="portrait-composition"><div className="portrait-orbit" /><div className="portrait-mat"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" width="1321" height="1600" fetchPriority="high" /></div><span className="portrait-caption">Hyderabad, India</span></div>
+      <div className="embed-hero-grid">
+        <div className="embed-hero-copy">
+          <p className="embed-eyebrow">AI & Software Engineer</p>
+          <h1 id="intro-title"><span>Farzaan</span> <span>Ali</span></h1>
+          <p className="embed-tagline">I build software that <em>understands.</em></p>
+          <p className="embed-bio">AI Engineer at <strong>Linkiat</strong> and Software Engineer at <strong>Creative Analytica</strong>, where I lead AqaarPro. I also built the voice AI receptionist behind <strong>YoraHealth</strong>.</p>
+          <div className="embed-actions">
+            <a className="embed-primary" href={profile.resume} download><span aria-hidden="true">↓</span> Download resume</a>
+            <a className="embed-chip" href={profile.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a>
+            <a className="embed-chip" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
+            <a className="embed-chip" href={`mailto:${profile.email}`}>Email</a>
+          </div>
+        </div>
+        <figure className="result-card" ref={card}>
+          <div className="result-head" aria-hidden="true"><span>Result 01 <i>/ 2,048</i></span><span>cos <b>0.991</b></span></div>
+          <div className="result-photo"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" width="1321" height="1600" fetchPriority="high" /><span className="result-scan" aria-hidden="true" /></div>
+          <figcaption className="result-meta">
+            <div className="result-name"><strong>farzaan.ali</strong><span>Hyderabad, India</span></div>
+            <code aria-hidden="true">[0.412, −0.173, 0.886, 0.054, …]</code>
+            <ul aria-label="Focus areas"><li>applied.ai</li><li>voice.agents</li><li>rag</li><li>full-stack</li></ul>
+          </figcaption>
+        </figure>
+      </div>
+      <p className="embed-hint" aria-hidden="true"><span>⌖</span> Move your cursor to query the space</p>
     </div>
-    <div className="hero-bottom"><p>I build AI applications and full-stack software.<br />Currently at <strong>Linkiat</strong> & <strong>Creative Analytica.</strong></p><a href="#work" className="round-link">Explore my work <span aria-hidden="true">↓</span></a><div className="hero-socials"><a href={profile.github}>GitHub ↗</a><a href={profile.linkedin}>LinkedIn ↗</a></div></div>
   </section>;
 }
 export function SystemArtwork({
