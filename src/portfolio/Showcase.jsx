@@ -11,6 +11,15 @@ export function Hero() {
   const hud = useRef(null);
   const card = useRef(null);
   const name = useRef(null);
+  // The top-result card tilts toward a mouse pointer; touch and reduced-motion users get a still card.
+  const tilt = event => {
+    if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = event.currentTarget.getBoundingClientRect(), x = (event.clientX - box.left) / box.width, y = (event.clientY - box.top) / box.height;
+    card.current.style.transform = `rotateY(${(x - .5) * 14}deg) rotateX(${(.5 - y) * 10}deg) translateZ(10px)`;
+    card.current.style.setProperty('--gx', `${x * 100}%`);
+    card.current.style.setProperty('--gy', `${y * 100}%`);
+  };
+  const untilt = () => { card.current.style.transform = ''; };
   return <section className="embed-hero" aria-labelledby="intro-title">
     <EmbeddingField hudRef={hud} cardRef={card} nameRef={name} />
     <div className="embed-hero-inner">
@@ -31,15 +40,17 @@ export function Hero() {
             <a className="embed-chip" href={`mailto:${profile.email}`}>Email</a>
           </div>
         </div>
-        <figure className="result-card" ref={card}>
-          <div className="result-head" aria-hidden="true"><span>Result 01 <i>/ 2,048</i></span><span>cos <b>0.991</b></span></div>
-          <div className="result-photo"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" width="1321" height="1600" fetchPriority="high" /><span className="result-scan" aria-hidden="true" /></div>
-          <figcaption className="result-meta">
-            <div className="result-name"><strong>farzaan.ali</strong><span>Hyderabad, India</span></div>
-            <code aria-hidden="true">[0.412, −0.173, 0.886, 0.054, …]</code>
-            <ul aria-label="Focus areas"><li>applied.ai</li><li>voice.agents</li><li>rag</li><li>full-stack</li></ul>
-          </figcaption>
-        </figure>
+        <div className="rank-stack" onPointerMove={tilt} onPointerLeave={untilt}>
+          <div className="rank-card rank-ghost rank-ghost-3" aria-hidden="true"><span>#03 · <b>retrieval.rag</b></span><span>cos 0.861</span></div>
+          <div className="rank-card rank-ghost rank-ghost-2" aria-hidden="true"><span>#02 · <b>voice.agents</b></span><span>cos 0.874</span></div>
+          <figure className="rank-card rank-main" ref={card}>
+            <img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" width="1321" height="1600" fetchPriority="high" />
+            <span className="rank-label" aria-hidden="true">#01 · Top result</span>
+            <span className="rank-score" aria-hidden="true">0.991</span>
+            <figcaption className="rank-info"><strong>farzaan.ali</strong><span>AI & Software Engineer · Hyderabad</span></figcaption>
+            <span className="rank-glare" aria-hidden="true" />
+          </figure>
+        </div>
       </div>
     </div>
   </section>;
