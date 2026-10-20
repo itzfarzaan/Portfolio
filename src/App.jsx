@@ -123,7 +123,8 @@ function ProjectDetail() {
       <dl className="case-facts"><div><dt>Role</dt><dd>{project.role}</dd></div><div><dt>Stack</dt><dd>{project.stack.join(' / ')}</dd></div></dl>
       {(project.live || project.github) && <div className="project-links">{project.live && <a href={project.live}>Visit website <Arrow /></a>}{project.github && <a href={project.github}>Source on GitHub <Arrow /></a>}</div>}
     </header>
-    <div className={`detail-art detail-${project.slug}`}>{project.image ? <figure className="project-screenshot"><img src={project.image} alt={project.imageAlt || `${project.name} application interface`} loading="lazy" />{project.imageCaption && <figcaption>{project.imageCaption}</figcaption>}</figure> : <SystemArtwork project={project} />}</div>
+    <div className={`detail-art detail-${project.slug}`}>{project.image ? <figure className="project-screenshot"><img src={project.image} alt={project.imageAlt || `${project.name} application interface`} loading="lazy" />{project.imageCaption && <figcaption>{project.imageCaption}</figcaption>}</figure> : project.gallery ? null : <SystemArtwork project={project} />}
+      {project.gallery && <div className="project-gallery">{project.gallery.map(photo => <img key={photo.src} src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" />)}</div>}</div>
     <section><h2>Overview</h2><p>{project.problem}</p><p>{project.overview}</p></section>
     <section><h2>My contribution</h2><ul>{project.contributions.map(contribution => <li key={contribution}>{contribution}</li>)}</ul></section>
     <section><h2>System structure</h2><ol className="system-flow">{project.architecture.map(part => <li key={part}>{part}</li>)}</ol></section>

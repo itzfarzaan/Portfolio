@@ -40,7 +40,7 @@ export function Experience() {
       {experience.map(item => <li key={item.company} className="xp-row reveal">
         <div className="xp-when"><span>{item.date}</span>{item.current && <span className="xp-current">Current</span>}</div>
         <div className="xp-who">
-          <span className="xp-mark" aria-hidden="true">{item.monogram}</span>
+          <span className={`xp-mark${item.logo ? ' xp-logo' : ''}`} aria-hidden="true">{item.logo ? <img src={item.logo} alt="" loading="lazy" /> : item.monogram}</span>
           <div><h3>{item.company}</h3><p className="xp-role">{item.role}</p><p className="xp-where">{item.location}</p></div>
         </div>
         <div className="xp-what">
@@ -81,10 +81,13 @@ function FeaturedProject({ project }) {
 
 export function ProjectTile({ project }) {
   return <Link className="tile reveal" to={`/projects/${project.slug}`}>
-    <span className="tile-shot">
+    <span className={`tile-shot${!project.image && project.gallery ? ' tile-split' : ''}`}>
       {project.image
         ? <img src={project.image} alt="" width={project.imageWidth} height={project.imageHeight} loading="lazy" />
-        : <ol className="tile-flow" aria-label="How it works">{project.architecture.map(step => <li key={step}>{step}</li>)}</ol>}
+        : project.gallery
+          // Two photos meet on a diagonal seam, so the person and the hardware both get room.
+          ? project.gallery.slice(0, 2).map(photo => <img key={photo.src} src={photo.src} alt="" width={photo.width} height={photo.height} loading="lazy" style={{ objectPosition: photo.position }} />)
+          : <ol className="tile-flow" aria-label="How it works">{project.architecture.map(step => <li key={step}>{step}</li>)}</ol>}
     </span>
     <div className="tile-copy">
       <strong>{project.name}</strong>

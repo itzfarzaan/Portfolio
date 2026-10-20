@@ -121,7 +121,11 @@ export const projects = [{
   contributions: ['Co-developed the hardware glove for gesture-based communication.', 'Led serial communication between the hardware and software.', 'Integrated MPU6050 and flex sensors with Arduino.', 'Worked on real-time gesture recognition to support text and speech output.'],
   architecture: ['Motion + flex sensors', 'Arduino → serial data', 'Gesture → text + speech'],
   result: 'An assistive hardware project exploring gesture-to-text and gesture-to-speech communication, connecting sensor integration with real-time recognition.',
-  github: 'https://github.com/itzfarzaan/Gesture-Glove'
+  github: 'https://github.com/itzfarzaan/Gesture-Glove',
+  gallery: [
+    { src: '/media/projects/gesture-glove-1.webp', width: 960, height: 1280, alt: 'Farzaan testing the gesture glove at a project exhibition', position: '45% 62%' },
+    { src: '/media/projects/gesture-glove-2.webp', width: 1280, height: 960, alt: 'Close-up of the glove with flex sensors on each finger and an MPU6050 motion sensor', position: '42% 50%' }
+  ]
 }, {
   slug: 'knowmydocs',
   shortDescription: 'A document chat application with context-preserving retrieval and summarisation.',
@@ -136,7 +140,11 @@ export const projects = [{
   overview: 'KnowMyDocs lets people upload documents, ask questions, and generate summaries. The core engineering work focuses on retrieval-augmented generation: finding relevant document context before producing an answer.',
   contributions: ['Built document upload and conversational interactions using React and Node.js.', 'Implemented context-preserving document chunking for retrieval workflows.', 'Used Supabase within the application stack.', 'Focused on improving the relevance of retrieved content through the way documents are split for embeddings.'],
   architecture: ['Upload a document', 'Context-preserving chunks', 'Retrieve context → answer'],
-  result: 'A document chat and summarization tool that brings upload, retrieval, questions, and summaries into one workflow. Context-preserving chunking is a central part of the retrieval approach.'
+  result: 'A document chat and summarization tool that brings upload, retrieval, questions, and summaries into one workflow. Context-preserving chunking is a central part of the retrieval approach.',
+  image: '/media/projects/knowmydocs.webp',
+  imageWidth: 1800,
+  imageHeight: 713,
+  imageAlt: 'KnowMyDocs landing page with the headline Chat with your Documents. Get Answers Instantly!'
 }, {
   slug: 'interviewaide',
   shortDescription: 'Adaptive interview practice with AI-generated questions and spoken responses.',
@@ -170,7 +178,14 @@ export const projects = [{
   architecture: ['Student · Lecturer · Admin', 'Express + EJS', 'MongoDB academic records'],
   result: 'A central academic management application for attendance, grading, and performance tracking.',
   github: 'https://github.com/itzfarzaan/Academic-Management-Portal',
-  image: '/media/projects/AMP.png'
+  image: '/media/projects/academic-portal.webp',
+  imageWidth: 1600,
+  imageHeight: 810,
+  imageAlt: 'Lecturer teaching profile with attendance and marks overviews for each class',
+  gallery: [
+    { src: '/media/projects/academic-portal-admin.webp', width: 1600, height: 800, alt: 'Admin dashboard for adding a class and building its timetable' },
+    { src: '/media/projects/academic-portal-student.webp', width: 1600, height: 678, alt: 'Student view with subject-wise attendance insights' }
+  ]
 }, {
   slug: 'buddyway',
   name: 'BuddyWay',
@@ -215,6 +230,7 @@ export const projects = [{
 export const experience = [{
   date: 'Jul 2026 – Present',
   company: 'Linkiat',
+  logo: '/media/logos/linkiat.webp',
   monogram: 'LK',
   role: 'Artificial Intelligence Engineer',
   location: 'Riyadh, Saudi Arabia · Remote',
@@ -229,6 +245,7 @@ export const experience = [{
 }, {
   date: 'May 2025 – Present',
   company: 'Creative Analytica',
+  logo: '/media/logos/creative-analytica.webp',
   monogram: 'CA',
   role: 'Software Engineer',
   location: 'United Arab Emirates · Remote · Part-time',
@@ -242,6 +259,7 @@ export const experience = [{
 }, {
   date: 'Oct 2024 – Feb 2025',
   company: 'Artmac Soft',
+  logo: '/media/logos/artmac-soft.webp',
   monogram: 'AS',
   role: 'Machine Learning Engineer Intern',
   location: 'Hyderabad, India',
