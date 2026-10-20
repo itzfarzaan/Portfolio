@@ -1,0 +1,32 @@
+/* Trial: blue accents on titles and subheadings. Remove this file and its import in App.jsx to undo. */
+.section-head {
+  position: relative;
+}
+.section-head::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 96px;
+  height: 2px;
+  background: var(--color-signal);
+}
+.section-head h2::after {
+  content: '.';
+  color: var(--color-signal);
+}
+.section-meta {
+  color: var(--color-signal);
+}
+.xp-role {
+  color: var(--color-signal);
+}
+.feature-type {
+  color: var(--color-signal);
+}
+.collage-title {
+  color: var(--color-signal);
+}
+.tile:hover .tile-copy strong {
+  color: var(--color-signal);
+}

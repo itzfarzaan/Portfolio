@@ -1,8 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom';
-import { experience, profile, projects } from './portfolio/content';
+import { profile, projects } from './portfolio/content';
 import './App.css';
-import { Hero, ProjectStage, Spark, SystemArtwork } from './portfolio/Showcase';
+import { Hero, Spark, SystemArtwork } from './portfolio/Showcase';
+import { About, Experience, ProjectTile, Projects } from './portfolio/Sections';
+import SiteFooter from './portfolio/SiteFooter';
+import './portfolio/sections.css';
+import './portfolio/accents.css';
 const Login = lazy(() => import('./Login'));
 const Admin = lazy(() => import('./Admin'));
 const EditBlog = lazy(() => import('./EditBlog'));
@@ -53,7 +57,7 @@ function Header() {
     </nav>
   </header>;
 }
-const homeSections = [['about', 'About me'], ['work', 'Projects'], ['experience', 'Experience'], ['journey', 'My journey'], ['writing', 'Writing'], ['contact', 'Contact']];
+const homeSections = [['about', 'About'], ['experience', 'Experience'], ['work', 'Projects'], ['journey', 'Journey'], ['writing', 'Writing']];
 function SectionNavigation() {
   const [active, setActive] = useState('about');
   useEffect(() => {
@@ -64,7 +68,7 @@ function SectionNavigation() {
         const sections = homeSections.map(([id]) => document.getElementById(id));
         const reached = sections.filter(section => section && section.getBoundingClientRect().top <= 180);
         const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 20;
-        setActive(atBottom ? 'contact' : reached.at(-1)?.id || 'about');
+        setActive(atBottom ? 'writing' : reached.at(-1)?.id || 'about');
       });
     };
     window.addEventListener('scroll', update, {
@@ -82,34 +86,13 @@ function SectionNavigation() {
     {homeSections.map(([id, label]) => <a key={id} href={`#${id}`} aria-current={active === id ? 'location' : undefined}>{label}</a>)}
   </nav>;
 }
-function ExperienceRow({
-  item,
-  index
-}) {
-  return <article className={`career-stop career-stop-${index} reveal`}>
-    <div className="career-role"><span className="career-date">{item.date}</span><h3>{item.company}</h3><p>{item.role}</p><span className="career-location">{item.location}</span><span className="career-status">{item.current ? 'Current role' : 'First professional role'}</span></div>
-    <ul>{item.details.map(detail => <li key={detail}>{detail}</li>)}</ul>
-  </article>;
-}
 function Home() {
   return <div className="shell home">
     <Hero />
     <SectionNavigation />
-    <section className="about-section reveal" id="about" aria-labelledby="about-title">
-      <div className="about-copy"><h2 id="about-title">About me<span>.</span></h2><p className="about-lead">From Hyderabad.<br /><em>Building beyond it.</em></p><p>I’m Mohammed Farzaan Ali. My work brings together machine learning, web applications, and the people who use them.</p><p>From student engineering teams and a gesture-sensing glove to production AI, I’ve followed the connection between learning something and making it useful.</p></div>
-      <div className="practice-composition" aria-label="My practice connects artificial intelligence, web systems, and people" role="img"><div className="practice-circle circle-ai">AI<span>Intelligence</span></div><div className="practice-circle circle-web">Web<span>Systems</span></div><div className="practice-circle circle-people">People<span>The reason</span></div><span className="practice-note">Better together.</span><Spark className="practice-spark" /></div>
-    </section>
-
-    <section className="projects-section" id="work" aria-labelledby="work-title">
-      <div className="section-heading"><h2 id="work-title">Selected <em>projects.</em></h2><Link className="plain-link" to="/projects">All {projects.length} projects <span aria-hidden="true">↗</span></Link></div>
-      <div className="selected-projects"><div className="reveal"><ProjectStage project={projects.find(project => project.slug === 'yorahealth')} /></div><div className="reveal"><ProjectStage project={projects.find(project => project.slug === 'aqaarpro')} /></div></div>
-      <Link className="project-note reveal" to="/projects/knowmydocs"><span className="note-symbol" aria-hidden="true">✳</span><div><span>Also in the collection</span><h3>KnowMyDocs</h3><p>Document chat, context-preserving retrieval, and summaries.</p></div><span className="note-arrow" aria-hidden="true">↗</span></Link>
-    </section>
-
-    <section className="professional-section" id="experience" aria-labelledby="experience-title">
-      <div className="section-heading"><h2 id="experience-title">Professional<br /><em>experience.</em></h2><span>Newest to oldest</span></div>
-      <div className="career-path">{experience.slice(0, 3).map((item, index) => <ExperienceRow key={item.company} item={item} index={index} />)}</div>
-    </section>
+    <About />
+    <Experience />
+    <Projects />
 
     <section className="journey-section" id="journey" aria-labelledby="journey-title">
       <div className="section-heading"><h2 id="journey-title">My <em>journey.</em></h2><span>How it came together</span></div>
@@ -118,17 +101,12 @@ function Home() {
     </section>
 
     <section className="writing-section" id="writing" aria-labelledby="writing-title"><div className="writing-heading"><h2 id="writing-title">Blog & writing</h2><p>Notes from<br /><em>the rabbit hole.</em></p><a className="plain-link" href={profile.blog}>Visit Farzaan’s Notes ↗</a></div><a className="article-feature reveal" href="https://blog.farzaanali.com/posts/building-a-linear-regression-model-from-scratch-coding-cs229"><div className="article-cover" aria-hidden="true"><span>Learning, one model at a time.</span><b>ŷ = wx + b</b><svg viewBox="0 0 400 160"><path d="M30 10V140H380M50 125L350 25" fill="none" stroke="currentColor" strokeWidth="2" /><g fill="currentColor"><circle cx="65" cy="108" r="5" /><circle cx="105" cy="115" r="5" /><circle cx="150" cy="83" r="5" /><circle cx="200" cy="78" r="5" /><circle cx="265" cy="40" r="5" /><circle cx="300" cy="55" r="5" /><circle cx="343" cy="20" r="5" /></g></svg></div><div className="article-copy"><div><time dateTime="2025-05-25">25 May 2025</time><span>3 min read</span></div><h3>Building a Linear Regression model from Scratch | Coding CS229 <span aria-hidden="true">↗</span></h3></div></a></section>
-    <Contact />
   </div>;
-}
-function Contact() {
-  return <section className="contact" id="contact" aria-labelledby="contact-title"><div><h2 id="contact-title">Contact</h2><p>Let’s <em>talk.</em></p><a className="contact-email" href={`mailto:${profile.email}`}>{profile.email} <span aria-hidden="true">↗</span></a></div><div className="contact-side"><Spark /><a href={profile.linkedin}>LinkedIn ↗</a><a href={profile.github}>GitHub ↗</a><a href={profile.resume} target="_blank" rel="noreferrer">Resume ↗</a></div></section>;
 }
 function Work() {
   return <div className="shell projects-page">
-    <div className="page-heading"><h1>Projects</h1><span>{projects.length} selected projects</span></div>
-    <div className="work-list">{projects.map(project => <ProjectStage key={project.slug} project={project} heading="h2" />)}</div>
-    <Contact />
+    <div className="page-heading"><h1>Projects</h1><span>{projects.length} projects</span></div>
+    <div className="collage collage-all">{projects.map(project => <ProjectTile key={project.slug} project={project} />)}</div>
   </div>;
 }
 function ProjectDetail() {
@@ -171,6 +149,6 @@ export default function App() {
       <Route path="/blog/*" element={<BlogRedirect />} /><Route path="/login" element={<Login />} /><Route path="/admin" element={<Admin />} />
       <Route path="/admin/edit/:blogId" element={<EditBlog />} /><Route path="/admin/edit-project/:projectId" element={<EditProject />} /><Route path="*" element={<NotFound />} />
     </Routes></Suspense></main>
-    <footer className="shell footer"><span>© {new Date().getFullYear()} Mohammed Farzaan Ali</span><a href="#main">Back to top ↑</a></footer>
+    <SiteFooter />
   </BrowserRouter>;
 }

@@ -9,6 +9,12 @@ export const profile = {
 };
 export const projects = [{
   slug: 'yorahealth',
+  featured: true,
+  highlights: [
+    'Voice agent tools that book, reschedule, and cancel appointments',
+    'Clinic and admin dashboards with transcripts, recordings, and outcomes',
+    'Scheduling integrations with retry-safe, deduplicated events'
+  ],
   name: 'YoraHealth',
   shortDescription: 'An AI receptionist for dental practices, connecting patient calls with appointment scheduling and a clinic dashboard.',
   category: 'Voice AI & full-stack engineering',
@@ -42,7 +48,45 @@ export const projects = [{
   imageAlt: 'YoraHealth public website showing its dental AI receptionist and a clearly labelled fictional dashboard preview',
   imageCaption: 'YoraHealth public website. The dashboard preview contains fictional patient and appointment data.'
 }, {
+  slug: 'comicthread',
+  featured: true,
+  highlights: [
+    'Publishing model from publisher down to issues, story arcs, and collections',
+    'Dashboard with reading progress, a queue, and the next issue in every series',
+    'Public demo playground that needs no account'
+  ],
+  name: 'ComicThread',
+  shortDescription: 'A comic library and reading tracker that connects every series, reading order, and next issue.',
+  category: 'Full-stack engineering',
+  label: 'Comic library',
+  summary: 'Every series, every reading order, and the next issue, connected in one library.',
+  stack: ['React', 'React Query', 'Node.js', 'Express', 'PostgreSQL', 'JWT'],
+  role: 'Design and full-stack development',
+  type: 'Personal project',
+  problem: 'Comic collections span publishers, series, volumes, story arcs, and collected editions. Knowing what to read next, and in what order, is easy to lose track of.',
+  overview: 'ComicThread is a single-user comic library that models the real publishing structure, from publisher and series down to individual issues, story arcs, and collections. It tracks reading progress, ownership, and reading activity, and its dashboard lines up the next issue in every series.',
+  contributions: [
+    'Designed and built the product end to end, from the data model to the interface.',
+    'Modelled publishing hierarchies (publisher, franchise, series, volume, issue, story arc, collection) in PostgreSQL.',
+    'Built the React frontend with React Query for the dashboard, series browser, collections, and reading activity views.',
+    'Implemented an Express API with JWT authentication, plus a public demo playground where visitors can explore without an account.'
+  ],
+  architecture: ['React + React Query interface', 'Express API with JWT auth', 'PostgreSQL publishing model'],
+  result: 'A live comic library and reading tracker with a public demo that needs no account. Interface captures use an illustrative library.',
+  live: 'https://comics.farzaanali.com',
+  image: '/media/projects/comicthread.webp',
+  imageWidth: 1440,
+  imageHeight: 900,
+  imageAlt: 'ComicThread landing page with the headline Every universe. In order.',
+  imageCaption: 'ComicThread landing page. Cover art belongs to Marvel, DC, and Image Comics; ComicThread is a non-commercial portfolio project.'
+}, {
   slug: 'aqaarpro',
+  featured: true,
+  highlights: [
+    'Dedicated portals for managers, owners, tenants, and vendors',
+    'System architecture and database design on Supabase and PostgreSQL',
+    'Workflow automation built with security and scale in mind'
+  ],
   shortDescription: 'Property management software with dedicated portals for managers, owners, tenants, and vendors.',
   name: 'AqaarPro',
   category: 'Full-stack engineering',
@@ -56,7 +100,28 @@ export const projects = [{
   contributions: ['Designed and developed dedicated modules for managers, owners, tenants, and vendors.', 'Built distinct workflows for each role rather than treating every user as the same kind of account.', 'Connected a React frontend with Node.js and Express services, backed by Supabase and PostgreSQL.', 'Worked on workflow automation, security, and scalability across the system.'],
   architecture: ['Four role-based portals', 'Node.js + Express', 'Supabase + PostgreSQL'],
   result: 'A role-based property management platform with four dedicated user experiences. This is ongoing professional work; internal implementation details are kept private.',
-  live: 'https://aqaarpro.com'
+  live: 'https://aqaarpro.com',
+  image: '/media/projects/aqaarpro.webp',
+  imageWidth: 1440,
+  imageHeight: 900,
+  imageAlt: 'AqaarPro public website with its property management sign-in',
+  imageCaption: 'AqaarPro public website.'
+}, {
+  slug: 'gesture-glove',
+  shortDescription: 'A sensor-based glove that translates gestures into speech and text.',
+  name: 'The Gesture Glove',
+  category: 'Hardware & accessibility',
+  label: 'Assistive technology',
+  summary: 'Turning physical gestures into text and speech through sensors and software.',
+  stack: ['Arduino', 'MPU6050', 'Flex sensors', 'Serial communication'],
+  role: 'Co-developer · Serial communication',
+  type: 'Technical project',
+  problem: 'Gesture-based communication can be difficult for people unfamiliar with sign language to understand. This project explores a sensor-based bridge to speech and text.',
+  overview: 'A collaboratively developed hardware glove that converts sign language gestures into speech and text. My main contribution was serial communication and integrating sensor readings with Arduino.',
+  contributions: ['Co-developed the hardware glove for gesture-based communication.', 'Led serial communication between the hardware and software.', 'Integrated MPU6050 and flex sensors with Arduino.', 'Worked on real-time gesture recognition to support text and speech output.'],
+  architecture: ['Motion + flex sensors', 'Arduino → serial data', 'Gesture → text + speech'],
+  result: 'An assistive hardware project exploring gesture-to-text and gesture-to-speech communication, connecting sensor integration with real-time recognition.',
+  github: 'https://github.com/itzfarzaan/Gesture-Glove'
 }, {
   slug: 'knowmydocs',
   shortDescription: 'A document chat application with context-preserving retrieval and summarisation.',
@@ -107,21 +172,29 @@ export const projects = [{
   github: 'https://github.com/itzfarzaan/Academic-Management-Portal',
   image: '/media/projects/AMP.png'
 }, {
-  slug: 'gesture-glove',
-  shortDescription: 'A sensor-based glove that translates gestures into speech and text.',
-  name: 'The Gesture Glove',
-  category: 'Hardware & accessibility',
-  label: 'Assistive technology',
-  summary: 'Turning physical gestures into text and speech through sensors and software.',
-  stack: ['Arduino', 'MPU6050', 'Flex sensors', 'Serial communication'],
-  role: 'Co-developer · Serial communication',
+  slug: 'buddyway',
+  name: 'BuddyWay',
+  shortDescription: 'Real-time location sharing: create a session, see everyone on a live map, and navigate to each other.',
+  category: 'Full-stack engineering',
+  label: 'Real-time location',
+  summary: 'A shared live map for meeting up, with sessions, directions, and a common destination.',
+  stack: ['Node.js', 'Express', 'Socket.IO', 'Leaflet.js', 'EJS'],
+  role: 'Developer',
   type: 'Technical project',
-  problem: 'Gesture-based communication can be difficult for people unfamiliar with sign language to understand. This project explores a sensor-based bridge to speech and text.',
-  overview: 'A collaboratively developed hardware glove that converts sign language gestures into speech and text. My main contribution was serial communication and integrating sensor readings with Arduino.',
-  contributions: ['Co-developed the hardware glove for gesture-based communication.', 'Led serial communication between the hardware and software.', 'Integrated MPU6050 and flex sensors with Arduino.', 'Worked on real-time gesture recognition to support text and speech output.'],
-  architecture: ['Motion + flex sensors', 'Arduino → serial data', 'Gesture → text + speech'],
-  result: 'An assistive hardware project exploring gesture-to-text and gesture-to-speech communication, connecting sensor integration with real-time recognition.',
-  github: 'https://github.com/itzfarzaan/Gesture-Glove'
+  problem: 'Meeting up with a group usually means repeatedly asking where everyone is. A shared live map makes the next step obvious for everyone in the group.',
+  overview: 'BuddyWay lets people create or join a session with a six-digit code, share their live location, and get directions to each other. Hosts can set a common destination for the whole group.',
+  contributions: [
+    'Built session creation and joining with unique six-digit codes.',
+    'Implemented live location updates over Socket.IO with automatic reconnection.',
+    'Built the interactive map and navigation panel with Leaflet.js.',
+    'Added host controls for setting a common destination for all members.'
+  ],
+  architecture: ['Create or join a session', 'Socket.IO live updates', 'Leaflet map + directions'],
+  result: 'A mobile-friendly, real-time location sharing app built on WebSockets and an interactive map.',
+  github: 'https://github.com/itzfarzaan/BuddyWay',
+  image: '/media/projects/buddyway.png',
+  imageWidth: 1273,
+  imageHeight: 871
 }, {
   slug: 'legal-document-summarizer',
   shortDescription: 'Legal document summaries and multilingual translation in a Flask application.',
@@ -140,47 +213,43 @@ export const projects = [{
   github: 'https://github.com/itzfarzaan/Legal-Document-Summarizer'
 }];
 export const experience = [{
-  date: 'Jul 2026 — Present',
+  date: 'Jul 2026 – Present',
   company: 'Linkiat',
+  monogram: 'LK',
   role: 'Artificial Intelligence Engineer',
   location: 'Riyadh, Saudi Arabia · Remote',
   current: true,
-  text: 'Building production-focused AI capabilities, from architecture and implementation to testing and integration planning.',
-  details: ['Developing agents, retrieval-augmented applications, workflow automation, and backend API integrations.', 'Combining language models with deterministic application logic, human approval controls, and verifiable execution.', 'Working across frontend, backend, and product teams on API contracts, authentication, safety controls, and phased delivery.']
+  details: [
+    'Build production AI features end to end, from architecture and implementation to testing and integration planning.',
+    'Develop agents, retrieval-augmented applications, workflow automation, and backend API integrations.',
+    'Combine language models with deterministic application logic, human approval controls, and verifiable execution.',
+    'Work with frontend, backend, and product teams on API contracts, authentication, safety controls, and phased delivery.'
+  ],
+  stack: ['LLM agents', 'RAG', 'Workflow automation', 'Backend APIs']
 }, {
-  date: 'May 2025 — Present',
+  date: 'May 2025 – Present',
   company: 'Creative Analytica',
+  monogram: 'CA',
   role: 'Software Engineer',
   location: 'United Arab Emirates · Remote · Part-time',
   current: true,
-  text: 'Leading the development of AqaarPro, from system architecture and database design to the interfaces people use every day.',
-  details: ['Leading AqaarPro development, with dedicated workflows for property managers, owners, tenants, and vendors.', 'Building with React, Node.js, Express, Supabase, and PostgreSQL.', 'Improving workflows through automation, with attention to security and scalability.']
+  details: [
+    'Lead the development of AqaarPro, a property management platform, covering system architecture, database design, and full-stack implementation.',
+    'Built dedicated portals and workflows for property managers, owners, tenants, and vendors.',
+    'Improve day-to-day operations through workflow automation, with attention to security and scalability.'
+  ],
+  stack: ['React', 'Node.js', 'Express', 'Supabase', 'PostgreSQL']
 }, {
-  date: 'Oct 2024 — Feb 2025',
+  date: 'Oct 2024 – Feb 2025',
   company: 'Artmac Soft',
+  monogram: 'AS',
   role: 'Machine Learning Engineer Intern',
   location: 'Hyderabad, India',
-  text: 'Worked on plant disease detection, connecting dataset preparation with model optimisation.',
-  details: ['Built an OpenCV and Pillow augmentation pipeline for approximately 20,000 images.', 'Optimised MobileNetV2 in PyTorch, reaching 88.35% accuracy through augmentation and architectural adjustments.', 'Fine-tuned hyperparameters and learning rate schedulers.']
-}, {
-  date: 'Apr 2024 — Aug 2024',
-  company: 'IEEE SMC · MJCET',
-  role: 'R&D Team Member',
-  location: 'Hyderabad, India',
-  text: 'Contributed to research and development in large language models and natural language processing.',
-  details: ['Participated in AI-focused research and development alongside the student R&D team.']
-}, {
-  date: 'Dec 2023 — Jul 2024',
-  company: 'IEEE CIS · MJCET',
-  role: 'Engineering Lead',
-  location: 'Hyderabad, India',
-  text: 'Contributed to the technical team, with experience in React and Node.js.',
-  details: ['Worked with the technical team using React and Node.js.']
-}, {
-  date: 'Aug 2023 — Jul 2024',
-  company: 'IEEE PES · MJCET',
-  role: 'Web Developer / Webmaster',
-  location: 'Hyderabad, India',
-  text: 'Developed the official chapter website and helped organise hands-on technical workshops.',
-  details: ['Oversaw a team of more than 20 members in workshop organisation.']
+  details: [
+    'Worked on plant disease detection, from dataset preparation to model optimisation.',
+    'Built an OpenCV and Pillow augmentation pipeline for roughly 20,000 images.',
+    'Optimised MobileNetV2 in PyTorch to 88.35% accuracy through augmentation and architectural adjustments.',
+    'Tuned hyperparameters and learning rate schedules.'
+  ],
+  stack: ['PyTorch', 'MobileNetV2', 'OpenCV', 'Pillow']
 }];

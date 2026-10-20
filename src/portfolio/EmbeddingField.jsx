@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { rasterizeText } from './asciiText';
 
 // An ASCII-rendered embedding space: clustered vectors rotate in 3D, are rasterised
 // into a character grid, and the pointer acts as a query that retrieves its nearest neighbours.
@@ -115,55 +116,10 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
     const buildName = () => {
       const h1 = nameRef?.current;
       if (!h1 || !nameReady) return [];
-      const box = host.getBoundingClientRect(), style = getComputedStyle(h1), area = h1.getBoundingClientRect();
-      const off = document.createElement('canvas');
-      off.width = Math.ceil(width);
-      off.height = Math.ceil(height);
-      const o = off.getContext('2d', { willReadFrequently: true });
-      o.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-      if ('letterSpacing' in o) o.letterSpacing = style.letterSpacing;
-      const metrics = o.measureText('Hg'), ascent = metrics.fontBoundingBoxAscent, descent = metrics.fontBoundingBoxDescent;
-      // Neighbouring letters are drawn into different colour channels so each cell knows which letter it belongs to.
-      o.globalCompositeOperation = 'lighter';
-      h1.querySelectorAll('span').forEach((span, line) => {
-        const r = span.getBoundingClientRect(), text = span.textContent;
-        const baseline = r.top - box.top + (r.height - (ascent + descent)) / 2 + ascent;
-        [...text].forEach((letter, index) => {
-          o.fillStyle = (index + line) % 2 ? '#00f' : '#f00';
-          o.fillText(letter, r.left - box.left + o.measureText(text.slice(0, index)).width, baseline);
-        });
-      });
-      const data = o.getImageData(0, 0, off.width, off.height).data, rand = seeded(42), found = [];
-      const c0 = Math.max(0, Math.floor((area.left - box.left - 20) / nameCell)), c1 = Math.min(Math.ceil(width / nameCell), Math.ceil((area.right - box.left + 60) / nameCell));
-      const r0 = Math.max(0, Math.floor((area.top - box.top - 10) / nameCell)), r1 = Math.min(Math.ceil(height / nameCell), Math.ceil((area.bottom - box.top + 20) / nameCell));
-      const gridCols = c1 - c0, cells = new Map();
-      for (let row = r0; row < r1; row++) for (let col = c0; col < c1; col++) {
-        let red = 0, blue = 0;
-        for (let sy = 0; sy < 4; sy++) for (let sx = 0; sx < 4; sx++) {
-          const x = Math.min(off.width - 1, col * nameCell + (sx + .5) * nameCell / 4 | 0), y = Math.min(off.height - 1, row * nameCell + (sy + .5) * nameCell / 4 | 0);
-          const at = (y * off.width + x) * 4, alpha = data[at + 3] / 255;
-          if (data[at] * alpha > 110) red++;
-          if (data[at + 2] * alpha > 110) blue++;
-        }
-        const coverage = Math.max(red, blue) / 16;
-        if (coverage < .12) continue;
-        cells.set((row - r0) * gridCols + col - c0, { tx: col * nameCell + nameCell / 2, ty: row * nameCell + nameCell / 2, coverage, col, letter: red >= blue ? 0 : 1 });
-      }
-      // Where two letters touch, the weaker cell is dropped so there is always a clear gap between them.
-      const dropped = new Set();
-      cells.forEach((cell, key) => {
-        const col = key % gridCols;
-        [-1, 1].forEach(dc => [-gridCols, 0, gridCols].forEach(dr => {
-          if (col + dc < 0 || col + dc >= gridCols) return;
-          const other = cells.get(key + dc + dr);
-          if (other && other.letter !== cell.letter) dropped.add(cell.coverage < other.coverage || (cell.coverage === other.coverage && dc > 0) ? key : key + dc + dr);
-        }));
-      });
-      cells.forEach((cell, key) => { if (!dropped.has(key)) found.push(cell); });
-      const span = Math.max(1, c1 - c0);
-      return found.map(p => ({
+      const rand = seeded(42), { cells, firstCol, span } = rasterizeText(host, h1, nameCell);
+      return cells.map(p => ({
         ...p, glyph: RAMP[Math.max(0, RAMP.length - 1 - Math.round((1 - p.coverage) * 6) - (rand() > .6 ? 1 : 0))],
-        delay: (p.col - c0) / span * .9 + rand() * .15, ox: 0, oy: 0, vx: 0, vy: 0, heat: 0, lit: false
+        delay: (p.col - firstCol) / span * .9 + rand() * .15, ox: 0, oy: 0, vx: 0, vy: 0, heat: 0, lit: false
       }));
     };
     const resize = () => {
