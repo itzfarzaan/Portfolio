@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Image Card Options</title>
+<style>
+@font-face { font-family: 'Space Grotesk'; src: url('/fonts/space-grotesk-bold.ttf') format('truetype'); font-weight: 700; }
+@font-face { font-family: 'DM Sans'; src: url('/fonts/dm-sans-regular.ttf') format('truetype'); font-weight: 400; }
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/instrument-serif-italic.ttf') format('truetype'); font-style: italic; }
+:root {
+  --ink: #16171d; --ink-soft: #3a3c46; --muted: #5c5f6b; --signal: #2f54eb; --paper: #fafaf8; --line: #16171d1a;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 'DM Sans', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+header { width: min(1200px, calc(100% - 32px)); margin: 48px auto 28px; }
+header p.kicker { font: 11px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+header h1 { font: 700 clamp(34px, 5vw, 56px)/1 'Space Grotesk', Arial, sans-serif; letter-spacing: -.04em; margin: 0 0 14px; }
+header h1 em { font: italic 400 1.15em 'Instrument Serif', Georgia, serif; color: var(--signal); }
+header p { color: var(--muted); max-width: 640px; margin: 0; }
+main { width: min(1200px, calc(100% - 32px)); margin: 0 auto 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+.option { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+.stage {
+  position: relative; min-height: 560px; display: grid; place-items: center; padding: 40px 28px; overflow: hidden;
+  background:
+    linear-gradient(#16171d0b 1px, transparent 1px) 0 0 / 14px 14px,
+    linear-gradient(90deg, #16171d0b 1px, transparent 1px) 0 0 / 14px 14px,
+    var(--paper);
+}
+.meta { padding: 18px 22px 22px; border-top: 1px solid var(--line); }
+.meta h2 { font: 700 20px 'Space Grotesk', Arial, sans-serif; letter-spacing: -.02em; margin: 0 0 4px; display: flex; gap: 10px; align-items: baseline; }
+.meta h2 b { font: 400 12px var(--mono); color: #fff; background: var(--signal); padding: 2px 7px; border-radius: 4px; }
+.meta p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.meta .try { font: 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--signal); margin-top: 10px; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+
+/* A: Ink terminal */
+.a-card { width: 300px; background: var(--ink); color: #f4f4f1; border-radius: 16px; padding: 10px; box-shadow: 0 40px 70px -36px #16171db0; transition: transform .5s cubic-bezier(.2,.75,.25,1), box-shadow .5s; font-family: var(--mono); }
+.a-card:hover { transform: translateY(-6px); box-shadow: 0 50px 80px -36px #2f54eb80; }
+.a-bar { display: flex; align-items: center; gap: 10px; padding: 4px 6px 10px; font-size: 11px; color: #9a9da8; }
+.a-bar i { width: 7px; height: 7px; border-radius: 50%; background: #3a3c46; }
+.a-bar i:first-child { background: var(--signal); }
+.a-bar span { margin-left: 6px; }
+.a-bar b { margin-left: auto; font-weight: 400; color: #fff; background: var(--signal); padding: 1px 6px; border-radius: 3px; }
+.a-photo { aspect-ratio: 1 / 1.05; border-radius: 10px; overflow: hidden; position: relative; }
+.a-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 55%, #16171dcc); }
+.a-photo .a-name { position: absolute; left: 14px; bottom: 12px; z-index: 1; font: 700 22px 'Space Grotesk', Arial, sans-serif; letter-spacing: -.02em; }
+.a-body { padding: 14px 6px 6px; font-size: 11.5px; color: #9a9da8; }
+.a-row { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px dashed #ffffff1a; }
+.a-row span:last-child { color: #f4f4f1; }
+.a-bars { display: flex; gap: 3px; align-items: end; height: 34px; margin-top: 12px; }
+.a-bars i { flex: 1; background: var(--signal); border-radius: 1px; opacity: .85; transition: height .6s cubic-bezier(.2,.75,.25,1); }
+
+/* B: ASCII lens */
+.b-card { width: 300px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 10px; box-shadow: 0 30px 60px -32px #16171d59; }
+.b-photo { position: relative; aspect-ratio: 1321 / 1600; border-radius: 10px; overflow: hidden; cursor: crosshair; }
+.b-photo canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.b-foot { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 6px 4px; font: 11px var(--mono); color: var(--muted); }
+.b-foot strong { font: 700 18px 'Space Grotesk', Arial, sans-serif; letter-spacing: -.02em; color: var(--ink); }
+
+/* C: Ranked stack */
+.c-wrap { position: relative; width: 290px; height: 420px; perspective: 1100px; }
+.c-card { position: absolute; inset: 0; border-radius: 16px; background: #fff; border: 1px solid var(--line); transition: transform .6s cubic-bezier(.2,.75,.25,1), opacity .6s; font-family: var(--mono); }
+.c-ghost { display: flex; flex-direction: column; justify-content: flex-start; padding: 14px 16px; font-size: 11px; color: var(--muted); }
+.c-ghost b { font-weight: 400; color: var(--ink); }
+.c-ghost.g2 { transform: translate(18px, -16px) rotate(4deg); opacity: .65; }
+.c-ghost.g3 { transform: translate(34px, -30px) rotate(8deg); opacity: .35; }
+.c-wrap:hover .c-ghost.g2 { transform: translate(70px, -24px) rotate(9deg); }
+.c-wrap:hover .c-ghost.g3 { transform: translate(128px, -38px) rotate(16deg); }
+.c-main { overflow: hidden; box-shadow: 0 40px 70px -36px #16171d80; transform-style: preserve-3d; }
+.c-main img { position: absolute; inset: 0; }
+.c-main::after { content: ''; position: absolute; inset: 0; background: linear-gradient(#16171d00 50%, #16171dd9); }
+.c-rank { position: absolute; top: 14px; left: 16px; z-index: 1; font-size: 11px; letter-spacing: .14em; color: var(--ink); background: #ffffffd9; padding: 4px 8px; border-radius: 6px; }
+.c-score { position: absolute; top: 14px; right: 16px; z-index: 1; font-size: 11px; color: #fff; background: var(--signal); padding: 4px 8px; border-radius: 6px; }
+.c-info { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 1; color: #fff; }
+.c-info strong { display: block; font: 700 26px 'Space Grotesk', Arial, sans-serif; letter-spacing: -.03em; }
+.c-info span { font-size: 11px; color: #ffffffb3; }
+.c-glare { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), #ffffff40, transparent 45%); opacity: 0; transition: opacity .3s; }
+.c-wrap:hover .c-glare { opacity: 1; }
+
+/* D: Embedding inspector */
+.d-wrap { position: relative; display: grid; grid-template-columns: 26px 250px 44px; grid-template-rows: 26px auto 46px; font-family: var(--mono); }
+.d-ruler-x { grid-column: 2; display: flex; justify-content: space-between; align-items: end; font-size: 9px; color: var(--muted); border-bottom: 1px solid var(--ink); padding-bottom: 3px; background: repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 12.5px) bottom / 100% 5px no-repeat; }
+.d-ruler-y { grid-row: 2; display: flex; flex-direction: column; justify-content: space-between; align-items: end; font-size: 9px; color: var(--muted); border-right: 1px solid var(--ink); padding-right: 4px; background: repeating-linear-gradient(var(--ink) 0 1px, transparent 1px 12.5px) right / 5px 100% no-repeat; }
+.d-photo { grid-column: 2; grid-row: 2; position: relative; aspect-ratio: 1321 / 1600; overflow: hidden; }
+.d-photo::before, .d-photo::after { content: ''; position: absolute; z-index: 1; background: var(--signal); opacity: 0; transition: opacity .2s; pointer-events: none; }
+.d-photo::before { left: 0; right: 0; height: 1px; top: var(--py, 50%); }
+.d-photo::after { top: 0; bottom: 0; width: 1px; left: var(--px, 50%); }
+.d-photo:hover::before, .d-photo:hover::after { opacity: .8; }
+.d-tag { position: absolute; z-index: 2; left: 10px; top: 10px; font-size: 10.5px; color: #fff; background: var(--signal); padding: 3px 7px; }
+.d-read { position: absolute; z-index: 2; right: 8px; bottom: 8px; font-size: 10px; color: var(--ink); background: #ffffffd9; padding: 3px 6px; }
+.d-dims { grid-column: 3; grid-row: 2; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; padding-left: 8px; align-content: start; }
+.d-dims i { height: 9px; background: var(--signal); }
+.d-foot { grid-column: 2 / 4; grid-row: 3; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); }
+.d-foot strong { font: 700 18px 'Space Grotesk', Arial, sans-serif; color: var(--ink); letter-spacing: -.02em; }
+
+/* E: Editorial minimal */
+.e-card { width: 300px; }
+.e-photo { aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; box-shadow: 0 40px 70px -40px #16171d8c; position: relative; }
+.e-photo img { transition: transform 1.2s cubic-bezier(.2,.75,.25,1); }
+.e-card:hover .e-photo img { transform: scale(1.05); }
+.e-photo::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px #16171d14; }
+.e-text { padding: 18px 4px 0; }
+.e-text strong { display: block; font: 700 28px/1 'Space Grotesk', Arial, sans-serif; letter-spacing: -.035em; }
+.e-text em { font: italic 400 20px 'Instrument Serif', Georgia, serif; color: var(--signal); }
+.e-line { display: flex; justify-content: space-between; margin-top: 14px; font: 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.e-meter { height: 2px; background: var(--line); margin-top: 8px; overflow: hidden; }
+.e-meter i { display: block; height: 100%; width: 0; background: var(--signal); transition: width 1.4s cubic-bezier(.2,.75,.25,1); }
+.e-card:hover .e-meter i, .e-meter.on i { width: 99.1%; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Temporary · temporary/image-card</p>
+  <h1>Pick a portrait <em>card.</em></h1>
+  <p>Five directions for the hero's image card, each shown on the hero's grid and palette. Hover over each one, since most of them react to the cursor. Tell me the letter you like, or mix parts from different options.</p>
+</header>
+<main>
+  <section class="option">
+    <div class="stage">
+      <div class="a-card">
+        <div class="a-bar"><i></i><i></i><i></i><span>retrieve --top 1</span><b>0.991</b></div>
+        <div class="a-photo"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" /><span class="a-name">farzaan.ali</span></div>
+        <div class="a-body">
+          <div class="a-row"><span>role</span><span>AI & Software Engineer</span></div>
+          <div class="a-row"><span>region</span><span>Hyderabad, India</span></div>
+          <div class="a-bars" id="a-bars"></div>
+        </div>
+      </div>
+    </div>
+    <div class="meta"><h2><b>A</b> Ink terminal</h2><p>A dark card set against the light hero. It stands out the most and reads like a query result in a terminal.</p><p class="try">Hover: lifts, and the vector bars resample</p></div>
+  </section>
+
+  <section class="option">
+    <div class="stage">
+      <div class="b-card">
+        <div class="b-photo" id="b-photo"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" /><canvas id="b-canvas"></canvas></div>
+        <div class="b-foot"><strong>farzaan.ali</strong><span>embedded · 0.991</span></div>
+      </div>
+    </div>
+    <div class="meta"><h2><b>B</b> ASCII lens</h2><p>The photo dissolves into the hero's ASCII grid at the bottom. Moving the cursor over it shows the portrait as an embedding. This one ties in most closely with the hero.</p><p class="try">Hover: move across the photo</p></div>
+  </section>
+
+  <section class="option">
+    <div class="stage">
+      <div class="c-wrap" id="c-wrap">
+        <div class="c-card c-ghost g3"><span>#03 · <b>retrieval.rag</b></span><span>cos 0.861</span></div>
+        <div class="c-card c-ghost g2"><span>#02 · <b>voice.agents</b></span><span>cos 0.874</span></div>
+        <div class="c-card c-main" id="c-main">
+          <img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" />
+          <span class="c-rank">#01 · TOP RESULT</span><span class="c-score">0.991</span>
+          <div class="c-info"><strong>farzaan.ali</strong><span>AI & Software Engineer · Hyderabad</span></div>
+          <div class="c-glare"></div>
+        </div>
+      </div>
+    </div>
+    <div class="meta"><h2><b>C</b> Ranked stack</h2><p>You're shown as result #1, with the next results stacked behind you. The full-bleed photo has 3D tilt and a glare effect, so it has the most depth.</p><p class="try">Hover: tilts toward the cursor and the stack fans out</p></div>
+  </section>
+
+  <section class="option">
+    <div class="stage">
+      <div class="d-wrap">
+        <div></div>
+        <div class="d-ruler-x"><span>0</span><span>256</span><span>512</span><span>768</span></div>
+        <div></div>
+        <div class="d-ruler-y"><span>0</span><span>.25</span><span>.50</span><span>.75</span><span>1</span></div>
+        <div class="d-photo" id="d-photo"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" /><span class="d-tag">farzaan.ali · 1536-d</span><span class="d-read" id="d-read">x 0.50 · y 0.50</span></div>
+        <div class="d-dims" id="d-dims"></div>
+        <div class="d-foot"><strong>farzaan.ali</strong><span>Hyderabad · cos 0.991</span></div>
+      </div>
+    </div>
+    <div class="meta"><h2><b>D</b> Embedding inspector</h2><p>The photo sits in a precise tool-like frame: rulers, crosshairs, a live coordinate readout, and a strip of embedding dimensions. It feels technical but stays clean.</p><p class="try">Hover: crosshair tracks the cursor, dimensions react</p></div>
+  </section>
+
+  <section class="option">
+    <div class="stage">
+      <div class="e-card">
+        <div class="e-photo"><img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" /></div>
+        <div class="e-text"><strong>Farzaan Ali</strong><em>AI & software engineer</em>
+          <div class="e-line"><span>Result 01</span><span>cos 0.991</span></div>
+          <div class="e-meter"><i></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="meta"><h2><b>E</b> Editorial minimal</h2><p>No frame at all: a large rounded photo with a soft shadow, the name in the display font, and a thin blue similarity meter. It's the calmest and most "professional" option, and leaves the hero's field to do the talking.</p><p class="try">Hover: slow zoom, the meter fills</p></div>
+  </section>
+</main>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// A: vector bars that resample on hover.
+const bars = document.getElementById('a-bars');
+for (let i = 0; i < 28; i++) bars.appendChild(document.createElement('i'));
+const resample = () => [...bars.children].forEach(b => { b.style.height = `${18 + Math.random() * 82}%`; });
+resample();
+let barTimer;
+document.querySelector('.a-card').addEventListener('pointerenter', () => { resample(); if (!reduce) barTimer = setInterval(resample, 700); });
+document.querySelector('.a-card').addEventListener('pointerleave', () => clearInterval(barTimer));
+
+// B: the portrait rendered as ASCII; a fixed band at the bottom plus a lens under the cursor.
+(() => {
+  const host = document.getElementById('b-photo'), canvas = document.getElementById('b-canvas'), ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.src = '/media/farzaan-portrait.webp';
+  const ramp = '@%#8XSs*+=-:. ';
+  let cells = [], cols = 0, rows = 0, size = 7, w = 0, h = 0, lens = null, raf = 0;
+  const build = () => {
+    const box = host.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    w = box.width; h = box.height;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(w / size); rows = Math.ceil(h / size);
+    const off = document.createElement('canvas'); off.width = cols; off.height = rows;
+    const o = off.getContext('2d');
+    // Match object-fit: cover with the photo's 12% vertical focus.
+    const scale = Math.max(cols / img.width, rows / img.height), dw = img.width * scale, dh = img.height * scale;
+    o.drawImage(img, (cols - dw) / 2, (rows - dh) * .12, dw, dh);
+    const data = o.getImageData(0, 0, cols, rows).data;
+    cells = [];
+    for (let i = 0; i < cols * rows; i++) {
+      const lum = (data[i * 4] * .3 + data[i * 4 + 1] * .59 + data[i * 4 + 2] * .11) / 255;
+      cells.push(lum);
+    }
+    draw();
+  };
+  const draw = () => {
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = `${size + 1}px ui-monospace, Menlo, monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const band = rows * .74;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const x = c * size + size / 2, y = r * size + size / 2;
+      // Binary dither: each cell is either photo or ASCII, so the transition reads as dissolving, not as a grey wash.
+      const noise = Math.abs(Math.sin(c * 12.9898 + r * 78.233) * 43758.5453) % 1;
+      let on = r > band && noise < (r - band) / (rows - band) * 1.35 ? 1 : 0;
+      if (lens) { const d = Math.hypot(x - lens.x, y - lens.y); if (noise < 1 - (d - 45) / 40) on = 1; }
+      if (!on) continue;
+      const lum = cells[r * cols + c], glyph = ramp[Math.min(ramp.length - 1, Math.floor(lum * ramp.length))];
+      ctx.fillStyle = `rgba(250,250,248,${on})`;
+      ctx.fillRect(c * size, r * size, size, size);
+      const nearLens = lens && Math.hypot(x - lens.x, y - lens.y) < 24;
+      ctx.fillStyle = nearLens ? `rgba(47,84,235,${on})` : `rgba(22,23,29,${on * (1.05 - lum * .7)})`;
+      ctx.fillText(glyph, x, y + .5);
+    }
+  };
+  img.onload = build;
+  new ResizeObserver(() => img.complete && build()).observe(host);
+  host.addEventListener('pointermove', e => { const b = host.getBoundingClientRect(); lens = { x: e.clientX - b.left, y: e.clientY - b.top }; cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); });
+  host.addEventListener('pointerleave', () => { lens = null; draw(); });
+})();
+
+// C: 3D tilt with a moving glare.
+(() => {
+  const wrap = document.getElementById('c-wrap'), card = document.getElementById('c-main');
+  wrap.addEventListener('pointermove', e => {
+    if (reduce) return;
+    const b = wrap.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+    card.style.transform = `rotateY(${(x - .5) * 16}deg) rotateX(${(.5 - y) * 12}deg) translateZ(10px)`;
+    card.style.setProperty('--gx', `${x * 100}%`); card.style.setProperty('--gy', `${y * 100}%`);
+  });
+  wrap.addEventListener('pointerleave', () => { card.style.transform = ''; });
+})();
+
+// D: crosshair, coordinate readout and a dimension strip that responds to the cursor.
+(() => {
+  const photo = document.getElementById('d-photo'), read = document.getElementById('d-read'), dims = document.getElementById('d-dims');
+  const seeds = Array.from({ length: 48 }, (_, i) => Math.sin(i * 12.9898) * 43758.5453 % 1);
+  seeds.forEach(() => dims.appendChild(document.createElement('i')));
+  const paint = (x, y) => [...dims.children].forEach((cell, i) => { const v = Math.abs(Math.sin(seeds[i] * 40 + x * 6 + y * 4 + i)); cell.style.opacity = (.12 + v * .88).toFixed(2); });
+  paint(.5, .5);
+  photo.addEventListener('pointermove', e => {
+    const b = photo.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+    photo.style.setProperty('--px', `${x * 100}%`); photo.style.setProperty('--py', `${y * 100}%`);
+    read.textContent = `x ${x.toFixed(2)} · y ${y.toFixed(2)}`;
+    paint(x, y);
+  });
+})();
+
+// E: on touch screens, fill the meter once it scrolls into view.
+new IntersectionObserver(([entry]) => { if (entry.isIntersecting && matchMedia('(hover: none)').matches) entry.target.classList.add('on'); }).observe(document.querySelector('.e-meter'));
+</script>
+</body>
+</html>
