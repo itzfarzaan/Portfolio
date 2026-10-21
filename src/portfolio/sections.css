@@ -636,6 +636,44 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-bottom: 40px;
 }
+/* On phones the View all tile is a slim bar: the cycling project shrinks to one line above the title. */
+@media(max-width:600px) {
+  .tile-all {
+    padding: 14px 60px 16px 18px;
+  }
+  .tile-cycle {
+    aspect-ratio: auto;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 0 0 8px;
+    padding: 0 0 6px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+  .tile-cycle-item b {
+    font: 11px var(--mono);
+    letter-spacing: .04em;
+    color: #8ea4ff;
+  }
+  .tile-cycle-item span {
+    display: none;
+  }
+  .tile-cycle-bar {
+    height: 1px;
+  }
+  .tile-all strong {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .tile-all .tile-arrow {
+    right: 20px;
+    bottom: auto;
+    top: calc(50% - 14px);
+  }
+}
 
 /* Journey and writing keep their content; only the palette changes. */
 .journey-section {
