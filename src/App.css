@@ -70,7 +70,7 @@ em {
   color: var(--inverse);
 }
 .home section[id] {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 64px;
 }
 .section-heading {
   display: flex;
@@ -403,7 +403,7 @@ main:focus {
     font-size: 12px;
   }
   .home section[id] {
-    scroll-margin-top: 115px;
+    scroll-margin-top: 52px;
   }
   .section-heading {
     align-items: flex-start;

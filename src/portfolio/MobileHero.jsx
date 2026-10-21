@@ -13,9 +13,9 @@ function PortraitScan() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let lum = null, cols = 0, rows = 0, width = 0, height = 0, raf = 0, timer = 0, start = 0, visible = true, disposed = false;
     const image = new Image();
-    image.src = '/media/farzaan-portrait.webp';
+    image.src = '/media/farzaan-portrait-casual.webp';
 
-    // Sample the portrait once into a small luminance grid that matches object-fit: cover.
+    // Sample the portrait once into a small luminance grid that matches object-fit: cover, anchored to the top.
     const measure = () => {
       const box = frame.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = box.width;
@@ -30,7 +30,7 @@ function PortraitScan() {
       off.height = rows;
       const o = off.getContext('2d', { willReadFrequently: true });
       const scale = Math.max(cols / image.width, rows / image.height), dw = image.width * scale, dh = image.height * scale;
-      o.drawImage(image, (cols - dw) / 2, (rows - dh) * .12, dw, dh);
+      o.drawImage(image, (cols - dw) / 2, 0, dw, dh);
       const data = o.getImageData(0, 0, cols, rows).data;
       lum = new Float32Array(cols * rows);
       for (let i = 0; i < lum.length; i++) lum[i] = (data[i * 4] * .3 + data[i * 4 + 1] * .59 + data[i * 4 + 2] * .11) / 255;
@@ -93,7 +93,7 @@ function PortraitScan() {
     };
   }, []);
   return <div className="m-portrait" ref={frameRef}>
-    <img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" width="1321" height="1600" fetchPriority="high" />
+    <img src="/media/farzaan-portrait-casual.webp" alt="Mohammed Farzaan Ali" width="1200" height="1363" fetchPriority="high" />
     <canvas ref={canvasRef} aria-hidden="true" />
     <span className="m-scanline" ref={lineRef} aria-hidden="true" />
     <span className="m-chip" aria-hidden="true">farzaan.ali <b>0.991</b></span>

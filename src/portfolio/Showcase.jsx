@@ -45,7 +45,7 @@ function DesktopHero() {
           <div className="rank-card rank-ghost rank-ghost-3" aria-hidden="true"><span>#03 · <b>retrieval.rag</b></span><span>cos 0.861</span></div>
           <div className="rank-card rank-ghost rank-ghost-2" aria-hidden="true"><span>#02 · <b>voice.agents</b></span><span>cos 0.874</span></div>
           <figure className="rank-card rank-main" ref={card}>
-            <img src="/media/farzaan-portrait.webp" alt="Mohammed Farzaan Ali" width="1321" height="1600" fetchPriority="high" />
+            <img src="/media/farzaan-portrait-casual.webp" alt="Mohammed Farzaan Ali" width="1200" height="1363" fetchPriority="high" />
             <span className="rank-label" aria-hidden="true">#01 · Top result</span>
             <span className="rank-score" aria-hidden="true">0.991</span>
             <figcaption className="rank-info"><strong>farzaan.ali</strong><span>AI & Software Engineer · Hyderabad</span></figcaption>
