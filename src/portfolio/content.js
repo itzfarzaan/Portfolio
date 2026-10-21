@@ -462,17 +462,28 @@ export const experience = [{
 // The journey as stops along one curved line, grouped into eras that the line wraps around.
 // `metric` is an optional big number; photos live in public/media/journey and open as a collage.
 export const journey = [{
-  id: 'jeddah', era: '2022', when: 'Early years', title: 'International Indian School Jeddah',
-  text: 'Where it started: school in Jeddah, Saudi Arabia, through to middle school.'
+  id: 'jeddah', era: '2022', when: 'Grade I – VII', title: 'International Indian School Jeddah',
+  text: 'Grade I to VII in Jeddah, Saudi Arabia, where the curiosity for learning first took shape.',
+  photos: [
+    { src: '/media/journey/pica-1.webp', width: 1400, height: 943, alt: 'Class photo at International Indian School Jeddah, with everyone except Farzaan blurred' },
+    { src: '/media/journey/pica-2.webp', width: 1098, height: 716, alt: 'Sports meet podium at International Indian School Jeddah, with everyone except Farzaan blurred' }
+  ]
 }, {
-  id: 'school', era: '2022', when: '2022', title: 'AMS P. Obul Reddy Public School',
-  text: 'Finished school in Hyderabad with Mathematics, Physics, Chemistry, and Biology.'
+  id: 'scholars', era: '2022', when: 'Grade VIII – X', metric: '93.6%', metricLabel: 'CBSE Grade X', title: 'Scholars International School',
+  text: 'Achieved rank 2 at Scholars International School, Hyderabad, in the CBSE Grade X board exams, scoring 468 out of 500.',
+  photos: [
+    { src: '/media/journey/picb-1.webp', width: 768, height: 1024, alt: 'Farzaan beside the Scholars International School toppers board, with other students blurred' },
+    { src: '/media/journey/picb-2.webp', width: 1024, height: 768, alt: 'Scholars International School toppers board, with every photo except Farzaan’s blurred' }
+  ]
+}, {
+  id: 'school', era: '2022', when: 'Grade XI – XII', title: 'AMS P. Obul Reddy Public School',
+  text: 'Mathematics, Physics, Chemistry, and Biology in Hyderabad, the foundation for engineering.'
 }, {
   id: 'osmania', era: '2022', when: '2022', title: 'Joined MJCET, Osmania University',
-  text: 'Began a B.E. in Computer Science & Engineering, specialising in AI & ML.'
+  text: 'Began a B.E. in Computer Science and Engineering at MJCET, specialising in Artificial Intelligence and Machine Learning.'
 }, {
   id: 'award-2023', era: '2023', when: '2023', metric: '9.3', metricLabel: 'SGPA', title: 'Certificate of Appreciation',
-  text: 'Recognised by the CS & AI department for academic excellence in the second semester.',
+  text: 'Awarded by the CS & AI department for academic excellence in the second semester of engineering.',
   photos: [
     { src: '/media/journey/photoa-1.webp', width: 1400, height: 1054, alt: 'Farzaan receiving the academic excellence certificate on stage at MJCET' },
     { src: '/media/journey/photoa-2.webp', width: 1400, height: 995, alt: 'Certificate of Appreciation for Academic Excellence from MJCET' }
@@ -484,32 +495,23 @@ export const journey = [{
     { src: '/media/journey/photod-1.webp', width: 975, height: 1300, alt: 'Farzaan working on a laptop at an IEEE event' }
   ]
 }, {
-  id: 'cis', era: '2023', when: '2023', metric: '800+', metricLabel: 'students reached', title: 'Technical Team, IEEE CIS',
+  id: 'cis', era: '2024', when: '2024', metric: '800+', metricLabel: 'students reached', title: 'Technical Team, IEEE CIS',
   text: 'Helped lead workshops introducing students to emerging technologies.'
 }, {
   id: 'award-2024', era: '2024', when: '2024', metric: '8.8', metricLabel: 'SGPA', title: 'Certificate of Academic Excellence',
-  text: 'Recognised again by the department, this time for the third semester.',
+  text: 'A second departmental award for academic excellence, this time for the third semester.',
   photos: [
     { src: '/media/journey/photob-1.webp', width: 1400, height: 786, alt: 'Farzaan with faculty at the MJCET certificate ceremony' },
     { src: '/media/journey/photob-2.webp', width: 1222, height: 829, alt: 'Certificate of Academic Excellence from MJCET' }
   ]
 }, {
-  id: 'smc', era: '2024', when: '2024', title: 'R&D Team, IEEE SMC',
+  id: 'smc', era: '2025', when: '2025', title: 'R&D Team, IEEE SMC',
   text: 'Led AI-based projects and earned a place in a month-long AI prototyping program.'
 }, {
   id: 'graduation', era: '2026', when: '2026', metric: '9th', metricLabel: 'of 466', title: 'Graduated with a merit rank',
-  text: 'Osmania University merit list for B.E. CSE (AI & ML), with a CGPA of 8.98 and 85.58% overall.',
+  text: 'Ranked 9th of 466 on the Osmania University merit list for B.E. Computer Science and Engineering (Artificial Intelligence and Machine Learning), with a CGPA of 8.98 and 85.58% overall.',
   photos: [
     { src: '/media/journey/photoc-1.webp', width: 1010, height: 1280, alt: 'MJCET poster congratulating the Osmania University merit rank holders' },
     { src: '/media/journey/photoc-2.webp', width: 834, height: 1280, alt: 'Osmania University merit list, with other students blurred and Farzaan ranked ninth' }
   ]
-}, {
-  id: 'artmac', era: '2026', when: '2024 – 2025', title: 'Machine Learning Intern, Artmac Soft',
-  text: 'Plant disease detection in PyTorch, reaching 88.35% accuracy.'
-}, {
-  id: 'creative-analytica', era: '2026', when: '2025 – now', title: 'Software Engineer, Creative Analytica',
-  text: 'Leading the development of AqaarPro, a property management platform.'
-}, {
-  id: 'linkiat', era: '2026', when: '2026 – now', title: 'AI Engineer, Linkiat',
-  text: 'Building production AI: agents, retrieval, and workflow automation.'
 }];
