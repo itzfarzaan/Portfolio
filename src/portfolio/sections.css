@@ -1017,3 +1017,17 @@
     animation: none;
   }
 }
+
+/* Section titles that load in through a sweeping band of ASCII (AsciiTitle.jsx). */
+.ascii-title {
+  position: relative;
+}
+.ascii-title.is-waiting > span {
+  color: transparent;
+}
+.ascii-title-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}

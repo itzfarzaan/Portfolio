@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { experience, projects } from './content';
+import AsciiTitle from './AsciiTitle';
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 const domain = url => url?.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
 function SectionHeader({ id, title, meta }) {
   return <header className="section-head">
-    <h2 id={id}>{title}</h2>
+    <AsciiTitle id={id}>{title}</AsciiTitle>
     <span className="section-leader" aria-hidden="true" />
     <span className="section-meta">{meta}</span>
   </header>;
