@@ -134,6 +134,11 @@
   transition: -webkit-text-stroke-color .7s, color .7s, transform .9s var(--ease);
   transform: translateY(16px);
 }
+/* "–2022" (everything before 2022) is a touch smaller so it fits the column on one line. */
+.jv-year.is-range span {
+  white-space: nowrap;
+  font-size: clamp(100px, 12.6vw, 188px);
+}
 .jv-era.is-on .jv-year span {
   color: color-mix(in srgb, var(--color-signal) 7%, transparent);
   -webkit-text-stroke-color: color-mix(in srgb, var(--color-signal) 60%, transparent);
@@ -461,6 +466,9 @@
   }
   .jv-year span {
     font-size: 92px;
+  }
+  .jv-year.is-range span {
+    font-size: 80px;
   }
   .jv-stop, .jv-era.is-left .jv-stop {
     padding: 0 0 48px 44px;

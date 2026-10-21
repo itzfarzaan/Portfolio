@@ -462,14 +462,14 @@ export const experience = [{
 // The journey as stops along one curved line, grouped into eras that the line wraps around.
 // `metric` is an optional big number; photos live in public/media/journey and open as a collage.
 export const journey = [{
-  id: 'jeddah', era: '2022', when: 'Grade I – VII', title: 'International Indian School Jeddah',
+  id: 'jeddah', era: '–2022', when: 'Grade I – VII', title: 'International Indian School Jeddah',
   text: 'Grade I to VII in Jeddah, Saudi Arabia, where the curiosity for learning first took shape.',
   photos: [
     { src: '/media/journey/pica-1.webp', width: 1400, height: 943, alt: 'Class photo at International Indian School Jeddah, with everyone except Farzaan blurred' },
     { src: '/media/journey/pica-2.webp', width: 1098, height: 716, alt: 'Sports meet podium at International Indian School Jeddah, with everyone except Farzaan blurred' }
   ]
 }, {
-  id: 'scholars', era: '2022', when: 'Grade VIII – X', metric: '93.6%', metricLabel: 'CBSE Grade X', title: 'Scholars International School',
+  id: 'scholars', era: '–2022', when: 'Grade VIII – X', metric: '93.6%', metricLabel: 'CBSE Grade X', title: 'Scholars International School',
   text: 'Achieved rank 2 at Scholars International School, Hyderabad, in the CBSE Grade X board exams, scoring 468 out of 500.',
   photos: [
     { src: '/media/journey/picb-1.webp', width: 768, height: 1024, alt: 'Farzaan beside the Scholars International School toppers board, with other students blurred' },

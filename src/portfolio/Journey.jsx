@@ -158,7 +158,7 @@ export default function Journey() {
       </svg>}
       <span className="jv-head is-hidden" ref={head} aria-hidden="true" />
       {eras.map((era, e) => <div key={era.label} className={`jv-era ${e % 2 ? 'is-right' : 'is-left'}`}>
-        <div className="jv-year" aria-hidden="true"><span>{era.label}</span></div>
+        <div className={`jv-year${era.label.startsWith('–') ? ' is-range' : ''}`} aria-hidden="true"><span>{era.label}</span></div>
         <ol className="jv-stops">
           {era.stops.map(({ stop, index }) => <li key={stop.id} className="jv-stop">
             <span className="jv-node" data-node aria-hidden="true"><i /></span>
