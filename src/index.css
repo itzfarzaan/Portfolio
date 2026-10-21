@@ -5,6 +5,10 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 24px;
+  /* Never scroll sideways. 100vw and the theme reveal both include a classic scrollbar's width, which
+     would otherwise add a few pixels of horizontal scroll. clip (unlike hidden) keeps sticky working. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 body {
   margin: 0;

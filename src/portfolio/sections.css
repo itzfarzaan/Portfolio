@@ -911,15 +911,20 @@
 .m-hud span {
   margin-left: auto;
 }
+.m-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38%;
+  align-items: center;
+  gap: 18px;
+}
 .m-portrait {
   position: relative;
-  aspect-ratio: 1 / 1;
-  max-height: 42svh;
+  aspect-ratio: 3 / 4;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--color-surface-2);
-  box-shadow: 0 30px 50px -34px color-mix(in srgb, var(--color-shadow) 55%, transparent);
+  box-shadow: 0 24px 40px -28px color-mix(in srgb, var(--color-shadow) 60%, transparent);
 }
 .m-portrait img, .m-portrait canvas {
   position: absolute;
@@ -929,58 +934,31 @@
 }
 .m-portrait img {
   object-fit: cover;
-  object-position: 50% 0%;
-}
-.m-scanline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 2px;
-  background: var(--color-signal);
-  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--color-signal) 60%, transparent);
-  opacity: 0;
-  transition: opacity .3s;
-}
-.m-portrait.is-scanning .m-scanline {
-  opacity: 1;
-}
-.m-chip {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  display: inline-flex;
-  gap: 8px;
-  padding: 5px 9px;
-  border-radius: 7px;
-  background: #ffffffe0;
-  font: 11px var(--mono);
-  color: #16171d;
-}
-.m-chip b {
-  font-weight: 400;
-  color: #fff;
-  background: var(--color-signal);
-  padding: 0 5px;
-  border-radius: 4px;
 }
 .m-eyebrow {
-  margin: 22px 0 8px;
-  font: 11px var(--mono);
-  letter-spacing: .24em;
+  margin: 0 0 8px;
+  font: 10px var(--mono);
+  letter-spacing: .12em;
+  white-space: nowrap;
   text-transform: uppercase;
   color: var(--color-muted);
 }
+@media(max-width:359px) {
+  .m-eyebrow {
+    font-size: 9px;
+    letter-spacing: .04em;
+  }
+}
 .m-hero h1 {
-  font: 700 clamp(48px, 15vw, 64px)/.92 var(--font-display);
+  font: 700 clamp(40px, 12vw, 56px)/.92 var(--font-display);
   letter-spacing: -.05em;
   margin: 0;
 }
 .m-tagline {
-  font: 700 22px/1.2 var(--font-display);
+  font: 700 18px/1.25 var(--font-display);
   letter-spacing: -.03em;
   color: var(--color-ink-soft);
-  margin: 12px 0 20px;
+  margin: 12px 0 0;
 }
 .m-tagline em {
   font-size: 1.16em;
@@ -990,6 +968,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 22px;
 }
 .m-actions a {
   display: inline-flex;

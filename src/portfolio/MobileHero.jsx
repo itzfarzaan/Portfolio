@@ -1,89 +1,83 @@
 import { useEffect, useRef } from 'react';
 import { profile } from './content';
 
-const RAMP = '@%#8XSs*+=-:. ';
-const SWEEP_MS = 2200, REST_MS = 2600, BAND = 90, CELL = 7;
+const SRC = '/media/farzaan-portrait-card.webp';
+const COARSE = 14, FINE = 6, SWEEP_MS = 1900, FIRST_MS = 1400, EVERY_MS = 10000, BAND = .22;
 
-// A blue scan line sweeps down the portrait on its own; the rows it passes briefly turn into ASCII.
-// Between sweeps nothing animates, and the loop stops whenever the portrait is off screen.
-function PortraitScan() {
-  const frameRef = useRef(null), canvasRef = useRef(null), lineRef = useRef(null);
+// The portrait is always sharp. Every 10 seconds a diagonal band sweeps from the top-left corner to the
+// bottom-right, pixelating the photo as it passes (coarse at its centre, finer at its edges, with a blue
+// leading edge) and leaving it clear behind. Nothing runs between sweeps or while it is off screen.
+function PortraitLoad() {
+  const frameRef = useRef(null), canvasRef = useRef(null);
   useEffect(() => {
-    const frame = frameRef.current, canvas = canvasRef.current, line = lineRef.current, ctx = canvas.getContext('2d');
+    const frame = frameRef.current, canvas = canvasRef.current, ctx = canvas.getContext('2d');
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    // Cells take the page colours, so the scan reads correctly in both themes.
-    const css = getComputedStyle(frame), hex = name => css.getPropertyValue(name).trim().replace('#', '');
-    const rgb = (name, fallback) => /^[0-9a-f]{6}$/i.test(hex(name)) ? [0, 2, 4].map(i => parseInt(hex(name).slice(i, i + 2), 16)).join(',') : fallback;
-    const PAPER = rgb('--color-paper', '250,250,248'), INK = rgb('--color-ink', '22,23,29'), SIGNAL = rgb('--color-signal', '47,84,235');
-    let lum = null, cols = 0, rows = 0, width = 0, height = 0, raf = 0, timer = 0, start = 0, visible = true, disposed = false;
+    const hex = getComputedStyle(frame).getPropertyValue('--color-signal').trim().replace('#', '');
+    const SIGNAL = /^[0-9a-f]{6}$/i.test(hex) ? [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16)).join(',') : '47,84,235';
+    let coarse = null, fine = null, width = 0, height = 0, dpr = 1, raf = 0, timer = 0, start = 0, visible = false, disposed = false;
     const image = new Image();
-    image.src = '/media/farzaan-portrait-casual.webp';
+    image.src = SRC;
 
-    // Sample the portrait once into a small luminance grid that matches object-fit: cover, anchored to the top.
+    // Two pixelated copies of the portrait, drawn small and scaled up without smoothing.
+    const mosaic = block => {
+      const small = document.createElement('canvas'), out = document.createElement('canvas');
+      small.width = Math.ceil(width / block);
+      small.height = Math.ceil(height / block);
+      small.getContext('2d').drawImage(image, 0, 0, small.width, small.height);
+      out.width = canvas.width;
+      out.height = canvas.height;
+      const o = out.getContext('2d');
+      o.imageSmoothingEnabled = false;
+      o.drawImage(small, 0, 0, small.width * block * dpr, small.height * block * dpr);
+      return out;
+    };
     const measure = () => {
-      const box = frame.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const box = frame.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = box.width;
       height = box.height;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cols = Math.ceil(width / CELL);
-      rows = Math.ceil(height / CELL);
-      const off = document.createElement('canvas');
-      off.width = cols;
-      off.height = rows;
-      const o = off.getContext('2d', { willReadFrequently: true });
-      const scale = Math.max(cols / image.width, rows / image.height), dw = image.width * scale, dh = image.height * scale;
-      o.drawImage(image, (cols - dw) / 2, 0, dw, dh);
-      const data = o.getImageData(0, 0, cols, rows).data;
-      lum = new Float32Array(cols * rows);
-      for (let i = 0; i < lum.length; i++) lum[i] = (data[i * 4] * .3 + data[i * 4 + 1] * .59 + data[i * 4 + 2] * .11) / 255;
+      coarse = mosaic(COARSE);
+      fine = mosaic(FINE);
     };
-    const draw = y => {
-      ctx.clearRect(0, 0, width, height);
-      ctx.font = `${CELL + 1}px ui-monospace, Menlo, monospace`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const r0 = Math.max(0, Math.floor((y - BAND) / CELL)), r1 = Math.min(rows, Math.ceil(y / CELL));
-      for (let r = r0; r < r1; r++) {
-        // Strongest right behind the line, fading out towards the top of the band.
-        const strength = 1 - (y - r * CELL) / BAND;
-        for (let c = 0; c < cols; c++) {
-          const v = lum[r * cols + c];
-          ctx.fillStyle = `rgba(${PAPER},${(.92 * strength).toFixed(2)})`;
-          ctx.fillRect(c * CELL, r * CELL, CELL, CELL);
-          ctx.fillStyle = strength > .82 ? `rgba(${SIGNAL},${strength.toFixed(2)})` : `rgba(${INK},${(strength * (1.05 - v * .7)).toFixed(2)})`;
-          ctx.fillText(RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))], c * CELL + CELL / 2, r * CELL + CELL / 2 + .5);
+    // p is the band's centre along the diagonal (0 at the top-left corner, 1 at the bottom-right).
+    const draw = p => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const cols = Math.ceil(width / COARSE), rows = Math.ceil(height / COARSE), s = COARSE * dpr;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+        const ahead = ((c + .5) / cols + (r + .5) / rows) / 2 - p;
+        if (Math.abs(ahead) > BAND / 2) continue;
+        ctx.drawImage(Math.abs(ahead) < BAND / 4 ? coarse : fine, c * s, r * s, s, s, c * s, r * s, s, s);
+        if (ahead > BAND * .3) {
+          ctx.fillStyle = `rgba(${SIGNAL},.4)`;
+          ctx.fillRect(c * s, r * s, s, s);
         }
       }
-      line.style.transform = `translateY(${y}px)`;
     };
     const tick = now => {
       const t = Math.min(1, (now - start) / SWEEP_MS), eased = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
-      draw(eased * (height + BAND));
+      draw(eased * (1 + BAND) - BAND / 2);
       if (t < 1) raf = requestAnimationFrame(tick);
       else {
-        ctx.clearRect(0, 0, width, height);
-        frame.classList.remove('is-scanning');
-        timer = setTimeout(sweep, REST_MS);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        timer = setTimeout(sweep, EVERY_MS - SWEEP_MS);
       }
     };
     const sweep = () => {
-      if (disposed || !visible || !lum) return;
-      frame.classList.add('is-scanning');
+      if (disposed || !visible || !coarse) return;
       start = performance.now();
       raf = requestAnimationFrame(tick);
     };
     const stop = () => {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
-      ctx.clearRect(0, 0, width, height);
-      frame.classList.remove('is-scanning');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
     const seen = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       stop();
-      if (visible) timer = setTimeout(sweep, 600);
+      if (visible) timer = setTimeout(sweep, FIRST_MS);
     });
     image.onload = () => {
       if (disposed) return;
@@ -97,20 +91,22 @@ function PortraitScan() {
     };
   }, []);
   return <div className="m-portrait" ref={frameRef}>
-    <img src="/media/farzaan-portrait-casual.webp" alt="Mohammed Farzaan Ali" width="1200" height="1363" fetchPriority="high" />
+    <img src={SRC} alt="Mohammed Farzaan Ali" width="600" height="800" fetchPriority="high" />
     <canvas ref={canvasRef} aria-hidden="true" />
-    <span className="m-scanline" ref={lineRef} aria-hidden="true" />
-    <span className="m-chip" aria-hidden="true">farzaan.ali <b>0.991</b></span>
   </div>;
 }
 
 export default function MobileHero() {
   return <section className="m-hero" aria-labelledby="intro-title">
     <p className="m-hud" aria-hidden="true"><i />Retrieval · live <span>Top result</span></p>
-    <PortraitScan />
-    <p className="m-eyebrow">AI & Software Engineer</p>
-    <h1 id="intro-title">Farzaan Ali</h1>
-    <p className="m-tagline">I build software that <em>understands.</em></p>
+    <div className="m-intro">
+      <div>
+        <p className="m-eyebrow">AI & Software Engineer</p>
+        <h1 id="intro-title">Farzaan<br />Ali</h1>
+        <p className="m-tagline">I build software that <em>understands.</em></p>
+      </div>
+      <PortraitLoad />
+    </div>
     <div className="m-actions">
       <a className="embed-primary" href={profile.resume} download><span aria-hidden="true">↓</span> Resume</a>
       <a className="embed-chip" href={profile.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a>

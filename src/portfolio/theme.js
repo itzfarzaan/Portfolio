@@ -22,12 +22,15 @@ function apply(theme) {
   listeners.forEach(notify => notify());
 }
 
-// Switch themes with a circular reveal that grows from the toggle. Falls back to a short fade where
-// view transitions are unsupported, and to an instant swap for reduced motion.
+// Switch themes with a circular reveal that grows from the toggle. Phones get a short colour fade
+// instead: the reveal snapshots the page, and mobile browsers rescale that snapshot against their
+// toolbars, so the page briefly zooms. The fade is also used where view transitions are unsupported,
+// and reduced motion swaps instantly.
 export function toggleTheme(origin) {
   const next = currentTheme() === 'dark' ? 'light' : 'dark';
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return apply(next);
-  if (!document.startViewTransition) {
+  const touch = window.matchMedia('(max-width: 600px), (pointer: coarse)').matches;
+  if (!document.startViewTransition || touch) {
     root().classList.add('theme-fading');
     apply(next);
     setTimeout(() => root().classList.remove('theme-fading'), 450);
