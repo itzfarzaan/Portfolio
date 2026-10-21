@@ -7,6 +7,7 @@ import CaseStudy from './portfolio/CaseStudy';
 import './portfolio/case-study.css';
 import { About, Experience, ProjectTile, Projects } from './portfolio/Sections';
 import SiteFooter from './portfolio/SiteFooter';
+import ThemeToggle from './portfolio/ThemeToggle';
 import './portfolio/sections.css';
 import './portfolio/accents.css';
 const Login = lazy(() => import('./Login'));
@@ -56,6 +57,7 @@ function Header() {
       <Link to="/#experience">Experience</Link>
       <a href={profile.blog}>Blog <Arrow /></a>
       <a href={profile.resume} target="_blank" rel="noreferrer">Resume <Arrow /></a>
+      <ThemeToggle />
     </nav>
   </header>;
 }

@@ -11,6 +11,10 @@ function PortraitScan() {
   useEffect(() => {
     const frame = frameRef.current, canvas = canvasRef.current, line = lineRef.current, ctx = canvas.getContext('2d');
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Cells take the page colours, so the scan reads correctly in both themes.
+    const css = getComputedStyle(frame), hex = name => css.getPropertyValue(name).trim().replace('#', '');
+    const rgb = (name, fallback) => /^[0-9a-f]{6}$/i.test(hex(name)) ? [0, 2, 4].map(i => parseInt(hex(name).slice(i, i + 2), 16)).join(',') : fallback;
+    const PAPER = rgb('--color-paper', '250,250,248'), INK = rgb('--color-ink', '22,23,29'), SIGNAL = rgb('--color-signal', '47,84,235');
     let lum = null, cols = 0, rows = 0, width = 0, height = 0, raf = 0, timer = 0, start = 0, visible = true, disposed = false;
     const image = new Image();
     image.src = '/media/farzaan-portrait-casual.webp';
@@ -46,9 +50,9 @@ function PortraitScan() {
         const strength = 1 - (y - r * CELL) / BAND;
         for (let c = 0; c < cols; c++) {
           const v = lum[r * cols + c];
-          ctx.fillStyle = `rgba(250,250,248,${(.92 * strength).toFixed(2)})`;
+          ctx.fillStyle = `rgba(${PAPER},${(.92 * strength).toFixed(2)})`;
           ctx.fillRect(c * CELL, r * CELL, CELL, CELL);
-          ctx.fillStyle = strength > .82 ? `rgba(47,84,235,${strength.toFixed(2)})` : `rgba(22,23,29,${(strength * (1.05 - v * .7)).toFixed(2)})`;
+          ctx.fillStyle = strength > .82 ? `rgba(${SIGNAL},${strength.toFixed(2)})` : `rgba(${INK},${(strength * (1.05 - v * .7)).toFixed(2)})`;
           ctx.fillText(RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))], c * CELL + CELL / 2, r * CELL + CELL / 2 + .5);
         }
       }

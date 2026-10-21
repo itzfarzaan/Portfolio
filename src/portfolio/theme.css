@@ -28,7 +28,14 @@
   --color-signal: #2f54eb;
   --color-paper: #fafaf8;
   --color-line: #16171d1a;
+  --color-surface: #ffffff;
+  --color-surface-2: #f6f6f4;
+  --color-tint: #eef0f6;
+  --color-tint-2: #e3e8fb;
+  --color-panel: #16171d;
+  --color-shadow: #16171d;
   --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  color-scheme: light;
   /* Earlier palette, still used by sections that have not been redesigned yet. */
   --paper: #fafaf8;
   --portrait-shadow: 0 18px 40px #30263b26;
@@ -54,4 +61,102 @@
   --font-mono: 'SFMono-Regular', Consolas, monospace;
   --page-width: 1200px;
   --ease: cubic-bezier(.2,.75,.25,1);
+}
+/* Dark theme: set by the toggle in the header (data-theme on <html>). Panels that are dark in light mode stay dark. */
+:root[data-theme="dark"] {
+  --color-ink: #ececea;
+  --color-ink-soft: #c4c6ce;
+  --color-muted: #8d909c;
+  --color-signal: #6684ff;
+  --color-paper: #0e0f13;
+  --color-line: #ffffff1a;
+  --color-surface: #16171d;
+  --color-surface-2: #1c1e25;
+  --color-tint: #141725;
+  --color-tint-2: #1a2040;
+  --color-panel: #1a1c23;
+  --color-shadow: #000000;
+  color-scheme: dark;
+  --paper: #0e0f13;
+  --ink: #ececea;
+  --muted: #8d909c;
+  --line: #ffffff1a;
+  --inverse: #0e0f13;
+  --accent: #6684ff;
+}
+
+/* Theme toggle in the header and the reveal that plays when it is clicked. */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: border-color .25s, color .25s;
+}
+.theme-toggle:hover {
+  border-color: var(--color-signal);
+  color: var(--color-signal);
+}
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  overflow: visible;
+}
+.theme-disc {
+  fill: currentColor;
+  transform-origin: 12px 12px;
+  transition: transform .5s var(--ease);
+}
+.theme-bite {
+  transition: cx .5s var(--ease), cy .5s var(--ease);
+}
+.theme-rays {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  transform-origin: 12px 12px;
+  transition: opacity .3s, transform .5s var(--ease);
+}
+.theme-toggle.is-dark .theme-disc {
+  transform: scale(1.55);
+}
+.theme-toggle.is-dark .theme-bite {
+  cx: 16;
+  cy: 8;
+}
+.theme-toggle.is-dark .theme-rays {
+  opacity: 0;
+  transform: rotate(-90deg) scale(.5);
+}
+.theme-toggle.is-switching svg {
+  animation: theme-spin .55s var(--ease);
+}
+@keyframes theme-spin {
+  40% { transform: rotate(-35deg) scale(.82); }
+  100% { transform: rotate(0) scale(1); }
+}
+::view-transition-old(root), ::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: theme-reveal .7s cubic-bezier(.65, 0, .25, 1);
+}
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--reveal-x, 100%) var(--reveal-y, 0)); }
+  to { clip-path: circle(var(--reveal-r, 150vmax) at var(--reveal-x, 100%) var(--reveal-y, 0)); }
+}
+.theme-fading, .theme-fading * {
+  transition: background-color .4s, color .4s, border-color .4s !important;
+}
+@media(prefers-reduced-motion:reduce) {
+  .theme-toggle.is-switching svg {
+    animation: none;
+  }
 }

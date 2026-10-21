@@ -20,6 +20,7 @@ const CAMERA = 3.6;
 const NAME_LABEL = 'farzaan.ali';
 const SCRAMBLE = '!<>-_/[]{}=+*^?#%&$01';
 let INK = [22, 23, 29];
+let PAPER = [250, 250, 248];
 // Reads a hex colour token from theme.css so the canvas follows the standard palette.
 const token = (element, name, fallback) => {
   const hex = getComputedStyle(element).getPropertyValue(name).trim().replace('#', '');
@@ -76,6 +77,13 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
     const overlay = overlayRef.current, fx = overlay.getContext('2d');
     SIGNAL = token(host, '--color-signal', SIGNAL);
     INK = token(host, '--color-ink', INK);
+    PAPER = token(host, '--color-paper', PAPER);
+    // In the dark theme the ink is light, so cluster tones are lifted to stay visible on the dark paper.
+    const dark = INK[0] + INK[1] + INK[2] > 384;
+    const toneOf = owner => {
+      const base = owner >= 0 ? CLUSTERS[owner].tone : [70, 74, 90];
+      return dark ? base.map(v => Math.min(255, v + 96)) : base;
+    };
     const space = buildSpace();
     const screenX = new Float32Array(space.count), screenY = new Float32Array(space.count), depth = new Float32Array(space.count);
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -105,7 +113,7 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
       backdrop.height = canvas.height;
       const b = backdrop.getContext('2d');
       b.scale(dpr, dpr);
-      b.strokeStyle = 'rgba(30,32,44,0.045)';
+      b.strokeStyle = `rgba(${INK.join(',')},${dark ? .06 : .045})`;
       b.lineWidth = 1;
       b.beginPath();
       for (let x = 0; x <= width; x += cell) { b.moveTo(Math.round(x) + .5, 0); b.lineTo(Math.round(x) + .5, height); }
@@ -241,7 +249,7 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
 
       for (const dash of dashes) {
         if (!reduceMotion) dash.x = (dash.x + dash.speed * dt) % width;
-        ctx.fillStyle = rgba([40, 44, 60], dash.alpha);
+        ctx.fillStyle = rgba(INK, dash.alpha);
         ctx.fillText(dash.glyph, (dash.x / cell | 0) * cell + cell / 2, (dash.y / cell | 0) * cell + cell / 2);
       }
 
@@ -251,7 +259,7 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
         if (d <= 0) continue;
         const col = idx % cols, row = idx / cols | 0, x = col * cell, y = row * cell;
         const level = Math.min(1, d / (cell < 12 ? 6.5 : 4.6));
-        const owner = cellOwner[idx], tone = owner >= 0 ? CLUSTERS[owner].tone : [70, 74, 90];
+        const tone = toneOf(cellOwner[idx]);
         // A small per-cell hash keeps glyphs shimmering without looking random.
         const jitter = ((idx * 2654435761 + flicker * 40503) >>> 28) & 1;
         const glyph = RAMP[Math.min(RAMP.length - 1, Math.round(level * (RAMP.length - 1)) + jitter)];
@@ -264,7 +272,7 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
         } else {
           ctx.fillStyle = rgba(tone, .06 + level * .62);
           ctx.fillRect(x + .5, y + .5, cell - 1, cell - 1);
-          ctx.fillStyle = level > .55 ? 'rgba(250,250,248,0.92)' : rgba(tone.map(v => v * .55), .9);
+          ctx.fillStyle = level > .55 ? rgba(PAPER, .92) : rgba(dark ? tone : tone.map(v => v * .55), .9);
         }
         ctx.fillText(glyph, x + cell / 2, y + cell / 2 + .5);
       }
@@ -283,7 +291,7 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
         fx.fillStyle = rgba(tone, (solid ? .94 : Math.max(.18, p.coverage * .75 + heat * .3)) * age);
         fx.fillRect(x - nameCell / 2 + .3, y - nameCell / 2 + .3, nameCell - .6, nameCell - .6);
         if (solid || heat > .35) {
-          fx.fillStyle = solid ? rgba([250, 250, 248], .82 * age) : rgba(SIGNAL, .9);
+          fx.fillStyle = solid ? rgba(PAPER, .82 * age) : rgba(SIGNAL, .9);
           fx.fillText(heat > .35 && !p.lit ? SCRAMBLE[Math.random() * SCRAMBLE.length | 0] : p.glyph, x, y + .4);
         }
       }
@@ -298,9 +306,9 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
         fx.stroke();
       });
       fx.font = `${cell * 2.4}px ${fonts}`;
-      fx.fillStyle = rgba([24, 26, 36], .85);
+      fx.fillStyle = rgba(INK, .85);
       const qc = Math.floor(query.x / cell) * cell + cell / 2, qr = Math.floor(query.y / cell) * cell + cell / 2;
-      fx.strokeStyle = rgba([24, 26, 36], .8);
+      fx.strokeStyle = rgba(INK, .8);
       fx.beginPath();
       [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([sx, sy]) => {
         const ox = qc + sx * cell * 1.5, oy = qr + sy * cell * 1.5;
@@ -327,12 +335,12 @@ export default function EmbeddingField({ hudRef, cardRef, nameRef }) {
           const lx = sx + side * scale * .36 - (side < 0 ? tw : 0), ly = sy - scale * .24;
           if (placed.some(b => lx < b.x + b.w + 12 && lx + tw + 12 > b.x && Math.abs(ly - b.y) < 16)) return;
           placed.push({ x: lx, y: ly, w: tw });
-          ctx.strokeStyle = rgba([40, 44, 60], .15 + near * .3);
+          ctx.strokeStyle = rgba(INK, .15 + near * .3);
           ctx.beginPath();
           ctx.moveTo(sx, sy);
           ctx.lineTo(side > 0 ? lx - 4 : lx + tw + 4, ly);
           ctx.stroke();
-          ctx.fillStyle = rgba([40, 44, 60], .3 + near * .55);
+          ctx.fillStyle = rgba(INK, .3 + near * .55);
           ctx.fillText(text, lx, ly);
         });
       }

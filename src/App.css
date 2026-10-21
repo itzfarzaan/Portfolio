@@ -565,7 +565,7 @@ main:focus {
   overflow: hidden;
   color: var(--hero-ink);
   background: var(--paper);
-  border-block: 1px solid #16171d14;
+  border-block: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
 }
 .embedding-field {
   position: absolute;
@@ -577,7 +577,7 @@ main:focus {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse 46% 62% at 22% 58%, var(--paper) 30%, #fafaf8cc 55%, transparent 80%);
+  background: radial-gradient(ellipse 46% 62% at 22% 58%, var(--paper) 30%, color-mix(in srgb, var(--color-paper) 80%, transparent) 55%, transparent 80%);
   z-index: 1;
 }
 .embedding-overlay {
@@ -616,7 +616,7 @@ main:focus {
 }
 .embed-hud .hud-sep {
   margin-inline: 14px;
-  color: #16171d40;
+  color: color-mix(in srgb, var(--color-ink) 25%, transparent);
 }
 .hud-dot {
   display: inline-block;
@@ -625,11 +625,11 @@ main:focus {
   margin-right: 12px;
   border-radius: 50%;
   background: var(--signal);
-  box-shadow: 0 0 0 4px #2f54eb22;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-signal) 13%, transparent);
   animation: hud-pulse 2.4s ease-in-out infinite;
 }
 @keyframes hud-pulse {
-  50% { box-shadow: 0 0 0 7px #2f54eb00; }
+  50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--color-signal) 0%, transparent); }
 }
 .embed-hero-grid {
   flex: 1;
@@ -682,7 +682,7 @@ main:focus {
 .embed-bio strong {
   color: var(--hero-ink);
   font-weight: 400;
-  border-bottom: 1px solid #16171d33;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 20%, transparent);
 }
 .embed-actions {
   display: flex;
@@ -702,15 +702,15 @@ main:focus {
 }
 .embed-primary {
   background: var(--hero-ink);
-  color: #fafaf8;
+  color: var(--color-paper);
 }
 .embed-primary:hover {
   background: var(--signal);
   color: #fff;
 }
 .embed-chip {
-  border: 1px solid #16171d24;
-  background: #fafaf8d9;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 14%, transparent);
+  background: color-mix(in srgb, var(--color-paper) 85%, transparent);
   backdrop-filter: blur(6px);
 }
 .embed-chip:hover {
@@ -730,7 +730,7 @@ main:focus {
   inset: 0;
   margin: 0;
   border-radius: 16px;
-  background: #fff;
+  background: var(--color-surface);
   border: 1px solid var(--color-line);
   font-family: var(--hero-mono);
   transition: transform .6s var(--ease), opacity .6s;
@@ -763,7 +763,7 @@ main:focus {
 }
 .rank-main {
   overflow: hidden;
-  box-shadow: 0 40px 70px -36px #16171d80;
+  box-shadow: 0 40px 70px -36px color-mix(in srgb, var(--color-shadow) 50%, transparent);
   will-change: transform;
 }
 .rank-main img {
@@ -793,7 +793,7 @@ main:focus {
   left: 14px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--hero-ink);
+  color: #16171d;
   background: #ffffffd9;
 }
 .rank-score {
@@ -844,7 +844,7 @@ main:focus {
     min-height: 0;
   }
   .embed-hero::before {
-    background: linear-gradient(transparent 230px, #fafaf8e6 300px, #fafaf8f2);
+    background: linear-gradient(transparent 230px, color-mix(in srgb, var(--color-paper) 90%, transparent) 300px, color-mix(in srgb, var(--color-paper) 95%, transparent));
   }
   .embed-hero-inner {
     width: calc(100% - 32px);

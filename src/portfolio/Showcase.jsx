@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import EmbeddingField from './EmbeddingField';
 import MobileHero from './MobileHero';
 import { useIsPhone } from './usePhone';
+import { useTheme } from './theme';
 import { profile } from './content';
 export function Spark({
   className = ''
@@ -57,6 +58,8 @@ function DesktopHero() {
   </section>;
 }
 // Phones get their own self-running hero; tablets and desktops keep the interactive one.
+// Both heroes draw with canvas colours read at mount, so they remount when the theme changes.
 export function Hero() {
-  return useIsPhone() ? <MobileHero /> : <DesktopHero />;
+  const theme = useTheme();
+  return useIsPhone() ? <MobileHero key={theme} /> : <DesktopHero key={theme} />;
 }
