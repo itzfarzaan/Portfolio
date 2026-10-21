@@ -109,7 +109,6 @@ export const projects = [{
   ]
 }, {
   slug: 'aqaarpro',
-  featured: true,
   highlights: [
     'Dedicated portals for managers, owners, tenants, and vendors',
     'System architecture and database design on Supabase and PostgreSQL',
@@ -134,6 +133,87 @@ export const projects = [{
   imageHeight: 900,
   imageAlt: 'AqaarPro public website with its property management sign-in',
   imageCaption: 'AqaarPro public website.'
+}, {
+  slug: 'isl-translation',
+  featured: true,
+  highlights: [
+    'A generative Transformer that turns speech into continuous sign poses',
+    'Trained on a 25+ hour Indian Sign Language dataset we built from professional signers',
+    'Four input modes, with the avatar signing in sync with video playback'
+  ],
+  shortDescription: 'Real-time Indian Sign Language translation: speech, text, subtitles, and YouTube videos signed live by an avatar from poses a Transformer generates.',
+  name: 'Sign Translation Studio',
+  category: 'Generative AI & accessibility',
+  label: 'Sign language generation',
+  summary: 'Digital content, signed in Indian Sign Language as it plays.',
+  stack: ['Progressive Transformer', 'OpenPose', 'FastAPI', 'React', 'Three.js', 'WebSockets'],
+  role: 'Final-year major project · team of three',
+  type: 'Major project',
+  problem: 'India has 63 million deaf and hard-of-hearing people, yet most digital content reaches them only as audio or text. Existing sign language systems translate word for word, ignore ISL grammar, cover small vocabularies, and animate avatars that move in robotic, disconnected steps.',
+  overview: 'Sign Translation Studio is our final-year major project at MJCET, guided by Dr. MD Asrar Ahmed. It takes a YouTube link, typed text, a subtitle file, or live speech, restructures the language into ISL grammar, and uses a generative Transformer to predict continuous 3D skeletal poses that an avatar signs in step with the video.',
+  features: ['YouTube URL mode, signed in sync with the video', 'Text mode for direct translation', 'SRT and VTT subtitle upload', 'Live video mode driven by the microphone'],
+  stats: [
+    { value: '10,000+', label: 'Words in our ISL vocabulary' },
+    { value: '25+ hrs', label: 'Of professional signing in the dataset' },
+    { value: '57.01', label: 'PCK, up from 53.3 in the base paper' },
+    { value: '13.45', label: 'DTW, down from 14.05 in the base paper' }
+  ],
+  // This page reads as one continuous story instead of separate sections (see CaseStudy.jsx).
+  story: [
+    {
+      title: 'Three layers, one pipeline',
+      text: [
+        'Content enters through the input and extraction layer as typed text, an SRT or VTT caption file, a YouTube link that yields timestamped captions, or live speech.',
+        'The processing and AI layer, a FastAPI backend, reorders each sentence into the subject-object-verb structure of ISL and passes it to the Transformer, which predicts 3D skeletal coordinates frame by frame.',
+        'The visualisation layer, built with React and Three.js, receives the pose stream over WebSocket or SSE, renders the avatar, and lines each gesture up with the source video’s timestamps.'
+      ],
+      figures: [{ src: '/media/projects/isl-arch.webp', width: 1475, height: 1700, alt: 'Three-layer system architecture diagram', caption: 'The three layers: input and extraction, processing and AI on FastAPI, and visualisation with React and Three.js.' }]
+    },
+    {
+      title: 'Building our own dataset',
+      text: [
+        'Public ISL datasets stop at a few thousand words and none include speech, so we built one: 9,092 YouTube videos from 5 professional signers, cut into clips with VTT timestamps, giving 10,314 aligned triplets of audio, skeletal pose, and transcript across 25+ hours and 10,000+ words.',
+        'OpenPose keypoints for the face, body, and both hands were normalised, pruned by confidence, and interpolated over time, then lifted from 2D to 3D with a skeletal bone-length model optimised by backpropagation. The poses were stored as H5 sequences (N×360) and split 70/15/15 into train, dev, and test.'
+      ],
+      figures: [{ src: '/media/projects/isl-dataset.webp', width: 1440, height: 920, alt: 'Dataset frames of signers with skeletal keypoints above the matching words and audio waveform', caption: 'From the dataset: each clip pairs a signer’s skeletal pose with the transcript and the audio.' }]
+    },
+    {
+      title: 'The model',
+      text: [
+        'Audio becomes 80-dimensional log-mel spectrograms at 16 kHz. A 2-layer Progressive Transformer encoder-decoder, with 8 attention heads and 512-dimensional embeddings, maps them to 360-dimensional pose frames.',
+        'A parallel text decoder adds auxiliary supervision, and a cross-modal discriminator trained adversarially pushes the generated signing toward realistic, co-articulated motion.'
+      ],
+      figures: [{ src: '/media/projects/isl-transformer.webp', width: 1600, height: 793, alt: 'Model diagram with a speech encoder, text decoder, pose decoder, and cross-modal discriminator', caption: 'The model: a speech encoder feeding a pose decoder and a text decoder, checked by a cross-modal discriminator.' }]
+    },
+    {
+      title: 'What we built',
+      list: [
+        'Collected and segmented the ISL dataset from YouTube, and extracted face, body, and hand keypoints with OpenPose.',
+        'Preprocessed the poses with aligned audio and text, ready for training.',
+        'Trained a Progressive Transformer on speech with auxiliary text supervision and adversarial training.',
+        'Built the web app: a FastAPI backend for server-side inference, and a React and Three.js front end that renders the avatar.',
+        'Added four input modes and timestamp-based chunking, so the signing stays in sync with video playback.',
+        'Integrated a chatbot that can hold a conversation in sign.'
+      ]
+    },
+    {
+      title: 'The output',
+      text: ['Paste a YouTube link and the avatar signs the video chunk by chunk as it plays. In live video mode, the microphone drives the signing in real time while the camera shows the speaker.'],
+      figures: [
+        { video: true },
+        { src: '/media/projects/isl-live.webp', width: 1600, height: 762, alt: 'Live video mode, with the speaker on camera beside the avatar signing the live phrase', caption: 'Live video mode: the microphone drives the signing, and the camera shows the speaker.' }
+      ]
+    }
+  ],
+  result: 'Without face keypoints, our model reached a PCK of 57.01 and a DTW of 13.45 on speech-to-sign generation, ahead of the Progressive Transformer base paper (53.3 PCK, 14.05 DTW). Prototypes of a humanoid avatar and a VRM avatar driven by the same poses point to what comes next.',
+  cover: { src: '/media/projects/isl-live.webp', width: 1600, height: 762 },
+  image: '/media/projects/isl-translation.webp',
+  imageWidth: 1104,
+  imageHeight: 628,
+  imageAlt: 'Sign Translation Studio in YouTube mode, with a podcast on the left and the avatar signing it on the right',
+  imageCaption: 'YouTube mode: the source video beside the avatar signing the current chunk.',
+  video: { src: '/media/projects/isl-translation-demo.mp4', poster: '/media/projects/isl-translation-demo-poster.webp', width: 1104, height: 628, label: 'Sign Translation Studio demo video', caption: 'Demo: a YouTube podcast signed live by the avatar, chunk by chunk.' },
+  outcomeImage: { src: '/media/projects/isl-future.webp', width: 1600, height: 419, alt: 'Humanoid avatar prototype and VRM avatar pose mapper', caption: 'Next: humanoid and VRM avatar prototypes, driven by the same poses.' }
 }, {
   slug: 'gesture-glove',
   shortDescription: 'A sensor glove that turns American Sign Language gestures into text and speech in real time.',
@@ -495,6 +575,14 @@ export const journey = [{
     { src: '/media/journey/photod-1.webp', width: 975, height: 1300, alt: 'Farzaan working on a laptop at an IEEE event' }
   ]
 }, {
+  id: 'hackathon', era: '2023', when: 'December 2023', metric: '15 hrs', metricLabel: 'First hackathon', title: 'Hack Revolution, powered by ACES',
+  text: 'My first-ever hackathon, at MJCET. Our team built a hardware glove that turns sign language gestures into speech and text, to help bridge the communication gap for people who cannot speak.',
+  photos: [
+    { src: '/media/journey/hackathon-2.webp', width: 986, height: 1330, alt: 'Farzaan holding up the sensor glove at the hackathon, with people in the background blurred' },
+    { src: '/media/journey/hackathon-3.webp', width: 1436, height: 1126, alt: 'Farzaan with his team on the Hack Revolution stage, with the other faces blurred' },
+    { src: '/media/journey/hackathon-1.webp', width: 1429, height: 1183, alt: 'Participants receiving Hack Revolution certificates on stage, with every face except Farzaan’s blurred' }
+  ]
+}, {
   id: 'cis', era: '2024', when: '2024', metric: '800+', metricLabel: 'students reached', title: 'Technical Team, IEEE CIS',
   text: 'Helped lead workshops introducing students to emerging technologies.'
 }, {
@@ -508,8 +596,8 @@ export const journey = [{
   id: 'smc', era: '2025', when: '2025', title: 'R&D Team, IEEE SMC',
   text: 'Led AI-based projects and earned a place in a month-long AI prototyping program.'
 }, {
-  id: 'graduation', era: '2026', when: '2026', metric: '9th', metricLabel: 'of 466', title: 'Graduated with a merit rank',
-  text: 'Ranked 9th of 466 on the Osmania University merit list for B.E. Computer Science and Engineering (Artificial Intelligence and Machine Learning), with a CGPA of 8.98 and 85.58% overall.',
+  id: 'graduation', era: '2026', when: '2026', metric: 'Rank 9', metricLabel: 'of 466', title: 'Graduated with a merit rank',
+  text: 'Placed on the Osmania University merit list for B.E. Computer Science and Engineering (Artificial Intelligence and Machine Learning), graduating with a CGPA of 8.98 and 85.58% overall.',
   photos: [
     { src: '/media/journey/photoc-1.webp', width: 1010, height: 1280, alt: 'MJCET poster congratulating the Osmania University merit rank holders' },
     { src: '/media/journey/photoc-2.webp', width: 834, height: 1280, alt: 'Osmania University merit list, with other students blurred and Farzaan ranked ninth' }

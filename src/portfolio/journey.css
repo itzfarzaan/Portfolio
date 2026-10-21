@@ -422,6 +422,23 @@
 .tj-collage-grid.count-2 {
   grid-template-columns: 1.15fr 1fr;
 }
+/* Three photos: the first spans both rows on the left, the other two stack on the right. */
+.tj-collage-grid.count-3 {
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  justify-content: center;
+}
+.tj-collage-grid.count-3 figure:first-child {
+  grid-row: span 2;
+}
+.tj-collage-grid.count-3 img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc((100vh - 250px) / 2);
+}
+.tj-collage-grid.count-3 figure:first-child img {
+  max-height: calc(100vh - 190px);
+}
 .tj-collage-grid figure {
   margin: 0;
   padding: 10px 10px 34px;
@@ -520,6 +537,16 @@
   }
   .tj-collage-grid img {
     max-height: 34vh;
+  }
+  .tj-collage-grid.count-3 figure:first-child {
+    grid-row: auto;
+    grid-column: span 2;
+  }
+  .tj-collage-grid.count-3 img {
+    max-height: 22vh;
+  }
+  .tj-collage-grid.count-3 figure:first-child img {
+    max-height: 38vh;
   }
 }
 @media(prefers-reduced-motion:reduce) {

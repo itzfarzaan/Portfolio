@@ -54,11 +54,13 @@ export function Experience() {
 }
 
 // A slanted browser window that straightens on hover.
+// A project can set `cover` to show a different shot here than at the top of its case study.
 function PreviewShot({ project }) {
+  const shot = project.cover || { src: project.image, width: project.imageWidth, height: project.imageHeight };
   return <Link className="feature-shot" to={`/projects/${project.slug}`} tabIndex={-1} aria-hidden="true">
     <div className="browser">
       <div className="browser-bar"><i /><i /><i /><span>{domain(project.live) || project.name}</span></div>
-      <img src={project.image} alt="" width={project.imageWidth} height={project.imageHeight} loading="lazy" />
+      <img src={shot.src} alt="" width={shot.width} height={shot.height} loading="lazy" />
     </div>
   </Link>;
 }
@@ -121,7 +123,7 @@ function ViewAllTile() {
   </Link>;
 }
 
-const collage = ['gesture-glove', 'knowmydocs', 'interviewaide'];
+const collage = ['gesture-glove', 'knowmydocs', 'aqaarpro'];
 
 export function Projects() {
   const featured = projects.filter(project => project.featured);

@@ -6,6 +6,7 @@ const domain = url => url?.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''
 
 // One case-study layout for every project. Optional content (stats, flow, features, video, learnings,
 // gallery, moment) only renders when a project has it; the flow falls back to `architecture`.
+// A project with a `story` instead tells How it works as one continuous section, images in between.
 function Section({ title, children }) {
   return <section className="cs-section">
     <h2>{title}</h2>
@@ -30,10 +31,33 @@ function Media({ project }) {
   </figure>;
 }
 
+function Figure({ figure, video }) {
+  if (figure.video) return <figure className="cs-video">
+    <video src={video.src} poster={video.poster} width={video.width} height={video.height} controls playsInline preload="metadata" aria-label={video.label} />
+    {video.caption && <figcaption>{video.caption}</figcaption>}
+  </figure>;
+  return <figure className={figure.height > figure.width ? 'is-tall' : undefined}>
+    <img src={figure.src} alt={figure.alt} width={figure.width} height={figure.height} loading="lazy" />
+    {figure.caption && <figcaption>{figure.caption}</figcaption>}
+  </figure>;
+}
+
+function Story({ project }) {
+  return <Section title="How it works">
+    <div className="cs-story">{project.story.map(block => <div key={block.title} className="cs-story-block">
+      <h3>{block.title}</h3>
+      {block.text?.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+      {block.list && <ul className="cs-list">{block.list.map(item => <li key={item}>{item}</li>)}</ul>}
+      {block.figures?.map(figure => <Figure key={figure.src || 'video'} figure={figure} video={project.video} />)}
+    </div>)}</div>
+  </Section>;
+}
+
 export default function CaseStudy({ project }) {
   const index = projects.indexOf(project), next = projects[(index + 1) % projects.length];
-  const flow = project.flow || project.architecture.map(step => ({ title: step }));
-  const screens = project.image && project.gallery;
+  const story = Boolean(project.story);
+  const flow = story ? [] : project.flow || project.architecture.map(step => ({ title: step }));
+  const screens = !story && project.image && project.gallery;
   return <article className="shell cs">
     <Link className="cs-back" to="/projects"><span aria-hidden="true">←</span> All projects</Link>
 
@@ -61,14 +85,16 @@ export default function CaseStudy({ project }) {
       {project.features && <ul className="cs-checks">{project.features.map(item => <li key={item}>{item}</li>)}</ul>}
     </Section>
 
-    {project.video && <Section title="Product demo">
+    {story && <Story project={project} />}
+
+    {!story && project.video && <Section title="Product demo">
       <figure className="cs-video">
         <video src={project.video.src} poster={project.video.poster} width={project.video.width} height={project.video.height} controls playsInline preload="metadata" aria-label={project.video.label} />
         {project.video.caption && <figcaption>{project.video.caption}</figcaption>}
       </figure>
     </Section>}
 
-    <Section title="How it works">
+    {!story && <Section title="How it works">
       <ol className={`cs-flow${flow.some(step => step.text) ? '' : ' is-compact'}`}>
         {flow.map((step, i) => <li key={step.title}>
           <span className="cs-step">{String(i + 1).padStart(2, '0')}</span>
@@ -77,15 +103,15 @@ export default function CaseStudy({ project }) {
           {step.text && <p>{step.text}</p>}
         </li>)}
       </ol>
-    </Section>
+    </Section>}
 
-    {project.engineering && <Section title="Engineering decisions">
+    {!story && project.engineering && <Section title="Engineering decisions">
       <div className="cs-notes">{project.engineering.map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.text}</p></div>)}</div>
     </Section>}
 
-    <Section title="My contribution">
+    {!story && <Section title="My contribution">
       <ul className="cs-list">{project.contributions.map(item => <li key={item}>{item}</li>)}</ul>
-    </Section>
+    </Section>}
 
     {screens && <Section title="Screens">
       <div className="cs-screens">{project.gallery.map(photo => <figure key={photo.src}><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" />{photo.caption && <figcaption>{photo.caption}</figcaption>}</figure>)}</div>
@@ -97,6 +123,7 @@ export default function CaseStudy({ project }) {
 
     <Section title="Outcome">
       <p className="cs-big">{project.result}</p>
+      {project.outcomeImage && <div className="cs-story"><Figure figure={project.outcomeImage} /></div>}
       {project.moment && <figure className="cs-moment">
         <img src={project.moment.src} alt={project.moment.alt} width={project.moment.width} height={project.moment.height} loading="lazy" />
         <figcaption>{project.moment.caption}</figcaption>

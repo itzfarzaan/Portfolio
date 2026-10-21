@@ -324,6 +324,35 @@ figcaption {
   border-radius: 14px;
   border: 1px solid var(--color-line);
 }
+/* A story: How it works told as one section, text and images alternating. */
+.cs-story-block + .cs-story-block {
+  margin-top: 64px;
+}
+.cs-story h3 {
+  font: 700 22px/1.25 var(--font-display);
+  letter-spacing: -.02em;
+  margin: 0 0 14px;
+}
+.cs-story p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin: 0 0 14px;
+}
+.cs-story figure {
+  margin: 28px 0 0;
+}
+.cs-story img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--color-line);
+}
+/* A tall diagram is kept narrower so it does not fill several screens. */
+.cs-story figure.is-tall {
+  max-width: 560px;
+}
 .cs-moment {
   margin-top: 28px;
 }
