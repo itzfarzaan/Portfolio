@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { profile, projects } from './portfolio/content';
 import './App.css';
@@ -12,11 +12,6 @@ import SiteFooter from './portfolio/SiteFooter';
 import ThemeToggle from './portfolio/ThemeToggle';
 import './portfolio/sections.css';
 import './portfolio/accents.css';
-const Login = lazy(() => import('./Login'));
-const Admin = lazy(() => import('./Admin'));
-const EditBlog = lazy(() => import('./EditBlog'));
-const EditProject = lazy(() => import('./EditProject'));
-const LegacyProject = lazy(() => import('./SpecificProject'));
 const Arrow = () => <span aria-hidden="true">↗</span>;
 function RouteEffects() {
   const {
@@ -116,7 +111,7 @@ function ProjectDetail() {
     id
   } = useParams();
   const project = projects.find(item => item.slug === id);
-  if (!project) return /^[a-f\d]{24}$/i.test(id) ? <LegacyProject /> : <NotFound />;
+  if (!project) return <NotFound />;
   return <CaseStudy project={project} />;
 }
 function BlogRedirect() {
@@ -130,12 +125,11 @@ function NotFound() {
 }
 export default function App() {
   return <BrowserRouter><RouteEffects /><a href="#main" className="skip-link">Skip to content</a><Header />
-    <main id="main" tabIndex={-1}><Suspense fallback={<p className="shell loading" role="status">Loading…</p>}><Routes>
+    <main id="main" tabIndex={-1}><Routes>
       <Route path="/" element={<Home />} /><Route path="/projects" element={<Work />} /><Route path="/projects/:id" element={<ProjectDetail />} />
       <Route path="/experience" element={<Navigate to="/#experience" replace />} /><Route path="/about" element={<Navigate to="/#about" replace />} />
-      <Route path="/blog/*" element={<BlogRedirect />} /><Route path="/login" element={<Login />} /><Route path="/admin" element={<Admin />} />
-      <Route path="/admin/edit/:blogId" element={<EditBlog />} /><Route path="/admin/edit-project/:projectId" element={<EditProject />} /><Route path="*" element={<NotFound />} />
-    </Routes></Suspense></main>
+      <Route path="/blog/*" element={<BlogRedirect />} /><Route path="*" element={<NotFound />} />
+    </Routes></main>
     <SiteFooter />
   </BrowserRouter>;
 }

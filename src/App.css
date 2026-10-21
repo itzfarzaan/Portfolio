@@ -332,9 +332,6 @@ main:focus {
   padding-block: 80px;
   min-height: 60vh;
 }
-.loading {
-  padding-block: 40px;
-}
 .entered {
   animation: rise-in .65s var(--ease) both;
 }
