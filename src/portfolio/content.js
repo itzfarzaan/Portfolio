@@ -458,3 +458,58 @@ export const experience = [{
   ],
   stack: ['PyTorch', 'MobileNetV2', 'OpenCV', 'Pillow']
 }];
+
+// The journey as stops along one curved line, grouped into eras that the line wraps around.
+// `metric` is an optional big number; photos live in public/media/journey and open as a collage.
+export const journey = [{
+  id: 'jeddah', era: '2022', when: 'Early years', title: 'International Indian School Jeddah',
+  text: 'Where it started: school in Jeddah, Saudi Arabia, through to middle school.'
+}, {
+  id: 'school', era: '2022', when: '2022', title: 'AMS P. Obul Reddy Public School',
+  text: 'Finished school in Hyderabad with Mathematics, Physics, Chemistry, and Biology.'
+}, {
+  id: 'osmania', era: '2022', when: '2022', title: 'Joined MJCET, Osmania University',
+  text: 'Began a B.E. in Computer Science & Engineering, specialising in AI & ML.'
+}, {
+  id: 'award-2023', era: '2023', when: '2023', metric: '9.3', metricLabel: 'SGPA', title: 'Certificate of Appreciation',
+  text: 'Recognised by the CS & AI department for academic excellence in the second semester.',
+  photos: [
+    { src: '/media/journey/photoa-1.webp', width: 1400, height: 1054, alt: 'Farzaan receiving the academic excellence certificate on stage at MJCET' },
+    { src: '/media/journey/photoa-2.webp', width: 1400, height: 995, alt: 'Certificate of Appreciation for Academic Excellence from MJCET' }
+  ]
+}, {
+  id: 'pes', era: '2023', when: '2023', metric: '30+', metricLabel: 'members led', title: 'Web Master, IEEE PES',
+  text: 'Ran a team of more than 30 through weekly check-ins and small squads, behind the chapter’s website and events.',
+  photos: [
+    { src: '/media/journey/photod-1.webp', width: 975, height: 1300, alt: 'Farzaan working on a laptop at an IEEE event' }
+  ]
+}, {
+  id: 'cis', era: '2023', when: '2023', metric: '800+', metricLabel: 'students reached', title: 'Technical Team, IEEE CIS',
+  text: 'Helped lead workshops introducing students to emerging technologies.'
+}, {
+  id: 'award-2024', era: '2024', when: '2024', metric: '8.8', metricLabel: 'SGPA', title: 'Certificate of Academic Excellence',
+  text: 'Recognised again by the department, this time for the third semester.',
+  photos: [
+    { src: '/media/journey/photob-1.webp', width: 1400, height: 786, alt: 'Farzaan with faculty at the MJCET certificate ceremony' },
+    { src: '/media/journey/photob-2.webp', width: 1222, height: 829, alt: 'Certificate of Academic Excellence from MJCET' }
+  ]
+}, {
+  id: 'smc', era: '2024', when: '2024', title: 'R&D Team, IEEE SMC',
+  text: 'Led AI-based projects and earned a place in a month-long AI prototyping program.'
+}, {
+  id: 'graduation', era: '2026', when: '2026', metric: '9th', metricLabel: 'of 466', title: 'Graduated with a merit rank',
+  text: 'Osmania University merit list for B.E. CSE (AI & ML), with a CGPA of 8.98 and 85.58% overall.',
+  photos: [
+    { src: '/media/journey/photoc-1.webp', width: 1010, height: 1280, alt: 'MJCET poster congratulating the Osmania University merit rank holders' },
+    { src: '/media/journey/photoc-2.webp', width: 834, height: 1280, alt: 'Osmania University merit list, with other students blurred and Farzaan ranked ninth' }
+  ]
+}, {
+  id: 'artmac', era: '2026', when: '2024 – 2025', title: 'Machine Learning Intern, Artmac Soft',
+  text: 'Plant disease detection in PyTorch, reaching 88.35% accuracy.'
+}, {
+  id: 'creative-analytica', era: '2026', when: '2025 – now', title: 'Software Engineer, Creative Analytica',
+  text: 'Leading the development of AqaarPro, a property management platform.'
+}, {
+  id: 'linkiat', era: '2026', when: '2026 – now', title: 'AI Engineer, Linkiat',
+  text: 'Building production AI: agents, retrieval, and workflow automation.'
+}];
