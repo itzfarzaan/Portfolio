@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { rasterizeText } from './asciiText';
 import { profile } from './content';
+import { PHONE } from './usePhone';
 
 const RAMP = '.:-=+*tsSX%#8@';
 const SCRAMBLE = '!<>-_/[]{}=+*^?#%&$01';
@@ -16,6 +17,9 @@ function AsciiWordmark({ text }) {
     const signal = getComputedStyle(host).getPropertyValue('--color-signal').trim() || '#2f54eb';
     let cells = [], cell = 8, width = 0, height = 0, frame = 0, running = false, last = 0, disposed = false, ready = false;
     const pointer = { x: 0, y: 0, inside: false };
+    // Phones have no hover, so a streak sweeps across the wordmark on its own every few seconds.
+    let streak = null, streakTimer = 0, visible = false;
+    const autoStreaks = window.matchMedia(PHONE).matches && !reduceMotion;
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
@@ -41,6 +45,14 @@ function AsciiWordmark({ text }) {
       last = now;
       let moving = false;
       const radius = width < 760 ? 50 : 80;
+      if (streak) {
+        const t = (now - streak.start) / streak.duration;
+        if (t >= 1) {
+          streak = null;
+          pointer.inside = false;
+          scheduleStreak();
+        } else Object.assign(pointer, { x: streak.dir > 0 ? -radius + t * (width + radius * 2) : width + radius - t * (width + radius * 2), y: streak.y, inside: true });
+      }
       for (const p of cells) {
         let ax = -p.ox * 70 - p.vx * 10, ay = -p.oy * 70 - p.vy * 10;
         if (pointer.inside) {
@@ -62,6 +74,15 @@ function AsciiWordmark({ text }) {
       draw();
       if (moving || pointer.inside) frame = requestAnimationFrame(step);
       else running = false;
+    };
+    const scheduleStreak = () => {
+      clearTimeout(streakTimer);
+      if (!autoStreaks || !visible || disposed) return;
+      streakTimer = setTimeout(() => {
+        if (!visible || !cells.length) return;
+        streak = { start: performance.now(), duration: 900 + Math.random() * 500, y: height * (.2 + Math.random() * .6), dir: Math.random() < .5 ? 1 : -1 };
+        wake();
+      }, 1200 + Math.random() * 2200);
     };
     const wake = () => {
       if (running || reduceMotion) return;
@@ -89,6 +110,11 @@ function AsciiWordmark({ text }) {
     };
     const onLeave = () => { pointer.inside = false; };
     const sizes = new ResizeObserver(() => { if (ready) build(); });
+    const seen = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) scheduleStreak();
+      else clearTimeout(streakTimer);
+    });
     const fontFamily = getComputedStyle(element).fontFamily;
     (document.fonts?.load ? document.fonts.load(`700 100px ${fontFamily}`) : Promise.resolve()).catch(() => {}).then(() => {
       if (disposed) return;
@@ -96,13 +122,16 @@ function AsciiWordmark({ text }) {
       host.dataset.ascii = 'on';
       build();
       sizes.observe(host);
+      if (autoStreaks) seen.observe(host);
     });
     host.addEventListener('pointermove', onMove);
     host.addEventListener('pointerleave', onLeave);
     return () => {
       disposed = true;
       cancelAnimationFrame(frame);
+      clearTimeout(streakTimer);
       sizes.disconnect();
+      seen.disconnect();
       host.removeEventListener('pointermove', onMove);
       host.removeEventListener('pointerleave', onLeave);
     };

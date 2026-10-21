@@ -1,12 +1,14 @@
 import { useRef } from 'react';
 import EmbeddingField from './EmbeddingField';
+import MobileHero from './MobileHero';
+import { useIsPhone } from './usePhone';
 import { profile } from './content';
 export function Spark({
   className = ''
 }) {
   return <svg className={className} viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 0 58 31 85 15 69 42 100 50 69 58 85 85 58 69 50 100 42 69 15 85 31 58 0 50 31 42 15 15 42 31Z" fill="currentColor" /></svg>;
 }
-export function Hero() {
+function DesktopHero() {
   const hud = useRef(null);
   const card = useRef(null);
   const name = useRef(null);
@@ -53,4 +55,8 @@ export function Hero() {
       </div>
     </div>
   </section>;
+}
+// Phones get their own self-running hero; tablets and desktops keep the interactive one.
+export function Hero() {
+  return useIsPhone() ? <MobileHero /> : <DesktopHero />;
 }
