@@ -254,6 +254,7 @@ export const projects = [{
     'Debugging hardware and software together, where a fault can come from either side'
   ],
   architecture: ['Motion + flex sensors', 'Arduino → serial data', 'Gesture → text + speech'],
+  figure: 'glove',
   result: 'A working wearable prototype that recognises ASL gestures and turns them into text and speech in real time.',
   github: 'https://github.com/itzfarzaan/Gesture-Glove',
   gallery: [

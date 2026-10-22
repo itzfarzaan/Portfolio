@@ -1,0 +1,114 @@
+/* "See it live" glove figure. The kit's tokens, tied to the site palette; the lit accent is the signal blue. */
+.gl.iso {
+  --anatomy-card: var(--color-surface);
+  --anatomy-paper: var(--color-surface);
+  --anatomy-text: var(--color-ink-soft);
+  --anatomy-muted: var(--color-muted);
+  --anatomy-strong: var(--color-ink);
+  --anatomy-lit: var(--color-signal);
+  --anatomy-mono: var(--mono);
+  --gl-screen: #eef0f6;
+  --gl-screen-bar: #e3e8fb;
+  margin: 0;
+}
+.gl.iso[data-theme="dark"] {
+  --gl-screen: #141725;
+  --gl-screen-bar: #1a2040;
+}
+.gl .iso-plate {
+  box-shadow: 0 0 0 1px var(--color-line);
+  padding: 48px 20px 52px;
+}
+.gl-stage {
+  outline: none;
+  touch-action: pan-y;
+}
+.gl-stage:focus-visible {
+  outline: 1px solid var(--anatomy-muted);
+  outline-offset: 6px;
+}
+.gl-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* Flex sensors: the printed ladder on each strip; lit while the hand is sensing. */
+.gl-strip .gl-strip-fill { fill: var(--anatomy-top); }
+.gl-strip[data-lit] .gl-strip-edge { stroke: var(--anatomy-lit); stroke-width: .9; }
+.gl-strip[data-lit] .gl-rung { stroke: var(--anatomy-lit); opacity: .55; }
+
+/* Data frames running along the harness and the USB cable. */
+.gl-pulse {
+  fill: none;
+  stroke: var(--anatomy-lit);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.gl-led .iso-solid[data-lit] > .iso-top,
+.gl-led .iso-solid[data-lit] > .iso-shade { fill: var(--anatomy-lit); }
+.gl-grille[data-on] circle { fill: var(--anatomy-lit); opacity: .9; }
+
+/* The Python app on the laptop screen. */
+.gl-screen { fill: var(--gl-screen); }
+.gl-bar-title { fill: var(--gl-screen-bar); }
+.gl-ui-dot { fill: var(--anatomy-lo); }
+.gl-ui-text, .gl-ui-small, .gl-letter, .gl-typed { font-family: var(--anatomy-mono); }
+.gl-ui-text { fill: var(--anatomy-hi); }
+.gl-ui-small { fill: var(--anatomy-mid); }
+.gl-letter { fill: var(--anatomy-hi); font-weight: 700; }
+.gl-typed { fill: var(--anatomy-hi); letter-spacing: .08em; }
+.gl-meter { fill: none; stroke: var(--anatomy-lo); stroke-width: .5; }
+.gl-meter-fill { fill: var(--anatomy-mid); }
+.gl-ui-line, .gl-rule { fill: none; stroke: var(--anatomy-mid); stroke-width: .6; stroke-linecap: round; }
+.gl-rule { stroke: var(--anatomy-faint); }
+.gl[data-stage="sense"] .gl-meter-fill,
+.gl[data-stage="collect"] .gl-meter-fill { fill: var(--anatomy-lit); }
+.gl[data-stage="classify"] .gl-letter,
+.gl[data-stage="speak"] .gl-letter { fill: var(--anatomy-lit); }
+.gl[data-stage="speak"] .gl-ui-line[data-part="wave"] { stroke: var(--anatomy-lit); }
+
+/* Legend: the five steps, the letters to sign, and the caption. */
+.gl-legend { gap: 14px; margin-top: 16px; }
+.gl-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 12px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.gl-steps li { display: inline-flex; gap: 8px; transition: color .25s; }
+.gl-steps li[data-on] { color: var(--color-signal); }
+.gl-step-n { opacity: .6; }
+.gl-letters { display: flex; flex-wrap: wrap; gap: 6px; }
+.gl-letters button {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-ink);
+  font: 13px var(--mono);
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.gl-letters button:hover, .gl-letters button:focus-visible { border-color: var(--color-signal); color: var(--color-signal); outline: none; }
+.gl-letters .gl-speak { text-transform: uppercase; letter-spacing: .08em; font-size: 11.5px; }
+.gl .iso-caption { color: var(--color-muted); font: 14px/1.65 var(--font-body); }
+
+@media (max-width: 560px) {
+  .gl .iso-plate { padding: 40px 6px 64px; }
+  .gl .iso-svg { width: 116%; margin: 0 -8%; }
+  .gl .iso-plate { overflow: hidden; }
+}

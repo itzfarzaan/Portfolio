@@ -476,3 +476,9 @@ figcaption {
     transition: none;
   }
 }
+
+/* Placeholder while a live figure's code loads. */
+.cs-figure-loading {
+  aspect-ratio: 720 / 540;
+  border: 1px solid var(--color-line);
+}

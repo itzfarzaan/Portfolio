@@ -1,5 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { projects } from './content';
+
+// Live figures are loaded only on the project page that has one.
+const figures = { glove: lazy(() => import('./glove/GloveFigure.jsx')) };
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 const domain = url => url?.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
@@ -50,6 +54,13 @@ function Story({ project }) {
       {block.list && <ul className="cs-list">{block.list.map(item => <li key={item}>{item}</li>)}</ul>}
       {block.figures?.map(figure => <Figure key={figure.src || 'video'} figure={figure} video={project.video} />)}
     </div>)}</div>
+  </Section>;
+}
+
+function LiveFigure({ name }) {
+  const Figure = figures[name];
+  return <Section title="See it live">
+    <Suspense fallback={<div className="cs-figure-loading" />}><Figure /></Suspense>
   </Section>;
 }
 
@@ -105,6 +116,8 @@ export default function CaseStudy({ project }) {
         </li>)}
       </ol>
     </Section>}
+
+    {project.figure && <LiveFigure name={project.figure} />}
 
     {!story && project.engineering && <Section title="Engineering decisions">
       <div className="cs-notes">{project.engineering.map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.text}</p></div>)}</div>
