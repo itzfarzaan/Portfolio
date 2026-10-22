@@ -129,7 +129,7 @@ export function Projects() {
   const featured = projects.filter(project => project.featured);
   const rest = collage.map(slug => projects.find(project => project.slug === slug)).filter(Boolean);
   return <section className="home-section" id="work" aria-labelledby="work-title">
-    <SectionHeader id="work-title" title="Projects" meta={`${projects.length} projects`} />
+    <SectionHeader id="work-title" title="Projects" meta={<Link className="section-link" to="/projects">View all <span aria-hidden="true">→</span></Link>} />
     <div className="feature-list">{featured.map(project => <FeaturedProject key={project.slug} project={project} />)}</div>
     <h3 className="collage-title">More projects</h3>
     <div className="collage">

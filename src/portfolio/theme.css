@@ -169,3 +169,51 @@
     animation: none;
   }
 }
+
+/* The navbar logo (NavLogo.jsx): "fa." with two points orbiting the dot. */
+.wordmark-logo {
+  display: inline-flex;
+  line-height: 0;
+}
+.nav-logo {
+  width: 56px;
+  height: 56px;
+  overflow: visible;
+  fill: var(--color-ink);
+}
+.nav-logo-dot {
+  fill: var(--color-signal);
+}
+.nav-logo-path {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-width: 22;
+  stroke-linecap: round;
+  stroke-dasharray: 6 46;
+  opacity: .22;
+}
+.nav-logo-path + .nav-logo-path {
+  opacity: .12;
+}
+.nav-logo-orbit {
+  transform-box: view-box;
+  animation: nav-orbit 9s linear infinite;
+}
+.nav-logo-orbit.is-outer {
+  animation-duration: 15s;
+  animation-direction: reverse;
+}
+@keyframes nav-orbit {
+  to { transform: rotate(360deg); }
+}
+@media(max-width:600px) {
+  .nav-logo {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .nav-logo-orbit {
+    animation: none;
+  }
+}

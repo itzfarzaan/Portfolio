@@ -10,6 +10,7 @@ import Journey from './portfolio/Journey';
 import './portfolio/journey.css';
 import SiteFooter from './portfolio/SiteFooter';
 import ThemeToggle from './portfolio/ThemeToggle';
+import NavLogo from './portfolio/NavLogo';
 import './portfolio/sections.css';
 import './portfolio/accents.css';
 const Arrow = () => <span aria-hidden="true">↗</span>;
@@ -48,7 +49,7 @@ function RouteEffects() {
 }
 function Header() {
   return <header className="site-header shell">
-    <Link className="wordmark" to="/" aria-label="Farzaan Ali, home">fa<span>.</span></Link>
+    <Link className="wordmark wordmark-logo" to="/" aria-label="Farzaan Ali, home"><NavLogo /></Link>
     <nav aria-label="Main navigation">
       <NavLink to="/projects">Projects</NavLink>
       <Link to="/#experience">Experience</Link>

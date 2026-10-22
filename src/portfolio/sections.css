@@ -41,6 +41,21 @@
   padding-bottom: 8px;
   white-space: nowrap;
 }
+.section-link {
+  color: var(--color-signal);
+  text-decoration: none;
+}
+.section-link span {
+  display: inline-block;
+  transition: transform .25s var(--ease);
+}
+.section-link:hover span, .section-link:focus-visible span {
+  transform: translateX(4px);
+}
+.section-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .tag-list {
   display: flex;
   flex-wrap: wrap;
