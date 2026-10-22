@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { experience, journey } from './content';
+import { Link } from 'react-router-dom';
 import AsciiTitle from './AsciiTitle';
 
 // Photos fly in from the prints that were clicked and settle into a collage; one photo fills the frame,
@@ -166,7 +167,7 @@ export default function Journey() {
               <span className="jv-when"><b>{String(index + 1).padStart(2, '0')}</b>{stop.when}</span>
               {stop.metric && <span className="jv-metric">{stop.metric}<small>{stop.metricLabel}</small></span>}
               <h3>{stop.title}</h3>
-              <p>{stop.text}</p>
+              <p>{stop.link ? stop.text.split('{link}').map((part, i) => i ? [<Link key="link" className="jv-link" to={stop.link.to}>{stop.link.label}</Link>, part] : part) : stop.text}</p>
               {stop.photos?.length > 0 && <button type="button" className="jv-prints" onClick={event => openPhotos(stop, event.currentTarget)} aria-label={`Open ${stop.photos.length} photos: ${stop.title}`}>
                 {stop.photos.map((photo, i) => <img key={photo.src} src={photo.src} alt="" width={photo.width} height={photo.height} loading="lazy" style={{ '--i': i }} />)}
                 <span>{stop.photos.length > 1 ? `View ${stop.photos.length} photos` : 'View photo'}</span>

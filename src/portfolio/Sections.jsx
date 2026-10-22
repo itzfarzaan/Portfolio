@@ -18,16 +18,16 @@ export function About() {
   return <section className="home-section about" id="about" aria-labelledby="about-title">
     <SectionHeader id="about-title" title="About" meta="AI & software engineer" />
     <div className="about-intro">
-      <p className="about-lead">I build <em>AI products</em> and the software around them.</p>
+      <p className="about-lead">I build technology that <em>closes gaps</em> between people.</p>
       <div className="about-body">
-        <p>I’m Mohammed Farzaan Ali. I work across the stack: language model agents and retrieval on one side, and the web applications, APIs, and data models that make them useful on the other.</p>
-        <p>I’m currently an AI Engineer at Linkiat and a Software Engineer at Creative Analytica, where I lead the development of AqaarPro.</p>
+        <p>My first hackathon project was a glove that turned sign language into speech and text. Years later, my final-year project went further: a generative Transformer that converts speech into Indian Sign Language poses, performed live by a 3D avatar.</p>
+        <p>That idea runs through most of my work. Whether it is a voice receptionist, a document you can talk to, or an avatar that signs, <span className="about-key">I like building the bridge between what people need and what technology can already do.</span></p>
       </div>
     </div>
     <dl className="about-facts">
-      <div><dt>Currently</dt><dd>Linkiat · Creative Analytica</dd></div>
-      <div><dt>Education</dt><dd>B.E. AI & ML, MJCET</dd></div>
-      <div><dt>Based in</dt><dd>Hyderabad, India</dd></div>
+      <div><dt>First build</dt><dd>Sign language glove, 2023</dd></div>
+      <div><dt>Final project</dt><dd>Real-time ISL translation</dd></div>
+      <div><dt>Graduated</dt><dd>Rank 9 of 466</dd></div>
       <div><dt>Writing</dt><dd><a href="https://blog.farzaanali.com">blog.farzaanali.com ↗</a></dd></div>
     </dl>
   </section>;

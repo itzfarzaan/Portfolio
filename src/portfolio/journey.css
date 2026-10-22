@@ -267,6 +267,15 @@
   letter-spacing: .1em;
   text-transform: uppercase;
 }
+.jv-link {
+  color: var(--color-signal);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.jv-link:hover {
+  text-decoration-thickness: 2px;
+}
 /* The line ends in the hand-off to Experience, centred under the last era. */
 .jv-end {
   position: relative;

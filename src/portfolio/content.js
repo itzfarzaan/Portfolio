@@ -272,6 +272,7 @@ export const projects = [{
   type: 'Technical project',
   problem: 'Finding one answer in long notes, PDFs, or research papers usually means reading them again or hunting with Ctrl+F.',
   overview: 'KnowMyDocs is a retrieval-augmented generation app anyone can use. Upload a document, ask a question in plain language, and get an answer drawn only from that document, along with the passages it came from.',
+  origin: 'It started as ChunkForge: an API, with documentation, that simplified every step of RAG, from chunking to storage, so developers could add retrieval to their own sites. It offered several known chunking methods, including token-based, word-based, and semantic chunking. While building it, I realised an API alone was not a full product, so it grew into KnowMyDocs, an end-to-end SaaS where anyone can create a project, store files, and chat with their documents, with the API still there for developers.',
   stats: [
     { value: '5', label: 'File types: PDF, TXT, MD, CSV, JSON' },
     { value: '500', label: 'Tokens per chunk, with 50 of overlap' },
@@ -595,6 +596,14 @@ export const journey = [{
 }, {
   id: 'smc', era: '2025', when: '2025', title: 'R&D Team, IEEE SMC',
   text: 'Led AI-based projects and earned a place in a month-long AI prototyping program.'
+}, {
+  id: 'saas', era: '2025', when: '2025', title: 'Built my first SaaS',
+  // {link} marks where the link sits inside the sentence.
+  text: 'It began as ChunkForge, an API that simplified RAG, and grew into {link}, an app where anyone can chat with their documents.',
+  link: { to: '/projects/knowmydocs', label: 'KnowMyDocs' },
+  photos: [
+    { src: '/media/projects/knowmydocs.webp', width: 1800, height: 713, alt: 'KnowMyDocs landing page with the headline Chat with your Documents' }
+  ]
 }, {
   id: 'graduation', era: '2026', when: '2026', metric: 'Rank 9', metricLabel: 'of 466', title: 'Graduated with a merit rank',
   text: 'Placed on the Osmania University merit list for B.E. Computer Science and Engineering (Artificial Intelligence and Machine Learning), graduating with a CGPA of 8.98 and 85.58% overall.',

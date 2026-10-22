@@ -97,6 +97,11 @@
   color: var(--color-muted);
   margin: 0 0 14px;
 }
+/* The closing line of the About copy: full ink, starting on its own line. */
+.about-key {
+  display: block;
+  color: var(--color-ink);
+}
 .about-facts {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

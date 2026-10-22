@@ -78,6 +78,7 @@ export default function CaseStudy({ project }) {
     <Section title="Overview">
       <p className="cs-big">{project.problem}</p>
       <p>{project.overview}</p>
+      {project.origin && <p>{project.origin}</p>}
       <dl className="cs-facts">
         <div><dt>Role</dt><dd>{project.role}</dd></div>
         <div><dt>Stack</dt><dd><ul className="tag-list">{project.stack.map(tag => <li key={tag}>{tag}</li>)}</ul></dd></div>

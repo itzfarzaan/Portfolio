@@ -113,6 +113,6 @@ export default function MobileHero() {
       <a className="embed-chip" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
       <a className="embed-chip" href={`mailto:${profile.email}`}>Email</a>
     </div>
-    <p className="m-bio">AI Engineer at <strong>Linkiat</strong> and Software Engineer at <strong>Creative Analytica</strong>, where I lead AqaarPro. I also built the voice AI receptionist behind <strong>YoraHealth</strong>.</p>
+    <p className="m-bio">Artificial Intelligence Engineer at <strong>Linkiat</strong>, leading software projects at <strong>Creative Analytica</strong>. I build software where people and AI work together, automating the busywork so people can focus on what matters.</p>
   </section>;
 }

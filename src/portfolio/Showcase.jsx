@@ -34,7 +34,7 @@ function DesktopHero() {
           <p className="embed-eyebrow">AI & Software Engineer</p>
           <h1 id="intro-title" ref={name}><span>Farzaan</span> <span>Ali</span></h1>
           <p className="embed-tagline">I build software that <em>understands.</em></p>
-          <p className="embed-bio">AI Engineer at <strong>Linkiat</strong> and Software Engineer at <strong>Creative Analytica</strong>, where I lead AqaarPro. I also built the voice AI receptionist behind <strong>YoraHealth</strong>.</p>
+          <p className="embed-bio">Artificial Intelligence Engineer at <strong>Linkiat</strong>, leading software projects at <strong>Creative Analytica</strong>. I build software where people and AI work together, automating the busywork so people can focus on what matters.</p>
           <div className="embed-actions">
             <a className="embed-primary" href={profile.resume} download><span aria-hidden="true">↓</span> Download resume</a>
             <a className="embed-chip" href={profile.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a>
@@ -49,7 +49,7 @@ function DesktopHero() {
             <img src="/media/farzaan-portrait-casual.webp" alt="Mohammed Farzaan Ali" width="1200" height="1363" fetchPriority="high" />
             <span className="rank-label" aria-hidden="true">#01 · Top result</span>
             <span className="rank-score" aria-hidden="true">0.991</span>
-            <figcaption className="rank-info"><strong>farzaan.ali</strong><span>AI & Software Engineer · Hyderabad</span></figcaption>
+            <figcaption className="rank-info"><strong>farzaan.ali</strong></figcaption>
             <span className="rank-glare" aria-hidden="true" />
           </figure>
         </div>
