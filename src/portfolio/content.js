@@ -579,8 +579,8 @@ export const journey = [{
     { src: '/media/journey/hackathon-1.webp', width: 1429, height: 1183, alt: 'Participants receiving Hack Revolution certificates on stage, with every face except Farzaan’s blurred' }
   ]
 }, {
-  id: 'cis', era: '2024', when: '2024', metric: '800+', metricLabel: 'students reached', title: 'Technical Team, IEEE CIS',
-  text: 'Helped lead workshops introducing students to emerging technologies.'
+  id: 'ieee', era: '2024', when: '2024 – 2025', metric: '800+', metricLabel: 'students reached', title: 'IEEE CIS and IEEE SMC',
+  text: 'Technical Lead at IEEE CIS and R&D member at IEEE SMC. Helped lead workshops and AI-based projects, introducing students to emerging technologies.'
 }, {
   id: 'award-2024', era: '2024', when: '2024', metric: '8.8', metricLabel: 'SGPA', title: 'Certificate of Academic Excellence',
   text: 'A second departmental award for academic excellence, this time for the third semester.',
@@ -589,8 +589,8 @@ export const journey = [{
     { src: '/media/journey/photob-2.webp', width: 1222, height: 829, alt: 'Certificate of Academic Excellence from MJCET' }
   ]
 }, {
-  id: 'smc', era: '2025', when: '2025', title: 'R&D Team, IEEE SMC',
-  text: 'Led AI-based projects and earned a place in a month-long AI prototyping program.'
+  id: 'branch-rank', era: '2025', when: 'Semester VI – VIII', title: 'Top of my branch',
+  text: 'First in my branch in semesters VI and VIII and second in VII, with SGPAs of 8.95, 9.79, and 9.86.'
 }, {
   id: 'saas', era: '2025', when: '2025', title: 'Built my first SaaS',
   // {link} marks where the link sits inside the sentence.
