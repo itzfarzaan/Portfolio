@@ -11,6 +11,7 @@ import './portfolio/journey.css';
 import SiteFooter from './portfolio/SiteFooter';
 import ThemeToggle from './portfolio/ThemeToggle';
 import NavLogo from './portfolio/NavLogo';
+import BackToTop from './portfolio/BackToTop';
 import './portfolio/sections.css';
 import './portfolio/accents.css';
 const Arrow = () => <span aria-hidden="true">↗</span>;
@@ -130,7 +131,7 @@ export default function App() {
       <Route path="/" element={<Home />} /><Route path="/projects" element={<Work />} /><Route path="/projects/:id" element={<ProjectDetail />} />
       <Route path="/experience" element={<Navigate to="/#experience" replace />} /><Route path="/about" element={<Navigate to="/#about" replace />} />
       <Route path="/blog/*" element={<BlogRedirect />} /><Route path="*" element={<NotFound />} />
-    </Routes></main>
+    </Routes></main><BackToTop />
     <SiteFooter />
   </BrowserRouter>;
 }

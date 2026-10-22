@@ -6,14 +6,22 @@ const ORBITS = [{ r: 230, size: 30, className: 'nav-logo-orbit is-inner' }, { r:
 
 // The navbar logo: "fa." with two points orbiting the dot at different speeds, like vectors around a
 // query in embedding space. Animated with CSS only, so it pauses for reduced motion.
+// The orbits and the letters are separate groups so the back-to-top button can bring them in one after the other.
 export default function NavLogo() {
+  const origin = { transformOrigin: `${CX}px ${CY}px` };
   return <svg className="nav-logo" viewBox="0 0 1024 1024" aria-hidden="true">
-    {ORBITS.map(orbit => <circle key={orbit.r} className="nav-logo-path" cx={CX} cy={CY} r={orbit.r} />)}
-    <path d={F} />
-    <path d={A} />
+    <g className="nav-logo-system" style={origin}>
+      {ORBITS.map(orbit => <circle key={orbit.r} className="nav-logo-path" cx={CX} cy={CY} r={orbit.r} />)}
+    </g>
+    <g className="nav-logo-letters">
+      <path d={F} />
+      <path d={A} />
+    </g>
     <circle className="nav-logo-dot" cx={CX} cy={CY} r="80" />
-    {ORBITS.map(orbit => <g key={orbit.r} className={orbit.className} style={{ transformOrigin: `${CX}px ${CY}px` }}>
-      <circle className="nav-logo-dot" cx={CX + orbit.r} cy={CY} r={orbit.size} />
-    </g>)}
+    <g className="nav-logo-system" style={origin}>
+      {ORBITS.map(orbit => <g key={orbit.r} className={orbit.className} style={origin}>
+        <circle className="nav-logo-dot" cx={CX + orbit.r} cy={CY} r={orbit.size} />
+      </g>)}
+    </g>
   </svg>;
 }

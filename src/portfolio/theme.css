@@ -217,3 +217,99 @@
     animation: none;
   }
 }
+
+/* Floating back-to-top button (BackToTop.jsx). */
+.to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  /* A flat, faintly tinted disc (no shadow), the same treatment in both themes. */
+  background: color-mix(in srgb, var(--color-ink) 6%, var(--color-paper));
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px) scale(.85);
+  transition: opacity .35s, transform .45s var(--ease), visibility 0s .45s;
+}
+.to-top.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity .35s, transform .45s var(--ease), visibility 0s;
+}
+.to-top:hover {
+  transform: translateY(-3px);
+}
+.to-top:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
+.to-top .nav-logo {
+  width: 42px;
+  height: 42px;
+  /* Centre the letters and the dot, which the eye reads as the logo; the faint orbits spill toward the edge. */
+  transform: translate(-.9%, -3.6%);
+}
+/* Each time it appears: the dot, then the orbit spinning out around it, then the letters. */
+.to-top.is-shown .nav-logo-dot {
+  animation: to-top-pop .4s var(--ease) both;
+}
+.to-top.is-shown .nav-logo-system {
+  animation: to-top-orbit .8s cubic-bezier(.2, .8, .2, 1) .15s both;
+}
+.to-top.is-shown .nav-logo-letters {
+  animation: to-top-name .55s var(--ease) .75s both;
+}
+.nav-logo-system {
+  transform-box: view-box;
+}
+.to-top .nav-logo-dot, .to-top .nav-logo-letters {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes to-top-pop {
+  from { transform: scale(0); }
+}
+@keyframes to-top-orbit {
+  from { transform: rotate(-200deg) scale(0); opacity: 0; }
+}
+@keyframes to-top-name {
+  from { opacity: 0; transform: translateX(-26%); clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+}
+@media(max-width:600px) {
+  .to-top {
+    right: 16px;
+    bottom: 16px;
+    width: 54px;
+    height: 54px;
+  }
+  .to-top .nav-logo {
+    width: 36px;
+    height: 36px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .to-top, .to-top.is-shown .nav-logo-dot, .to-top.is-shown .nav-logo-system, .to-top.is-shown .nav-logo-letters {
+    animation: none;
+    transition: none;
+  }
+}
+:root[data-theme="dark"] .to-top {
+  background: color-mix(in srgb, #ffffff 9%, var(--color-paper));
+}
+.to-top:hover {
+  background: color-mix(in srgb, var(--color-ink) 10%, var(--color-paper));
+}
+:root[data-theme="dark"] .to-top:hover {
+  background: color-mix(in srgb, #ffffff 14%, var(--color-paper));
+}
