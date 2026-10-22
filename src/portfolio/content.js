@@ -226,12 +226,6 @@ export const projects = [{
   type: 'Technical project',
   problem: 'People who communicate in American Sign Language are often talking with people who do not know it. The Gesture Glove reads ASL gestures from the hand itself and turns them into text and speech as they happen.',
   overview: 'Flex sensors and an MPU6050 feed an Arduino Uno, which streams readings to a Python backend that classifies each gesture, shows it as text, and speaks it aloud.',
-  stats: [
-    { value: '<200 ms', label: 'From gesture to output' },
-    { value: '100 Hz', label: 'Sensor sampling rate' },
-    { value: '20', label: 'Gestures in the training set' },
-    { value: '6-axis', label: 'Motion sensing with the MPU6050' }
-  ],
   flow: [
     { title: 'Sense', tech: 'Flex sensors · MPU6050', text: 'Each finger’s bend and the hand’s orientation are read 100 times a second.' },
     { title: 'Collect', tech: 'Arduino Uno', text: 'The Arduino acquires the analog and motion readings and preprocesses them.' },

@@ -97,6 +97,8 @@ export default function CaseStudy({ project }) {
       {project.features && <ul className="cs-checks">{project.features.map(item => <li key={item}>{item}</li>)}</ul>}
     </Section>
 
+    {project.figure && <LiveFigure name={project.figure} />}
+
     {story && <Story project={project} />}
 
     {!story && project.video && <Section title="Product demo">
@@ -116,8 +118,6 @@ export default function CaseStudy({ project }) {
         </li>)}
       </ol>
     </Section>}
-
-    {project.figure && <LiveFigure name={project.figure} />}
 
     {!story && project.engineering && <Section title="Engineering decisions">
       <div className="cs-notes">{project.engineering.map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.text}</p></div>)}</div>

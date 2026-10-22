@@ -1,6 +1,7 @@
-// The live figure: eases the hand between handshapes, streams simulated sensor frames at 100 Hz through a
-// moving average, classifies them with the k-NN, and walks the lit accent through the five steps.
-// Framework-free so the React wrapper and the standalone preview share it.
+// The live figure as a walkthrough: one step of the pipeline at a time, each with its own motion.
+// The hand eases between handshapes, the sensors stream simulated frames at 100 Hz through a moving
+// average, and the k-NN names the letter. Steps advance on their own and can be paused or stepped.
+// Framework-free; the React wrapper renders the controls around it.
 import * as model from './model.mjs';
 import { handSvg, USB, HARNESS, UI, routeScreen } from './scene.mjs';
 
@@ -24,11 +25,11 @@ export const PULSES = [
   { id: 'harness', d: pathD(HARNESS_SCREEN), length: lengthOf(HARNESS_SCREEN) },
   { id: 'usb', d: pathD(USB_SCREEN), length: lengthOf(USB_SCREEN) }
 ];
+const index = id => model.STEPS.findIndex(step => step.id === id);
 
-export function mountGlove(root, { onState } = {}) {
+export function mountGlove(root, { onStep } = {}) {
   const $ = selector => root.querySelector(selector);
   const hand = $('[data-part="hand"]');
-  const readout = $('[data-readout]');
   const stage = $('.gl-stage');
   const bars = [...root.querySelectorAll('[data-bar]')];
   const letterText = $('[data-part="letter"]');
@@ -42,83 +43,68 @@ export function mountGlove(root, { onState } = {}) {
   const leds = Object.fromEntries([...root.querySelectorAll('[data-led]')].map(el => [el.dataset.led, el.querySelector('.iso-solid')]));
   const grille = $('.gl-grille');
   const pulses = Object.fromEntries(PULSES.map(p => [p.id, root.querySelector(`[data-pulse="${p.id}"]`)]));
-  const live = $('.gl-live');
-  // Reduced motion: no tour, and every move jumps to its pose; the figure still answers input.
+  // Reduced motion: the steps don't advance on their own, and every move jumps to its pose.
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const rest = flatten(model.anglesOf(model.SHAPES.rest));
   const state = {
     values: [...rest], rates: rest.map(() => 0), target: [...rest],
-    clock: 0, letter: null, letterAt: 0, queue: [], typed: '', result: null,
-    touring: !still.matches, tourWord: 0, tourIndex: 0, idleUntil: 0, speakingWord: 0,
-    samples: [], sampleClock: 0, frames: 0, smoothed: model.FINGERS.map(() => model.ADC_FLAT),
-    drawn: '', stageId: ''
+    clock: 0, step: 0, stepAt: 0, playing: !still.matches, pass: 0, result: null,
+    samples: [], sampleClock: 0, smoothed: model.FINGERS.map(() => model.ADC_FLAT), drawn: ''
   };
+  const letter = () => model.WORD[state.pass % model.WORD.length];
 
-  const sign = letter => {
-    state.letter = letter;
-    state.letterAt = state.clock;
-    state.result = null;
-    state.target = flatten(model.anglesOf(model.SHAPES[letter] || model.SHAPES.rest));
-  };
-
-  // The tour spells the words, speaks each one, then clears the line and goes on to the next.
-  function tourStep() {
-    const word = model.TOUR[state.tourWord % model.TOUR.length];
-    if (state.tourIndex < word.length) {
-      sign(word[state.tourIndex]);
-      state.tourIndex += 1;
-    } else {
-      speakWord();
-      state.tourIndex = 0;
-      state.tourWord += 1;
+  function go(step, { wrap = false } = {}) {
+    const count = model.STEPS.length;
+    if (wrap && step >= count) state.pass += 1;
+    state.step = ((step % count) + count) % count;
+    state.stepAt = state.clock;
+    // Each pass starts from a relaxed hand, so the sign is seen forming; later steps hold it.
+    if (state.step === 0) {
+      state.values = [...rest];
+      state.rates = rest.map(() => 0);
     }
+    const shape = model.SHAPES[letter()];
+    state.target = flatten(model.anglesOf(shape));
+    state.result = state.step >= index('classify') ? model.classify(model.featuresOf(model.bendOf(model.anglesOf(shape)).map(model.adcOf), shape.roll)) : null;
+    onStep?.(state.step, state.playing);
+    run();
   }
-  function speakWord() {
-    if (!state.typed) return;
-    state.letter = null;
-    state.speakingWord = state.clock;
-    state.target = [...rest];
-  }
-
-  const say = text => { if (readout && readout.textContent !== text) readout.textContent = text; };
-  const announce = text => { if (live) live.textContent = text; };
 
   function sample(dt) {
-    // Raw counts come from the pose the hand is really in, with a little sensor noise; 100 times a second.
+    // Raw counts come from the pose the hand is really in, with a little sensor noise, 100 times a second.
     state.sampleClock += dt;
-    const pose = unflatten(state.values);
-    const bends = model.bendOf(pose);
+    const bends = model.bendOf(unflatten(state.values));
     while (state.sampleClock >= 1 / model.RATE) {
       state.sampleClock -= 1 / model.RATE;
-      state.frames += 1;
       state.samples.push(bends.map(b => model.adcOf(b) + Math.round((Math.random() - 0.5) * 6)));
       if (state.samples.length > model.WINDOW) state.samples.shift();
     }
     if (state.samples.length) state.smoothed = model.FINGERS.map((_, i) => state.samples.reduce((sum, s) => sum + s[i], 0) / state.samples.length);
   }
 
-  function drawScreen(stageId, t) {
+  function drawScreen(id, t) {
+    // The app only sees what has reached it: the meters come alive once frames arrive over serial.
+    const arrived = state.step >= index('transmit');
     bars.forEach((bar, i) => {
-      const level = Math.max(0, Math.min(1, (state.smoothed[i] - model.ADC_BENT) / (model.ADC_FLAT - model.ADC_BENT)));
+      const level = arrived ? Math.max(0, Math.min(1, (state.smoothed[i] - model.ADC_BENT) / (model.ADC_FLAT - model.ADC_BENT))) : 0;
       const b = UI.bar(i);
-      const full = b.z1 - b.z0 - 1.6;
-      const h = full * level;
+      const h = (b.z1 - b.z0 - 1.6) * level;
       bar.setAttribute('y', (-(b.z0 + 0.8 + h)).toFixed(2));
       bar.setAttribute('height', h.toFixed(2));
     });
-    const roll = state.values[20];
+    const roll = arrived ? state.values[20] : 0;
     const g = UI.roll, a = -roll * Math.PI / 180, r = g.r - 2;
     rollLine.setAttribute('d', `M${(g.cx - r * Math.cos(a)).toFixed(2)} ${(-g.cz + r * Math.sin(a)).toFixed(2)}L${(g.cx + r * Math.cos(a)).toFixed(2)} ${(-g.cz - r * Math.sin(a)).toFixed(2)}`);
     rollText.textContent = `roll ${roll >= 0 ? '+' : ''}${roll.toFixed(0)}°`;
-    const shown = state.result && ['classify', 'speak'].includes(stageId);
-    letterText.textContent = shown ? state.result.letter : '';
-    votesText.textContent = shown ? `${state.result.votes} of ${model.K} votes` : '';
-    knnText.textContent = shown ? `k-NN · ${state.result.near.join(' ')}` : 'k-NN · k = 3';
-    typedText.textContent = state.typed + '▌';
-    // The voice: an envelope over a few sines, only while speaking.
-    let amp = 0;
-    if (stageId === 'speak') amp = Math.sin(Math.min(1, t) * Math.PI);
+    letterText.textContent = state.result ? state.result.letter : '';
+    votesText.textContent = state.result ? `${state.result.votes} of ${model.K} votes` : '';
+    knnText.textContent = state.result ? `k-NN · ${state.result.near.join(' ')}` : 'k-NN · k = 3';
+    // The text line spells the word one pass at a time; this pass's letter joins it when it is spoken.
+    const done = model.WORD.slice(0, state.pass % model.WORD.length);
+    typedText.textContent = done + (id === 'speak' ? letter() : '') + '▌';
+    // The voice: an envelope over a few sines while speaking.
+    const amp = id === 'speak' ? Math.sin(Math.min(1, t / 1.6) * Math.PI) : 0;
     const w = UI.wave, points = [];
     for (let x = w.x0; x <= w.x1; x += 1) {
       const p = (x - w.x0) / (w.x1 - w.x0);
@@ -129,37 +115,22 @@ export function mountGlove(root, { onState } = {}) {
     grille.toggleAttribute('data-on', amp > 0.05);
   }
 
-  function setLit(stageId, t) {
-    root.dataset.stage = stageId;
-    chip?.toggleAttribute('data-lit', stageId === 'collect');
-    const blink = stageId === 'transmit' && Math.floor(t * 12) % 2 === 0;
-    leds.tx?.toggleAttribute('data-lit', blink);
-    leds.rx?.toggleAttribute('data-lit', stageId === 'collect' && Math.floor(t * 9) % 2 === 0);
+  function setLit(id, t) {
+    root.dataset.stage = id;
+    chip?.toggleAttribute('data-lit', id === 'collect');
+    leds.tx?.toggleAttribute('data-lit', id === 'transmit' && Math.floor(t * 10) % 2 === 0);
     leds.on?.toggleAttribute('data-lit', true);
-    const run = (id, active, progress) => {
-      const el = pulses[id];
+    // Frames run along the cable again and again while its step is showing.
+    const pulse = (key, active, period) => {
+      const el = pulses[key];
       if (!el) return;
-      const { length } = PULSES.find(p => p.id === id);
-      el.style.opacity = active ? String(Math.sin(Math.min(1, progress) * Math.PI)) : '0';
-      el.style.strokeDashoffset = String(24 - Math.min(1, progress) * (length + 24));
+      const { length } = PULSES.find(p => p.id === key);
+      const progress = (t % period) / period;
+      el.style.opacity = active ? String(Math.sin(progress * Math.PI)) : '0';
+      el.style.strokeDashoffset = String(24 - progress * (length + 24));
     };
-    const collect = model.STAGES[1], transmit = model.STAGES[2];
-    run('harness', stageId === 'collect', (t) / collect.hold);
-    run('usb', stageId === 'transmit', (t) / transmit.hold);
-  }
-
-  function readoutOf(stageId) {
-    const counts = state.smoothed.map(Math.round).join(' ');
-    if (state.speakingWord && !state.letter) return `05 speak · “${state.typed.toLowerCase()}”`;
-    if (!state.letter) return 'ready · type a letter';
-    if (!model.SHAPES[state.letter]) return `no trained gesture for “${state.letter}”`;
-    switch (stageId) {
-      case 'sense': return `01 sense · flex ${counts}`;
-      case 'collect': return `02 collect · ${model.RATE} Hz · ${model.WINDOW}-sample average`;
-      case 'transmit': return `03 transmit · frame ${state.frames.toLocaleString('en-US')} over serial`;
-      case 'classify': return `04 classify · k-NN → ${state.result?.letter} · ${state.result?.votes} of ${model.K}`;
-      default: return `05 speak · “${state.typed}”`;
-    }
+    pulse('harness', id === 'collect', 1.1);
+    pulse('usb', id === 'transmit', 0.9);
   }
 
   let frame = 0, last = 0, visible = false;
@@ -168,9 +139,15 @@ export function mountGlove(root, { onState } = {}) {
     last = now;
     const calm = still.matches;
     state.clock += dt;
+    const id = model.STEPS[state.step].id;
+    const t = state.clock - state.stepAt;
 
-    // Ease every joint with a critically damped spring.
-    const w = 1 / 0.16;
+    // While the tilt step shows, the hand rocks gently so the MPU6050 has something to read.
+    const shape = model.SHAPES[letter()];
+    state.target[20] = id === 'tilt' && !calm ? shape.roll + 9 * Math.sin(t * 1.6) : shape.roll;
+
+    // Ease every joint with a critically damped spring; the sign itself forms slowly enough to watch.
+    const w = id === 'sign' ? 1 / 0.32 : 1 / 0.16;
     let moving = false;
     state.values = state.values.map((x, i) => {
       if (calm) { state.rates[i] = 0; return state.target[i]; }
@@ -186,57 +163,20 @@ export function mountGlove(root, { onState } = {}) {
     });
     sample(dt);
 
-    let stageId = 'idle', t = 0;
-    if (state.letter && model.SHAPES[state.letter]) {
-      const age = state.clock - state.letterAt;
-      const current = model.stageAt(age);
-      stageId = current.id;
-      t = age - current.at;
-      if (stageId === 'classify' && !state.result) state.result = model.classify(model.featuresOf(state.smoothed, state.values[20]));
-      if (stageId === 'speak' && state.result && !state.result.typed) {
-        state.result.typed = true;
-        state.typed = (state.typed + state.result.letter).slice(-14);
-        announce(`Recognised ${state.result.letter}`);
-      }
-      if (age >= model.LETTER_TIME) {
-        state.letter = null;
-        if (state.queue.length) sign(state.queue.shift());
-        else if (state.touring) tourStep();
-      }
-    } else if (state.speakingWord) {
-      const age = state.clock - state.speakingWord;
-      stageId = 'speak';
-      t = age / 1.2;
-      if (age > 1.2 && age < 1.25) announce(`Spoke “${state.typed.toLowerCase()}”`);
-      if (age >= 2.2) {
-        state.speakingWord = 0;
-        if (state.touring) { state.typed = ''; tourStep(); }
-      }
-    } else if (state.letter) {
-      if (state.clock - state.letterAt > 1.6) state.letter = null;
-    } else if (state.queue.length) sign(state.queue.shift());
-    else if (state.touring && state.clock > 1.2) tourStep();
-    if (!state.touring && state.idleUntil && state.clock > state.idleUntil && !state.letter && !state.speakingWord && !state.queue.length) {
-      state.touring = !still.matches;
-      state.typed = '';
-      state.tourIndex = 0;
-    }
-
-    const lit = stageId === 'sense' ? 'sense' : '';
+    const lit = ['sense', 'tilt'].includes(id) ? id : '';
     const key = state.values.map(v => v.toFixed(2)).join(',') + lit;
     if (key !== state.drawn) {
       hand.innerHTML = handSvg(unflatten(state.values), { lit });
       state.drawn = key;
     }
-    setLit(stageId, t);
-    drawScreen(stageId, t);
-    say(readoutOf(stageId));
-    if (stageId !== state.stageId) { state.stageId = stageId; onState?.(stageId); }
+    setLit(id, t);
+    drawScreen(id, t);
 
-    const busy = moving || state.touring || state.letter || state.speakingWord || state.queue.length || state.idleUntil > state.clock;
+    if (state.playing && t >= model.STEP_TIME) go(state.step + 1, { wrap: true });
+    const busy = moving || state.playing || ['tilt', 'collect', 'transmit', 'speak'].includes(id);
     frame = visible && busy ? requestAnimationFrame(tick) : 0;
   }
-  const run = () => { if (!frame && visible) { last = 0; frame = requestAnimationFrame(tick); } };
+  function run() { if (!frame && visible) { last = 0; frame = requestAnimationFrame(tick); } }
 
   const observer = new IntersectionObserver(entries => {
     visible = entries[entries.length - 1].isIntersecting;
@@ -244,46 +184,22 @@ export function mountGlove(root, { onState } = {}) {
   }, { rootMargin: '120px 0px' });
   observer.observe(stage);
 
-  // Input: a letter signs it, Space speaks the word, Backspace deletes, Escape hands back to the tour.
-  function takeOver() {
-    if (state.touring) {
-      state.touring = false;
-      state.queue = [];
-      state.typed = '';
-      state.letter = null;
-      state.speakingWord = 0;
-    }
-    state.idleUntil = state.clock + 12;
-  }
-  function press(key) {
-    if (key === 'Escape') { state.idleUntil = state.clock; run(); return; }
-    takeOver();
-    if (key === ' ' || key === 'Enter') speakWord();
-    else if (key === 'Backspace') state.typed = state.typed.slice(0, -1);
-    else if (/^[a-z]$/i.test(key)) {
-      const letter = key.toUpperCase();
-      if (state.letter || state.speakingWord) state.queue.push(letter);
-      else sign(letter);
-    }
-    run();
-  }
-  const onKey = event => {
-    if (event.metaKey || event.ctrlKey || event.altKey) return;
-    if (/^[a-z]$/i.test(event.key) || [' ', 'Enter', 'Backspace', 'Escape'].includes(event.key)) {
-      event.preventDefault();
-      press(event.key);
-    }
-  };
-  stage.addEventListener('keydown', onKey);
   hand.innerHTML = handSvg(unflatten(state.values), {});
-  run();
+  go(0);
 
   return {
-    press,
+    go: step => go(step),
+    next: () => go(state.step + 1, { wrap: true }),
+    prev: () => go(state.step - 1),
+    toggle() {
+      state.playing = !state.playing;
+      state.stepAt = state.clock;
+      onStep?.(state.step, state.playing);
+      run();
+    },
     destroy() {
       cancelAnimationFrame(frame);
       observer.disconnect();
-      stage.removeEventListener('keydown', onKey);
     }
   };
 }

@@ -93,16 +93,18 @@ export function classify(x) {
   return { letter, votes, d: near[0].d, near: near.map(n => n.letter) };
 }
 
-// The five steps from the project page, with how long each holds the lit accent in the figure.
-// The real glove runs the whole path in under 200 ms; the figure slows it down so it can be followed.
-export const STAGES = [
-  { id: 'sense', title: 'Sense', at: 0, hold: 1.1 },
-  { id: 'collect', title: 'Collect', at: 1.1, hold: 0.6 },
-  { id: 'transmit', title: 'Transmit', at: 1.7, hold: 0.7 },
-  { id: 'classify', title: 'Classify', at: 2.4, hold: 0.6 },
-  { id: 'speak', title: 'Speak', at: 3.0, hold: 0.8 }
+// The walkthrough: one step of the glove's pipeline at a time. `lit` names the part that carries the accent.
+// The real glove runs the whole path in under 200 ms; the figure holds each step so it can be read.
+export const STEPS = [
+  { id: 'sign', icon: 'hand', label: 'Sign', title: 'Make the sign', lit: '', text: 'The wearer forms a letter. The glove reads the hand itself, so nothing has to face a camera.' },
+  { id: 'sense', icon: 'flex', label: 'Bend', title: 'Each finger bends a flex sensor', lit: 'sense', text: 'A strip on every finger gains resistance as it bends. In a voltage divider that becomes a voltage the Arduino can read.' },
+  { id: 'tilt', icon: 'tilt', label: 'Tilt', title: 'The MPU6050 reads the hand’s angle', lit: 'tilt', text: 'On the back of the hand, the 6-axis accelerometer and gyroscope report how the hand is tilted, over I2C.' },
+  { id: 'collect', icon: 'chip', label: 'Collect', title: 'The Arduino samples 100 times a second', lit: 'collect', text: 'The Uno reads the five analog inputs and the MPU6050 together and packs them into one frame.' },
+  { id: 'transmit', icon: 'cable', label: 'Send', title: 'Frames stream over serial', lit: 'transmit', text: 'Each frame travels down the USB cable to the Python backend, which reads it with PySerial.' },
+  { id: 'classify', icon: 'knn', label: 'Match', title: 'Smooth, then find the nearest gesture', lit: 'classify', text: 'A moving average removes sensor noise. The bend angles and orientation are then matched against the 20 trained gestures with k-NN.' },
+  { id: 'speak', icon: 'speak', label: 'Speak', title: 'Show it and say it', lit: 'speak', text: 'The recognised gesture appears as text and pyttsx3 speaks it aloud, under 200\u00a0ms after the hand moved.' }
 ];
-export const LETTER_TIME = 3.8;
-export const stageAt = t => STAGES.reduce((current, stage) => (t >= stage.at ? stage : current), STAGES[0]);
+export const STEP_TIME = 4.8;
 
-export const TOUR = ['LOVE', 'YES', 'BYE'];
+// The letters the walkthrough signs, one per pass, building a word on the screen.
+export const WORD = 'LOVE';

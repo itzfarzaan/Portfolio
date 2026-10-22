@@ -6,7 +6,7 @@ import * as G from './kit/lathe.mjs';
 import { tubePieces, tubeSvg } from './kit/tube.mjs';
 import { SHORT } from './model.mjs';
 
-export const WIDTH = 720;
+export const WIDTH = 610;
 export const HEIGHT = 470;
 
 const PLATE = { x: -200, y: -84, w: 456, d: 196, r: 10 };
@@ -274,7 +274,7 @@ export function handSvg(pose, { lit = '' } = {}) {
   }
   boardItems.push(D(holes, { size: 0.32, tone: 'faint' }));
   const mpuF = { o: frame.local([0, back + BOARD.t, 0]), a: frame.Y, u: frame.X, v: frame.Z };
-  boardItems.push(S(G.prismOf(mpuF, rounded(MPU.u0, MPU.s0, MPU.u1, MPU.s1, 1, 2), 0, MPU.t, P), { tone: 'hi', lit: lit === 'sense' }));
+  boardItems.push(S(G.prismOf(mpuF, rounded(MPU.u0, MPU.s0, MPU.u1, MPU.s1, 1, 2), 0, MPU.t, P), { tone: 'hi', lit: lit === 'tilt' }));
   const chipF = { o: frame.local([0, back + BOARD.t + MPU.t, 0]), a: frame.Y, u: frame.X, v: frame.Z };
   boardItems.push(S(G.prismOf(chipF, rounded(-3, 49, 3, 55, 0.5, 2), 0, 0.9, P), { tone: 'mid' }));
   boardItems.push(D([MPU.s0 + 2].flatMap(s => Array.from({ length: 8 }, (_, i) => at(frame.local([MPU.u0 + 2.5 + i * 2.4, back + BOARD.t + MPU.t, s])))), { size: 0.4, tone: 'mid' }));

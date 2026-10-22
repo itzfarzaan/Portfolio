@@ -17,23 +17,7 @@
 }
 .gl .iso-plate {
   box-shadow: 0 0 0 1px var(--color-line);
-  padding: 48px 20px 52px;
-}
-.gl-stage {
-  outline: none;
-  touch-action: pan-y;
-}
-.gl-stage:focus-visible {
-  outline: 1px solid var(--anatomy-muted);
-  outline-offset: 6px;
-}
-.gl-live {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
+  padding: 48px 28px 36px;
 }
 
 /* Flex sensors: the printed ladder on each strip; lit while the hand is sensing. */
@@ -73,42 +57,122 @@
 .gl[data-stage="speak"] .gl-letter { fill: var(--anatomy-lit); }
 .gl[data-stage="speak"] .gl-ui-line[data-part="wave"] { stroke: var(--anatomy-lit); }
 
-/* Legend: the five steps, the letters to sign, and the caption. */
-.gl-legend { gap: 14px; margin-top: 16px; }
-.gl-steps {
+/* The walkthrough: step text with arrows, the step track, and play / pause. */
+.gl-step {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  gap: 20px;
+  align-items: center;
+  max-width: 760px;
+  margin: 8px auto 0;
+}
+.gl-step-text { min-height: 112px; }
+.gl-step-text h3 {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 20px;
-  margin: 0;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin: 0 0 10px;
+  font: 700 clamp(19px, 2.2vw, 25px)/1.2 var(--font-display);
+  letter-spacing: -.02em;
+  color: var(--color-ink);
+}
+.gl-count { font: 13px var(--mono); color: var(--color-muted); letter-spacing: .04em; }
+.gl-count b { font: 600 clamp(24px, 3vw, 32px) var(--mono); color: var(--color-ink); letter-spacing: 0; }
+.gl-step-text p { margin: 0; font: 16.5px/1.65 var(--font-body); color: var(--color-ink-soft); }
+.gl-arrow, .gl-play {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+  box-shadow: 0 6px 16px #16171d14;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.gl-arrow { width: 52px; height: 52px; padding: 0; border-radius: 50%; }
+.gl-arrow.is-dark { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+.gl-arrow svg, .gl-play svg, .gl-dot svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gl-arrow svg { width: 22px; height: 22px; }
+.gl-arrow:hover, .gl-play:hover { border-color: var(--color-signal); color: var(--color-signal); }
+.gl-arrow.is-dark:hover { background: var(--color-signal); border-color: var(--color-signal); color: #fff; }
+.gl-arrow:focus-visible, .gl-play:focus-visible, .gl-track button:focus-visible { outline: 2px solid var(--color-signal); outline-offset: 3px; }
+
+.gl-track {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin: 30px 0 0;
   padding: 0;
   list-style: none;
-  font: 12px var(--mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
+}
+.gl-track li { position: relative; }
+/* The rail between steps: filled up to the current one. */
+.gl-track li + li::before {
+  content: '';
+  position: absolute;
+  top: 25px;
+  right: calc(50% + 25px);
+  left: calc(-50% + 25px);
+  height: 2px;
+  background: var(--color-line);
+}
+.gl-track li[data-state]::before { background: var(--color-ink); }
+.gl-track button {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--color-muted);
-}
-.gl-steps li { display: inline-flex; gap: 8px; transition: color .25s; }
-.gl-steps li[data-on] { color: var(--color-signal); }
-.gl-step-n { opacity: .6; }
-.gl-letters { display: flex; flex-wrap: wrap; gap: 6px; }
-.gl-letters button {
-  min-width: 34px;
-  height: 34px;
-  padding: 0 10px;
-  border: 1px solid var(--color-line);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--color-ink);
-  font: 13px var(--mono);
   cursor: pointer;
-  transition: border-color .2s, color .2s;
+  font: 14px var(--font-body);
 }
-.gl-letters button:hover, .gl-letters button:focus-visible { border-color: var(--color-signal); color: var(--color-signal); outline: none; }
-.gl-letters .gl-speak { text-transform: uppercase; letter-spacing: .08em; font-size: 11.5px; }
-.gl .iso-caption { color: var(--color-muted); font: 14px/1.65 var(--font-body); }
+.gl-dot {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-surface);
+  transition: background .3s, border-color .3s, color .3s, box-shadow .3s;
+}
+.gl-dot svg { width: 22px; height: 22px; }
+.gl-track li[data-state="done"] button { color: var(--color-ink); }
+.gl-track li[data-state="done"] .gl-dot { border-color: var(--color-ink); }
+.gl-track li[data-state="on"] button { color: var(--color-ink); font-weight: 600; }
+.gl-track li[data-state="on"] .gl-dot { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); box-shadow: 0 0 0 8px var(--color-tint); }
+.gl-track button:hover .gl-dot { border-color: var(--color-signal); }
+
+.gl-play {
+  grid-auto-flow: column;
+  gap: 8px;
+  margin: 28px auto 0;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font: 15px var(--font-body);
+}
+.gl-play svg { width: 16px; height: 16px; }
+.gl .iso-plate { display: grid; }
 
 @media (max-width: 560px) {
-  .gl .iso-plate { padding: 40px 6px 64px; }
+  .gl .iso-plate { padding: 40px 10px 28px; overflow: hidden; }
   .gl .iso-svg { width: 116%; margin: 0 -8%; }
-  .gl .iso-plate { overflow: hidden; }
+  .gl-step { grid-template-columns: 40px minmax(0, 1fr) 40px; gap: 10px; }
+  .gl-arrow { width: 40px; height: 40px; }
+  .gl-step-text { min-height: 128px; }
+  .gl-step-text p { font-size: 15px; }
+  .gl-dot { width: 36px; height: 36px; }
+  .gl-dot svg { width: 17px; height: 17px; }
+  .gl-track li + li::before { top: 18px; right: calc(50% + 18px); left: calc(-50% + 18px); }
+  .gl-track button { font-size: 11.5px; gap: 6px; }
+  .gl-track li[data-state="on"] .gl-dot { box-shadow: 0 0 0 5px var(--color-tint); }
 }

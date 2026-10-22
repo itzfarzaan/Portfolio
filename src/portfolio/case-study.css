@@ -479,6 +479,6 @@ figcaption {
 
 /* Placeholder while a live figure's code loads. */
 .cs-figure-loading {
-  aspect-ratio: 720 / 540;
+  aspect-ratio: 610 / 760;
   border: 1px solid var(--color-line);
 }
