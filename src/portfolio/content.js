@@ -22,7 +22,7 @@ export const projects = [{
   summary: 'From a patient call to a confirmed appointment, with the clinic team kept in the loop.',
   stack: ['React', 'Vite', 'JavaScript', 'Node.js', 'PostgreSQL'],
   role: 'End-to-end technical implementation',
-  type: 'Live project',
+  type: 'Co-founded company',
   problem: 'Dental front desks have to answer patient calls while also looking after the patients in front of them. Missed calls and scheduling changes leave both patients and staff without a clear next step.',
   overview: 'YoraHealth is an AI receptionist that answers calls, schedules appointments, and handles patient questions using each practice’s own rules. I built the software behind it, from the public website to the dashboards clinic teams use every day.',
   flow: [
@@ -505,6 +505,21 @@ export const experience = [{
     'Work with frontend, backend, and product teams on API contracts, authentication, safety controls, and phased delivery.'
   ],
   stack: ['LLM agents', 'RAG', 'Workflow automation', 'Backend APIs']
+}, {
+  date: 'Nov 2025 – Present',
+  company: 'YoraHealth',
+  logo: '/media/logos/yorahealth.webp',
+  logoFull: true,
+  monogram: 'YH',
+  role: 'Co-founder',
+  location: 'United States · Remote',
+  current: true,
+  details: [
+    'Co-founded an early-stage startup built on a simple belief: healthcare teams should spend their time on patients, not on phones and paperwork.',
+    'Lead the technical side of our first product, an AI receptionist that answers calls, books appointments, and handles patient questions for dental practices.',
+    'Turn what practices and the team need into clear priorities, building carefully alongside the practices we work with.'
+  ],
+  stack: ['Co-founder', 'Technical leadership', 'Product direction', 'Team coordination']
 }, {
   date: 'May 2025 – Present',
   company: 'Creative Analytica',

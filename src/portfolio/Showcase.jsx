@@ -34,7 +34,7 @@ function DesktopHero() {
           <p className="embed-eyebrow">AI & Software Engineer</p>
           <h1 id="intro-title" ref={name}><span>Farzaan</span> <span>Ali</span></h1>
           <p className="embed-tagline">I build software that <em>understands.</em></p>
-          <p className="embed-bio">Artificial Intelligence Engineer at <strong>Linkiat</strong>, leading software projects at <strong>Creative Analytica</strong>. I build software where people and AI work together, automating the busywork so people can focus on what matters.</p>
+          <p className="embed-bio">Artificial Intelligence Engineer at <strong>Linkiat</strong> and co&#8209;founder of <strong>YoraHealth</strong>. I build software where people and AI work together, automating the busywork so people can focus on what matters.</p>
           <div className="embed-actions">
             <a className="embed-primary" href={profile.resume} download><span aria-hidden="true">↓</span> Download resume</a>
             <a className="embed-chip" href={profile.linkedin}>LinkedIn <span aria-hidden="true">↗</span></a>

@@ -204,6 +204,16 @@
   height: 100%;
   object-fit: contain;
 }
+/* A logo that is already its own rounded tile (logoFull) fills the mark, with no white frame. */
+.xp-logo.is-full, .xp-row:hover .xp-logo.is-full {
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: hidden;
+}
+.xp-logo.is-full img {
+  object-fit: cover;
+}
 .xp-who h3 {
   font: 700 28px/1.1 var(--font-display);
   letter-spacing: -.03em;

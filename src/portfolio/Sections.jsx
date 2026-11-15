@@ -41,7 +41,7 @@ export function Experience() {
       {experience.map(item => <li key={item.company} className="xp-row reveal">
         <div className="xp-when"><span>{item.date}</span>{item.current && <span className="xp-current">Current</span>}</div>
         <div className="xp-who">
-          <span className={`xp-mark${item.logo ? ' xp-logo' : ''}`} aria-hidden="true">{item.logo ? <img src={item.logo} alt="" loading="lazy" /> : item.monogram}</span>
+          <span className={`xp-mark${item.logo ? ' xp-logo' : ''}${item.logoFull ? ' is-full' : ''}`} aria-hidden="true">{item.logo ? <img src={item.logo} alt="" loading="lazy" /> : item.monogram}</span>
           <div><h3>{item.company}</h3><p className="xp-role">{item.role}</p><p className="xp-where">{item.location}</p></div>
         </div>
         <div className="xp-what">
