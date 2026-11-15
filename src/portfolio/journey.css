@@ -448,6 +448,23 @@
 .tj-collage-grid.count-3 figure:first-child img {
   max-height: calc(100vh - 190px);
 }
+.tj-collage-grid.count-4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 30px;
+}
+/* Four photos: a 2 × 2 grid sized to the screen, each print as large as half the height allows. */
+.tj-collage-grid.count-4 img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc((100vh - 230px) / 2);
+}
+.tj-collage-grid.count-4 figure {
+  padding-bottom: 22px;
+}
+.tj-collage-grid.count-4 figure:nth-child(1) { --tilt: -2deg; }
+.tj-collage-grid.count-4 figure:nth-child(2) { --tilt: 1.5deg; }
+.tj-collage-grid.count-4 figure:nth-child(3) { --tilt: 1deg; }
+.tj-collage-grid.count-4 figure:nth-child(4) { --tilt: -1.5deg; }
 .tj-collage-grid figure {
   margin: 0;
   padding: 10px 10px 34px;
@@ -543,6 +560,18 @@
   }
   .tj-collage-grid.count-2 {
     grid-template-columns: 1fr;
+  }
+  /* On phones, four prints stack in one column and the collage scrolls, so none of them shrink. */
+  .tj-collage:has(.count-4) {
+    overflow-y: auto;
+  }
+  .tj-collage-grid.count-4 {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .tj-collage-grid.count-4 img {
+    width: 100%;
+    max-height: none;
   }
   .tj-collage-grid img {
     max-height: 34vh;

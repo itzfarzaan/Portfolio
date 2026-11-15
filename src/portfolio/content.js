@@ -542,7 +542,9 @@ export const journey = [{
   text: 'Grade I to VII in Jeddah, Saudi Arabia, where the curiosity for learning first took shape.',
   photos: [
     { src: '/media/journey/pica-1.webp', width: 1400, height: 943, alt: 'Class photo at International Indian School Jeddah, with everyone except Farzaan blurred' },
-    { src: '/media/journey/pica-2.webp', width: 1098, height: 716, alt: 'Sports meet podium at International Indian School Jeddah, with everyone except Farzaan blurred' }
+    { src: '/media/journey/pica-2.webp', width: 1098, height: 716, alt: 'Sports meet podium at International Indian School Jeddah, with everyone except Farzaan blurred' },
+    { src: '/media/journey/pica-3.webp', width: 1032, height: 581, alt: 'Farzaan receiving an award on stage at the International Indian School Jeddah Annual Day 2016' },
+    { src: '/media/journey/pica-4.webp', width: 1280, height: 720, alt: 'Farzaan holding a trophy with classmates who won medals, with everyone except Farzaan blurred' }
   ]
 }, {
   id: 'scholars', era: '–2022', when: 'Grade VIII – X', metric: '93.6%', metricLabel: 'CBSE Grade X', title: 'Scholars International School',

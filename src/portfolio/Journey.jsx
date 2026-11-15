@@ -13,7 +13,7 @@ function Collage({ photos, title, from, onClose }) {
   return <dialog ref={dialog} className="tj-collage" aria-label={`Photos: ${title}`} onClose={onClose} onClick={event => { if (event.target === dialog.current) onClose(); }}
     style={{ '--from-x': `${from.x}px`, '--from-y': `${from.y}px` }}>
     <div className="tj-collage-head"><span>{photos.length} {photos.length === 1 ? 'photo' : 'photos'}</span><strong>{title}</strong><button type="button" onClick={onClose} aria-label="Close photos">×</button></div>
-    <div className={`tj-collage-grid count-${Math.min(photos.length, 3)}`}>
+    <div className={`tj-collage-grid count-${Math.min(photos.length, 4)}`}>
       {photos.map((photo, i) => <figure key={photo.src} style={{ '--i': i }}><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} /></figure>)}
     </div>
   </dialog>;
@@ -168,8 +168,9 @@ export default function Journey() {
               {stop.metric && <span className="jv-metric">{stop.metric}<small>{stop.metricLabel}</small></span>}
               <h3>{stop.title}</h3>
               <p>{stop.link ? stop.text.split('{link}').map((part, i) => i ? [<Link key="link" className="jv-link" to={stop.link.to}>{stop.link.label}</Link>, part] : part) : stop.text}</p>
+              {/* At most three prints fit the stack; the collage opens with every photo. */}
               {stop.photos?.length > 0 && <button type="button" className="jv-prints" onClick={event => openPhotos(stop, event.currentTarget)} aria-label={`Open ${stop.photos.length} photos: ${stop.title}`}>
-                {stop.photos.map((photo, i) => <img key={photo.src} src={photo.src} alt="" width={photo.width} height={photo.height} loading="lazy" style={{ '--i': i }} />)}
+                {stop.photos.slice(0, 3).map((photo, i) => <img key={photo.src} src={photo.src} alt="" width={photo.width} height={photo.height} loading="lazy" style={{ '--i': i }} />)}
                 <span>{stop.photos.length > 1 ? `View ${stop.photos.length} photos` : 'View photo'}</span>
               </button>}
             </div>
