@@ -113,6 +113,6 @@ export default function MobileHero() {
       <a className="embed-chip" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
       <a className="embed-chip" href={`mailto:${profile.email}`}>Email</a>
     </div>
-    <p className="m-bio">Artificial Intelligence Engineer at <strong>Linkiat</strong> and co&#8209;founder of <strong>YoraHealth</strong>. I build software where people and AI work together, automating the busywork so people can focus on what matters.</p>
+    <p className="m-bio">I build software that understands what people need, where people and AI work together, automating the busywork so people can focus on what matters.</p>
   </section>;
 }

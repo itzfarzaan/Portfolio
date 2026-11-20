@@ -22,7 +22,7 @@ export const projects = [{
   summary: 'From a patient call to a confirmed appointment, with the clinic team kept in the loop.',
   stack: ['React', 'Vite', 'JavaScript', 'Node.js', 'PostgreSQL'],
   role: 'End-to-end technical implementation',
-  type: 'Co-founded company',
+  type: 'Deployed project',
   problem: 'Dental front desks have to answer patient calls while also looking after the patients in front of them. Missed calls and scheduling changes leave both patients and staff without a clear next step.',
   overview: 'YoraHealth is an AI receptionist that answers calls, schedules appointments, and handles patient questions using each practice’s own rules. I built the software behind it, from the public website to the dashboards clinic teams use every day.',
   flow: [
@@ -120,13 +120,13 @@ export const projects = [{
   label: 'Property management',
   summary: 'One system. Four perspectives. A property platform built around the people who use it.',
   stack: ['React', 'Node.js', 'Express', 'Supabase', 'PostgreSQL'],
-  role: 'Software Engineer · Creative Analytica',
+  role: 'Software Engineer Intern · Creative Analytica',
   type: 'Professional work',
   problem: 'Property managers, owners, tenants, and vendors need different information and different ways to act. A single generic dashboard cannot serve all four equally well.',
-  overview: 'At Creative Analytica, I lead the end-to-end development of AqaarPro, a custom property management system. My work spans system architecture, database design, and full-stack implementation.',
+  overview: 'At Creative Analytica, I led the end-to-end development of AqaarPro, a custom property management system. My work spanned system architecture, database design, and full-stack implementation.',
   contributions: ['Designed and developed dedicated modules for managers, owners, tenants, and vendors.', 'Built distinct workflows for each role rather than treating every user as the same kind of account.', 'Connected a React frontend with Node.js and Express services, backed by Supabase and PostgreSQL.', 'Worked on workflow automation, security, and scalability across the system.'],
   architecture: ['Four role-based portals', 'Node.js + Express', 'Supabase + PostgreSQL'],
-  result: 'A role-based property management platform with four dedicated user experiences. This is ongoing professional work; internal implementation details are kept private.',
+  result: 'A role-based property management platform with four dedicated user experiences. This was professional work; internal implementation details are kept private.',
   live: 'https://aqaarpro.com',
   image: '/media/projects/aqaarpro.webp',
   imageWidth: 1440,
@@ -491,47 +491,30 @@ export const projects = [{
   github: 'https://github.com/itzfarzaan/Legal-Document-Summarizer'
 }];
 export const experience = [{
-  date: 'Jul 2026 – Present',
+  date: 'Jul 2026 – Nov 2026',
   company: 'Linkiat',
   logo: '/media/logos/linkiat.webp',
   monogram: 'LK',
-  role: 'Artificial Intelligence Engineer',
+  role: 'Artificial Intelligence Engineer Intern',
   location: 'Riyadh, Saudi Arabia · Remote',
-  current: true,
   details: [
-    'Build production AI features end to end, from architecture and implementation to testing and integration planning.',
-    'Develop agents, retrieval-augmented applications, workflow automation, and backend API integrations.',
-    'Combine language models with deterministic application logic, human approval controls, and verifiable execution.',
-    'Work with frontend, backend, and product teams on API contracts, authentication, safety controls, and phased delivery.'
+    'Built production AI features end to end, from architecture and implementation to testing and integration planning.',
+    'Developed agents, retrieval-augmented applications, workflow automation, and backend API integrations.',
+    'Combined language models with deterministic application logic, human approval controls, and verifiable execution.',
+    'Worked with frontend, backend, and product teams on API contracts, authentication, safety controls, and phased delivery.'
   ],
   stack: ['LLM agents', 'RAG', 'Workflow automation', 'Backend APIs']
 }, {
-  date: 'Nov 2025 – Present',
-  company: 'YoraHealth',
-  logo: '/media/logos/yorahealth.webp',
-  logoFull: true,
-  monogram: 'YH',
-  role: 'Co-founder',
-  location: 'United States · Remote',
-  current: true,
-  details: [
-    'Co-founded an early-stage startup built on a simple belief: healthcare teams should spend their time on patients, not on phones and paperwork.',
-    'Lead the technical side of our first product, an AI receptionist that answers calls, books appointments, and handles patient questions for dental practices.',
-    'Turn what practices and the team need into clear priorities, building carefully alongside the practices we work with.'
-  ],
-  stack: ['Co-founder', 'Technical leadership', 'Product direction', 'Team coordination']
-}, {
-  date: 'May 2025 – Present',
+  date: 'May 2025 – Nov 2026',
   company: 'Creative Analytica',
   logo: '/media/logos/creative-analytica.webp',
   monogram: 'CA',
-  role: 'Software Engineer',
-  location: 'United Arab Emirates · Remote · Part-time',
-  current: true,
+  role: 'Software Engineer Intern',
+  location: 'Remote',
   details: [
-    'Lead the development of AqaarPro, a property management platform, covering system architecture, database design, and full-stack implementation.',
+    'Led the development of AqaarPro, a property management platform, covering system architecture, database design, and full-stack implementation.',
     'Built dedicated portals and workflows for property managers, owners, tenants, and vendors.',
-    'Improve day-to-day operations through workflow automation, with attention to security and scalability.'
+    'Improved day-to-day operations through workflow automation, with attention to security and scalability.'
   ],
   stack: ['React', 'Node.js', 'Express', 'Supabase', 'PostgreSQL']
 }, {

@@ -1,0 +1,180 @@
+/* "See it live" glove figure. The kit's tokens, tied to the site palette; the lit accent is the signal blue. */
+.gl.iso {
+  --anatomy-card: var(--color-surface);
+  --anatomy-paper: var(--color-surface);
+  --anatomy-text: var(--color-ink-soft);
+  --anatomy-muted: var(--color-muted);
+  --anatomy-strong: var(--color-ink);
+  --anatomy-lit: var(--color-signal);
+  --anatomy-mono: var(--mono);
+  --gl-screen: #eef0f6;
+  --gl-screen-bar: #e3e8fb;
+  margin: 0;
+}
+.gl.iso[data-theme="dark"] {
+  --gl-screen: #141725;
+  --gl-screen-bar: #1a2040;
+}
+.gl .iso-plate {
+  box-shadow: 0 0 0 1px var(--color-line);
+  padding: 40px 24px 22px;
+}
+/* The whole card fits one screen: the drawing gives up height first, the controls keep theirs. */
+.gl .iso-svg { max-height: max(240px, calc(100svh - 370px)); }
+
+/* Flex sensors: the printed ladder on each strip; lit while the hand is sensing. */
+.gl-strip .gl-strip-fill { fill: var(--anatomy-top); }
+.gl-strip[data-lit] .gl-strip-edge { stroke: var(--anatomy-lit); stroke-width: .9; }
+.gl-strip[data-lit] .gl-rung { stroke: var(--anatomy-lit); opacity: .55; }
+
+/* Data frames running along the harness and the USB cable. */
+.gl-pulse {
+  fill: none;
+  stroke: var(--anatomy-lit);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.gl-led .iso-solid[data-lit] > .iso-top,
+.gl-led .iso-solid[data-lit] > .iso-shade { fill: var(--anatomy-lit); }
+.gl-grille[data-on] circle { fill: var(--anatomy-lit); opacity: .9; }
+
+/* The Python app on the laptop screen. */
+.gl-screen { fill: var(--gl-screen); }
+.gl-bar-title { fill: var(--gl-screen-bar); }
+.gl-ui-dot { fill: var(--anatomy-lo); }
+.gl-ui-text, .gl-ui-small, .gl-letter, .gl-typed { font-family: var(--anatomy-mono); }
+.gl-ui-text { fill: var(--anatomy-hi); }
+.gl-ui-small { fill: var(--anatomy-mid); }
+.gl-letter { fill: var(--anatomy-hi); font-weight: 700; }
+.gl-typed { fill: var(--anatomy-hi); letter-spacing: .08em; }
+.gl-meter { fill: none; stroke: var(--anatomy-lo); stroke-width: .5; }
+.gl-meter-fill { fill: var(--anatomy-mid); }
+.gl-ui-line, .gl-rule { fill: none; stroke: var(--anatomy-mid); stroke-width: .6; stroke-linecap: round; }
+.gl-rule { stroke: var(--anatomy-faint); }
+.gl[data-stage="sense"] .gl-meter-fill,
+.gl[data-stage="collect"] .gl-meter-fill { fill: var(--anatomy-lit); }
+.gl[data-stage="classify"] .gl-letter,
+.gl[data-stage="speak"] .gl-letter { fill: var(--anatomy-lit); }
+.gl[data-stage="speak"] .gl-ui-line[data-part="wave"] { stroke: var(--anatomy-lit); }
+
+/* The walkthrough: step text with arrows, the step track, and play / pause. */
+.gl-step {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  gap: 20px;
+  align-items: center;
+  max-width: 760px;
+  margin: 4px auto 0;
+}
+.gl-step-text { min-height: 96px; }
+.gl-step-text h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin: 0 0 10px;
+  font: 700 clamp(19px, 2.2vw, 25px)/1.2 var(--font-display);
+  letter-spacing: -.02em;
+  color: var(--color-ink);
+}
+.gl-count { font: 13px var(--mono); color: var(--color-muted); letter-spacing: .04em; }
+.gl-count b { font: 600 clamp(24px, 3vw, 32px) var(--mono); color: var(--color-ink); letter-spacing: 0; }
+.gl-step-text p { margin: 0; font: 16.5px/1.65 var(--font-body); color: var(--color-ink-soft); }
+.gl-arrow, .gl-play {
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+  box-shadow: 0 6px 16px #16171d14;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.gl-arrow { width: 52px; height: 52px; padding: 0; border-radius: 50%; }
+.gl-arrow.is-dark { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+.gl-arrow svg, .gl-play svg, .gl-dot svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gl-arrow svg { width: 22px; height: 22px; }
+.gl-arrow:hover, .gl-play:hover { border-color: var(--color-signal); color: var(--color-signal); }
+.gl-arrow.is-dark:hover { background: var(--color-signal); border-color: var(--color-signal); color: #fff; }
+.gl-arrow:focus-visible, .gl-play:focus-visible, .gl-track button:focus-visible { outline: 2px solid var(--color-signal); outline-offset: 3px; }
+
+.gl-track {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.gl-track li { position: relative; }
+/* The rail between steps: filled up to the current one. */
+.gl-track li + li::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  right: calc(50% + 22px);
+  left: calc(-50% + 22px);
+  height: 2px;
+  background: var(--color-line);
+}
+.gl-track li[data-state]::before { background: var(--color-ink); }
+.gl-track button {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font: 14px var(--font-body);
+}
+.gl-dot {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-surface);
+  transition: background .3s, border-color .3s, color .3s, box-shadow .3s;
+}
+.gl-dot svg { width: 22px; height: 22px; }
+.gl-track li[data-state="done"] button { color: var(--color-ink); }
+.gl-track li[data-state="done"] .gl-dot { border-color: var(--color-ink); }
+.gl-track li[data-state="on"] button { color: var(--color-ink); font-weight: 600; }
+.gl-track li[data-state="on"] .gl-dot { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); box-shadow: 0 0 0 8px var(--color-tint); }
+.gl-track button:hover .gl-dot { border-color: var(--color-signal); }
+
+.gl-play {
+  grid-auto-flow: column;
+  gap: 8px;
+  margin: 16px auto 0;
+  padding: 9px 22px;
+  border-radius: 999px;
+  font: 15px var(--font-body);
+}
+.gl-play svg { width: 16px; height: 16px; }
+.gl .iso-plate { display: grid; }
+
+@media (max-width: 560px) {
+  .gl .iso-plate { padding: 40px 10px 20px; overflow: hidden; }
+  .gl .iso-svg { width: 116%; margin: 0 -8%; }
+  .gl-step { grid-template-columns: 40px minmax(0, 1fr) 40px; gap: 10px; }
+  .gl-arrow { width: 40px; height: 40px; }
+  .gl-step-text { min-height: 128px; }
+  .gl-step-text p { font-size: 15px; }
+  .gl-dot { width: 36px; height: 36px; }
+  .gl-dot svg { width: 17px; height: 17px; }
+  .gl-track li + li::before { top: 18px; right: calc(50% + 18px); left: calc(-50% + 18px); }
+  .gl-track button { font-size: 11.5px; gap: 6px; }
+  .gl-track li[data-state="on"] .gl-dot { box-shadow: 0 0 0 5px var(--color-tint); }
+}

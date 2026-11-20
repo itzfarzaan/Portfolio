@@ -34,9 +34,8 @@ export function About() {
 }
 
 export function Experience() {
-  const current = experience.filter(item => item.current).length;
   return <section className="home-section" id="experience" aria-labelledby="experience-title">
-    <SectionHeader id="experience-title" title="Experience" meta={`${experience.length} roles · ${current} current`} />
+    <SectionHeader id="experience-title" title="Experience" meta={`${experience.length} internships`} />
     <ol className="xp-list">
       {experience.map(item => <li key={item.company} className="xp-row reveal">
         <div className="xp-when"><span>{item.date}</span>{item.current && <span className="xp-current">Current</span>}</div>
